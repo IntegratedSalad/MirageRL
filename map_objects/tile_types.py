@@ -1,4 +1,4 @@
-"""Tile types"""
+"""Tiles are walkable, noninteractive glyphs."""
 
 sand = \
 {
@@ -11,3 +11,5 @@ nothing = \
 	'char': ' ',
 	'color': (0, 0, 0)
 }
+
+#arrow_up

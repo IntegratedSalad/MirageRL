@@ -8,7 +8,6 @@ from map_objects.game_map import GameMap
 
 def main():
 
-
     game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT)
 
     player = Entity(int(constants.MAP_WIDTH / 2), int(constants.MAP_HEIGHT / 2), '@', tcod.white)
@@ -18,38 +17,44 @@ def main():
     #with tcod.console_init_root(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, 'MirageRL',
     #                            fullscreen=False, order="F", renderer=tcod.RENDERER_SDL2) as root_console:
 
-    tcod.console_init_root(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, 'MirageRL',
-                                fullscreen=False, order="F", renderer=tcod.RENDERER_SDL2)
-    con = tcod.console_new(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
-    key = tcod.Key()
-    mouse = tcod.Mouse()
+    with tcod.console_init_root(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, 'MirageRL',
+                                fullscreen=False, order="F", renderer=tcod.RENDERER_SDL2) as root_console:
 
-    while not tcod.console_is_window_closed():
-
-        tcod.sys_check_for_event(tcod.EVENT_KEY_PRESS, key, mouse)
-
-        tcod.console_set_default_foreground(0, tcod.white)
+        con = tcod.console_new(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
+        key = tcod.Key()
+        mouse = tcod.Mouse()
 
         render_functions.render_all(con, entities, game_map, constants.SCREEN_WIDTH, \
-                                    constants.SCREEN_HEIGHT, constants.COLORS)
-
-        
-
+                                        constants.SCREEN_HEIGHT)
         tcod.console_flush()
 
-        action = handle_keys(key)
+        while not tcod.console_is_window_closed():
 
-        action_move = action.get('move')
-        action_exit = action.get('exit')
-        action_fullscreen = action.get('fullscreen')
+            tcod.sys_wait_for_event(tcod.EVENT_KEY_PRESS, key, mouse, True)
 
-        if action_move:
-            dx, dy = action_move
-            if not game_map.is_blocked(player.x + dx, player.y + dy):
-                player.move(dx, dy)
+            tcod.console_set_default_foreground(0, tcod.white)
 
-        if action_exit:
-            raise SystemExit()
+            action = handle_keys(key)
 
-        if action_fullscreen:
-            tcod.console_set_fullscreen(not tcod.console_is_fullscreen())
+            action_move = action.get('move')
+            action_exit = action.get('exit')
+            action_fullscreen = action.get('fullscreen')
+
+            if action_move:
+                dx, dy = action_move
+                if not game_map.is_blocked(player.x + dx, player.y + dy):
+                    player.move(dx, dy)
+
+            if action_exit:
+                raise SystemExit()
+
+            if action_fullscreen:
+                tcod.console_set_fullscreen(not tcod.console_is_fullscreen())
+
+
+            render_functions.render_all(con, entities, game_map, constants.SCREEN_WIDTH, \
+                                        constants.SCREEN_HEIGHT)
+            tcod.console_flush()
+
+            tcod.sys_set_fps(60)
+            

@@ -1,9 +1,9 @@
 import tcod
 
-def render_all(con, entities, game_map, screen_width, screen_height, colors):
+def render_all(con, entities, game_map, screen_width, screen_height):
 
-    for y in range(game_map.height):
-        for x in range(game_map.width):
+    for y in range(1, game_map.height):
+        for x in range(1, game_map.width):
 
             tile = game_map._map[x][y]
             tcod.console_put_char_ex(con, x, y, tile.char, tile.color, (0, 0, 0))
@@ -11,7 +11,7 @@ def render_all(con, entities, game_map, screen_width, screen_height, colors):
     for entity in entities:
         draw_entity(con, entity)
 
-    con.print(2, 2, string='fps{0}'.format(tcod.sys_get_fps()), fg=(255, 255, 255))
+    #con.print(2, 2, string='fps{0}'.format(tcod.sys_get_fps()), fg=(255, 255, 255))
     tcod.console_blit(con, 0, 0, screen_height, screen_width, 0, 0, 0)
 
     clear_all(con, entities)
