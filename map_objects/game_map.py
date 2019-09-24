@@ -13,36 +13,128 @@ class MapElevation(enum.Enum):
     ELEV_ABOVE = enum.auto()
     ELEV_BELOW = enum.auto()
 
+class ChunkProperty(enum.Enum):
+
+    NONE = enum.auto()
+    DIRECTION = enum.auto()
+    START = enum.auto()
+    END = enum.auto
+
+class Chunk:
+
+
+    """
+    Class that represents one area of gameplay.
+
+    """
+
+    def __init__(self):
+        self.property = ChunkProperty.NONE
+        self.has_player = False
+        self.objects = []
+        self.tiles = []
+
+
+    def offload(self, obj_list, tiles):
+
+        """
+        Notice that sand is not offloaded, so every time player returns to chunk, the chunk gets random sand tiles.
+        It is to make a game slightly harder - plaer will not be able to memorize map by looking at sand.
+    
+        """
+
+        self.objects = [obj for obj in obj_list]
+        self.tiles = [tile for tile in tiles if tile.type_of not in [sand, nothing]]
+
+    def __str__(self):
+        return f"\t\t+Chunk type+\n PROPERTY: {self.property} \n HAS_PLAYER: {self.has_player} \
+                                 \n OBJECTS: {self.objects} \n TILES: {self.tiles} \n \t\t    ++"
+
+
+class GameWorld:
+
+    """
+    Accessing chunks is done via self.world list.
+
+    """
+
+
+    def __init__(self):
+        self.world = [[Chunk() for y in range(0, WORLD_HEIGHT)] for x in range(0, WORLD_WIDTH)]
+        self.player_pos_x_in_world = int(WORLD_WIDTH / 2) + randint(-3, 4)
+        self.player_pos_y_in_world = int(WORLD_HEIGHT / 2) + randint(-3, 3)
+        self.world[self.player_pos_x_in_world][self.player_pos_y_in_world].property = ChunkProperty.START
+    
+
+    def update_position(self, dx, dy):
+        self.world[player_pos_x_in_world][player_pos_y_in_world].has_player = False
+        self.player_pos_x_in_world += dx
+        self.player_pos_y_in_world += dy
+        self.world[player_pos_x_in_world + dx][player_pos_y_in_world + dy].has_player = True
+
+
+    def get_current_chunk(self):
+
+        for i in range(0, WORLD_HEIGHT):
+            for j in range(0, WORLD_WIDTH):
+                if self.world[i][j].has_player:
+                    return self.world[i][j]
+
+        print("Couldn't find player")
+        exit(-1)
+
+
+    def is_new_chunk(self, world_x, world_y):
+
+        if self.world[world_x][world_y].objects == [] and self.word[world_x][world_y] == []:
+            return True
+
+        return False
+
 
 class GameMap:
+
+    """
+    Current map.
+
+    """
 
     def __init__(self, width, height):
         self.width = width # of chunk
         self.height = height # of chunk
         self.elevation = MapElevation.ELEV_ABOVE
-        self.chunk = self.initialize_chunk() # an area of gameplay
-        self.world = [] # an array of chunks with data, that is offloaded when player moves into another chunk
+        self.current_chunk = None#self.initialize_chunk() # an area of gameplay
+        self.entities = []
 
     def initialize_chunk(self):
 
-        if self.elevation == MapElevation.ELEV_ABOVE:
+        chunk = [[Tile(False, type_of=nothing) for y in range(self.height)] for x in range(self.width)]
 
-            chunk = [[Tile(False, type_of=nothing) for y in range(self.height)] for x in range(self.width)]
-            # possibility of necessity to change that
+        for y in range(1, self.height):
+            for x in range(1, self.width):
 
-            for y in range(1, self.height):
-                for x in range(1, self.width):
+                # create_sand 
+                chunk[x][y] = Tile(False, type_of=sand) # it is a ground, but water or anything can be an object!
 
-                    # create_sand 
-                    chunk[x][y] = Tile(False, type_of=sand) # it is a ground, but water or anything can be an object!
+         # create random objects etc...
 
-             # create random objects etc...
+        self.current_chunk = chunk
 
-        else:
-            pass
-        
+    def restore_chunk(self, chunk):
 
-        return chunk
+        chunk = [[Tile(False, type_of=nothing) for y in range(self.height)] for x in range(self.width)]
+
+        map_objects = chunk.objects.extend(tiles)
+
+        for y in range(1, self.height):
+            for x in range(1, self.width):
+
+
+                chunk[x][y] = Tile(False, type_of=sand)
+
+                for obj in map_objects:
+                    pass
+
 
     def place_entities(self, entities):
 
@@ -50,13 +142,14 @@ class GameMap:
         # place objects etc.
 
     def is_blocked(self, x, y):
-        if self.chunk[x][y].blocked:
+        if self.current_chunk[x][y].blocked:
             return True
 
         return False
 
     def save_chunk(self):
         pass
+
 
     def place_enemies(self, entities):
 
@@ -79,11 +172,3 @@ class GameMap:
 
             entities.append(monster)
 
-        
-
-class NpGameMap(tcod.map.Map):
-
-    def __init__(self, width, height, order="C"): # if walkable - set to random
-        super().__init__(width, height, order)
-
-    # maybe two np.arrays? One with symbols, and one with data

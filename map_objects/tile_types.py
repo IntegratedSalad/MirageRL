@@ -1,4 +1,4 @@
-"""Tiles are walkable, noninteractive glyphs or walls."""
+"""Tiles are walkable, noninteractive glyphs or non-walkable, noninteractive walls."""
 
 sand = \
 {
@@ -12,7 +12,7 @@ nothing = \
 	'color': (0, 0, 0)
 }
 
-wall = \
+sandstone = \
 {
 	'char': '#',
 	'color': (237, 217, 175)

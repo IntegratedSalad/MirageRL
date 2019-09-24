@@ -5,7 +5,7 @@ import render_functions
 from map_objects import fov_functions
 from input_handlers import handle_keys
 from entity import Entity, get_blocking_entities_at_location
-from map_objects.game_map import GameMap
+from map_objects.game_map import GameMap, GameWorld
 from game_states import GameStates
 from components.fighter import Fighter
 from components.ai import BasicMonster
@@ -14,15 +14,21 @@ def main():
 
     player_fighter_component = Fighter(8, 2, 1)
     player = Entity(int(constants.MAP_WIDTH / 2), int(constants.MAP_HEIGHT / 2), '@', tcod.white, constants.PLAYER_NAME, fighter=player_fighter_component)
-    entities = [player]
+    game_world = GameWorld()
+    game_world.world[game_world.player_pos_x_in_world][game_world.player_pos_y_in_world].has_player = True
     game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT)
-    game_map.place_entities(entities)
+
+    game_map.initialize_chunk()
+
+    print(game_world.player_pos_x_in_world, game_world.player_pos_y_in_world)
+    print(game_world.get_current_chunk())
+
+    entities = [player]
+    #game_map.place_entities(entities)
 
     tcod.console_set_custom_font('terminal8x8_gs_tc.png', tcod.FONT_TYPE_GREYSCALE | tcod.FONT_LAYOUT_TCOD)
-    #with tcod.console_init_root(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, 'MirageRL',
-    #                            fullscreen=False, order="F", renderer=tcod.RENDERER_SDL2) as root_console:
-
-    with tcod.console_init_root(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, 'MirageRL',
+   
+    with tcod.console_init_root(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, f"{constants.title} {constants.version}",
                                 fullscreen=False, order="F", renderer=tcod.RENDERER_SDL2) as root_console:
 
 
@@ -70,6 +76,8 @@ def main():
                             player.move(dx, dy)
 
                     game_state = GameStates.ENEMY_TURN
+
+                    # see if player walked to a new area. (chunk)
 
                 if action_exit:
                     raise SystemExit()

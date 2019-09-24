@@ -24,7 +24,6 @@ class Fighter:
 		if damage > 0:
 			results.append({'message': '{0} attacks {1} and deals {2} damage!'.format(self.owner.name.capitalize(), target.name.capitalize(), str(damage))})
 			results.extend(target.fighter.take_damage(damage))
-			# msg
 		else:
 			results.append({'message': '{0} misses {1}'.format(self.owner.name.capitalize(), target.name.capitalize())})
 			
