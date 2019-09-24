@@ -1,0 +1,80 @@
+1. There'll be passages downstairs with monsters and some water. Essentialy, first floors fill have very small amounts of water. Deeper floors will be extremely dangerous for new players.
+2. Arrows that tell which way to go
+3. Mirages, that'll be showing if the internal temperature of the player will rise and brain will get heated.
+4. Spitting on sand to make shelter. Or clever use of lamas.
+5. Player must remember the dungeon floors he cleaned, because it gets very cold when the night comes.
+6. Because I won't be implementing z-levels, when player forms an rectangle from sandstone, print something along the lines of "your structure magically forms walls and roof." And player says: ["What...", "Am I on some kind of Fool Us?", "Magic!"]
+7. Sandstone underground will be slightly darker.
+
+
+Story:
+You were trying to record some documentary about wildlife on a dessert. You got lost, and the crewmen got eaten.
+
+
+Objectives for player:
+	Find exit navigating through dessert by finding marks written on floor.
+	Try surviving in harsh environment, with food and drink to worry about.
+
+
+
+Goals of development:
+
+	{1} - footnote nr 1
+
+
+	0.1 - Of Desserts And Directions
+	1. Walking, killing.
+	2{1}. Generating whole map, with glyphs directing the player.
+	2.1. Generated map.
+	2.2 Map walkable - updating the player position
+
+
+
+
+{1} Key mechanic, has to be done first, and after initial basic working state it can be improved.
+	If we do not get the basics of this done, then it will be harder to implement with more other systems.
+	And it will be more harder to balance.
+
+
+
+Map:
+
+Size: 
+
+	Dimensions: 100x100 is this ok? Maybe, can't tell without testing it.
+	let's try 50x50
+
+
+Data type: 
+	
+	list of tuples. (id=int, [Entities], player=Bool) - another way to manage player? 
+
+	Or - create type Chunk, that will hold that data (id and offloaded entities.)
+
+	id = 0 - starting point
+	id = 1 - way out
+	id = 2 - has_hint
+
+	Hmm, what is a goal? Dessert has point where it ends.
+	Maybe - there is only one good end. Other 3 lead to lands forgotten, with deadly creatures. There is only one escape to reality.
+	So, an end is a portion of circumference.
+	The good way out - a civilization with non-sand people.
+
+	Furthermore, where will be the "end"? Is it end, like an end on a path, or just a specific place with civilization.
+
+Systems:
+
+	Calculation of type of enemies based on two points: start and end.
+	Calculation of direction of hints. Left when end is on left etc. Also spacing, so that player is not guided, but has vague hints and must survive.
+	Also, moving from chunk to chunk costs a little more hunger and thirst.
+
+
+
+Goals Of Map:
+
+	1 - basic data done
+	2 - walking and updating player position. Getting the position
+	3 - Offloading entities. Loading the entities.
+	4 - walking to the end
+	5 - Direction hints
+	

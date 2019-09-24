@@ -16,7 +16,7 @@ class MapElevation(enum.Enum):
 class ChunkProperty(enum.Enum):
 
     NONE = enum.auto()
-    DIRECTION = enum.auto()
+    HAS_DIRECTION = enum.auto()
     START = enum.auto()
     END = enum.auto
 
@@ -66,11 +66,15 @@ class GameWorld:
         self.world[self.player_pos_x_in_world][self.player_pos_y_in_world].property = ChunkProperty.START
     
 
-    def update_position(self, dx, dy):
+    def update_position(self, dx, dy, teleport=False):
         self.world[player_pos_x_in_world][player_pos_y_in_world].has_player = False
-        self.player_pos_x_in_world += dx
-        self.player_pos_y_in_world += dy
-        self.world[player_pos_x_in_world + dx][player_pos_y_in_world + dy].has_player = True
+
+        if not teleport:
+            self.player_pos_x_in_world += dx
+            self.player_pos_y_in_world += dy
+            self.world[player_pos_x_in_world + dx][player_pos_y_in_world + dy].has_player = True
+        else:
+            pass
 
 
     def get_current_chunk(self):
@@ -146,10 +150,6 @@ class GameMap:
             return True
 
         return False
-
-    def save_chunk(self):
-        pass
-
 
     def place_enemies(self, entities):
 

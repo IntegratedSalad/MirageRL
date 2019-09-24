@@ -107,6 +107,8 @@ def main():
 
             render_functions.render_all(con, entities, game_map, constants.SCREEN_WIDTH, \
                                         constants.SCREEN_HEIGHT)
+
+
             tcod.console_flush()
 
             tcod.sys_set_fps(60)

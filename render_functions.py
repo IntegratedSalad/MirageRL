@@ -16,7 +16,6 @@ def render_all(con, entities, current_game_map, screen_width, screen_height):
     for entity in entities:
         draw_entity(con, entity)
 
-    #con.print(2, 2, string='fps{0}'.format(tcod.sys_get_fps()), fg=(255, 255, 255))
     tcod.console_blit(con, 0, 0, screen_height, screen_width, 0, 0, 0)
 
     clear_all(con, entities)
