@@ -67,12 +67,12 @@ class GameWorld:
     
 
     def update_position(self, dx, dy, teleport=False):
-        self.world[player_pos_x_in_world][player_pos_y_in_world].has_player = False
+        self.world[self.player_pos_x_in_world][self.player_pos_y_in_world].has_player = False
 
         if not teleport:
             self.player_pos_x_in_world += dx
             self.player_pos_y_in_world += dy
-            self.world[player_pos_x_in_world + dx][player_pos_y_in_world + dy].has_player = True
+            self.world[self.player_pos_x_in_world + dx][self.player_pos_y_in_world + dy].has_player = True
         else:
             pass
 
@@ -171,4 +171,3 @@ class GameMap:
                     monster = Entity(x, y, 's', tcod.dark_yellow, 'scorpion', blocks=True, fighter=monster_fighter_component, ai=monster_ai)
 
             entities.append(monster)
-

@@ -2,6 +2,7 @@ import tcod
 import tcod.event
 import constants
 import render_functions
+import utils
 from map_objects import fov_functions
 from input_handlers import handle_keys
 from entity import Entity, get_blocking_entities_at_location
@@ -64,16 +65,41 @@ def main():
 
                 if action_move:
                     dx, dy = action_move
-                    if not game_map.is_blocked(player.x + dx, player.y + dy):
 
-                        target = get_blocking_entities_at_location(entities, player.x + dx, player.y + dy)
+                    """ Check if player entered new chunk """
 
-                        if target:
-                            # do damage etc.
-                            attack_results = player.fighter.attack(target)
-                            player_turn_results.extend(attack_results)
-                        else:
-                            player.move(dx, dy)
+                    did_enter_new_chunk = utils.enter_new_chunk(player.x + dx, player.y + dy)
+
+                    if did_enter_new_chunk is not None:
+
+                        px, py, mx, my = did_enter_new_chunk
+
+                        #print(did_enter_new_chunk)
+
+                        # offload entities
+
+                        game_world.update_position(mx, my)
+                        game_world.get_current_chunk()
+
+                        game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT)
+                        game_map.initialize_chunk()
+                        player.x = px
+                        player.y = py
+
+                    else:
+
+                        if not game_map.is_blocked(player.x + dx, player.y + dy):
+
+                            target = get_blocking_entities_at_location(entities, player.x + dx, player.y + dy)
+
+                            if target:
+                                # do damage etc.
+                                attack_results = player.fighter.attack(target)
+                                player_turn_results.extend(attack_results)
+                            else:
+
+                                player.move(dx, dy)
+
 
                     game_state = GameStates.ENEMY_TURN
 

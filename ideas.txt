@@ -29,12 +29,9 @@ Goals of development:
 	2.2 Map walkable - updating the player position
 
 
-
-
 {1} Key mechanic, has to be done first, and after initial basic working state it can be improved.
 	If we do not get the basics of this done, then it will be harder to implement with more other systems.
 	And it will be more harder to balance.
-
 
 
 Map:
@@ -73,8 +70,7 @@ Systems:
 Goals Of Map:
 
 	1 - basic data done
-	2 - walking and updating player position. Getting the position
+	2 - walking and updating player position. Getting the position done
 	3 - Offloading entities. Loading the entities.
 	4 - walking to the end
 	5 - Direction hints
-	
