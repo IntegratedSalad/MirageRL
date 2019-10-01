@@ -5,11 +5,13 @@
 5. Player must remember the dungeon floors he cleaned, because it gets very cold when the night comes.
 6. Because I won't be implementing z-levels, when player forms an rectangle from sandstone, print something along the lines of "your structure magically forms walls and roof." And player says: ["What...", "Am I on some kind of Fool Us?", "Magic!"]
 7. Sandstone underground will be slightly darker.
-
+8. Maybe instead of glyphs with arrows as tiles, they are known only upon looking on them, when player is standing on them.
 
 Story:
 You were trying to record some documentary about wildlife on a dessert. You got lost, and the crewmen got eaten.
 
+Inspiration:
+Imagining how it would be, to be alone in the dessert.
 
 Objectives for player:
 	Find exit navigating through dessert by finding marks written on floor.
@@ -20,13 +22,24 @@ Objectives for player:
 Goals of development:
 
 	{1} - footnote nr 1
+	... - development stage unknown
 
 
 	0.1 - Of Desserts And Directions
 	1. Walking, killing.
+
 	2{1}. Generating whole map, with glyphs directing the player.
-	2.1. Generated map.
-	2.2 Map walkable - updating the player position
+	2.1. Generated map. V But without its features
+	2.2 Map walkable - updating the player position V
+	2.3 Glyphs hinting the exit
+	2.4 Offloading entities, everything
+	2.5 Player can escape. Crude end game.
+	2.6 Entities close to the edge can follow player to the chunk he just entered.
+
+
+
+
+	... Add support for background tiles.
 
 
 {1} Key mechanic, has to be done first, and after initial basic working state it can be improved.
@@ -66,11 +79,19 @@ Systems:
 	Also, moving from chunk to chunk costs a little more hunger and thirst.
 
 
-
 Goals Of Map:
 
 	1 - basic data done
 	2 - walking and updating player position. Getting the position done
 	3 - Offloading entities. Loading the entities.
 	4 - walking to the end
-	5 - Direction hints
+	5 - Direction hints 
+
+
+Endgame:
+
+It will be a village! You actually have to go and talk to someone, in order to get rescued.
+In terms of how it will be implemented - 2-3 tiles on the edge of the map are "village". You get there, you are safe.
+There will be a huge amount of monsters or obstacles (mines etc.) at the gates.
+SO! an .END property on the map, suggests that there is a gate.
+

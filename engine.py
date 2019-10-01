@@ -6,7 +6,7 @@ import utils
 from map_objects import fov_functions
 from input_handlers import handle_keys
 from entity import Entity, get_blocking_entities_at_location
-from map_objects.game_map import GameMap, GameWorld
+from map_objects.game_map import GameMap, GameWorld, ChunkProperty
 from game_states import GameStates
 from components.fighter import Fighter
 from components.ai import BasicMonster
@@ -19,10 +19,8 @@ def main():
     game_world.world[game_world.player_pos_x_in_world][game_world.player_pos_y_in_world].has_player = True
     game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT)
 
-    game_map.initialize_chunk()
-
-    print(game_world.player_pos_x_in_world, game_world.player_pos_y_in_world)
-    print(game_world.get_current_chunk())
+    game_map.initialize_chunk(game_world.world[game_world.player_pos_x_in_world][game_world.player_pos_y_in_world])
+    print(f"PLAYER POS: {game_world.player_pos_x_in_world}, {game_world.player_pos_y_in_world}")
 
     entities = [player]
     #game_map.place_entities(entities)
@@ -79,10 +77,13 @@ def main():
                         # offload entities
 
                         game_world.update_position(mx, my)
+                        print(f"PLAYER POS: {game_world.player_pos_x_in_world}, {game_world.player_pos_y_in_world}")
+                        if game_world.world[game_world.player_pos_x_in_world][game_world.player_pos_y_in_world].property == ChunkProperty.END:
+                            print("You reached the end boi.")
                         game_world.get_current_chunk()
 
                         game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT)
-                        game_map.initialize_chunk()
+                        game_map.initialize_chunk(game_world.world[game_world.player_pos_x_in_world][game_world.player_pos_y_in_world])
                         player.x = px
                         player.y = py
 

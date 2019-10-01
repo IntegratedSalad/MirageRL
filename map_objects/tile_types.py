@@ -4,6 +4,8 @@ sand = \
 {
 	'char': ["~", "=", '"', "*"],
 	'color': (237, 217, 175)
+
+	# TODO: Change the color of sand.
 }
 
 nothing = \
@@ -19,4 +21,27 @@ sandstone = \
 
 }
 
-#arrow_up
+arrow_up = \
+{
+	'char': "^",
+	'color': (128, 0, 0)
+}
+
+arrow_down = \
+{
+	'char': "V",
+	'color': (128, 0, 0)
+}
+
+arrow_left = \
+{
+	'char': "<",
+	'color': (128, 0, 0)
+}
+
+arrow_right = \
+{
+	'char': ">",
+	'color': (128, 0, 0)
+}
+

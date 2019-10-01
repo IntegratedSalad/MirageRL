@@ -10,7 +10,7 @@ def render_all(con, entities, current_game_map, screen_width, screen_height):
                 # add here fov and desaturate with value put in constants
                 pass
 
-            tile = current_game_map.current_chunk[x][y]
+            tile = current_game_map.current_chunk.tiles[x][y]
             tcod.console_put_char_ex(con, x, y, tile.char, tile.color, (0, 0, 0))
 
     for entity in entities:

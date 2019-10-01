@@ -3,10 +3,12 @@ import enum
 from map_objects.tile import Tile
 from components.fighter import Fighter
 from components.ai import BasicMonster
-from random import randint
+from random import randint, choice
 from entity import Entity
 from map_objects.tile_types import *
 from constants import *
+
+# Move GameWorld to different file.
 
 class MapElevation(enum.Enum):
 
@@ -18,7 +20,7 @@ class ChunkProperty(enum.Enum):
     NONE = enum.auto()
     HAS_DIRECTION = enum.auto()
     START = enum.auto()
-    END = enum.auto
+    END = enum.auto()
 
 class Chunk:
 
@@ -32,7 +34,7 @@ class Chunk:
         self.property = ChunkProperty.NONE
         self.has_player = False
         self.objects = []
-        self.tiles = []
+        self.tiles = [[Tile(False, type_of=nothing) for y in range(MAP_HEIGHT)] for x in range(MAP_WIDTH)]
 
 
     def offload(self, obj_list, tiles):
@@ -64,6 +66,14 @@ class GameWorld:
         self.player_pos_x_in_world = int(WORLD_WIDTH / 2) + randint(-3, 4)
         self.player_pos_y_in_world = int(WORLD_HEIGHT / 2) + randint(-3, 3)
         self.world[self.player_pos_x_in_world][self.player_pos_y_in_world].property = ChunkProperty.START
+        self.gate_place = []
+        self.create_village()
+        self.place_glyphs()
+
+        for x in range(0, WORLD_WIDTH):
+            for y in range(0, WORLD_HEIGHT):
+                if self.world[x][y].property == ChunkProperty.END:
+                    print(f"END CHUNK: {x}, {y}")
     
 
     def update_position(self, dx, dy, teleport=False):
@@ -72,7 +82,7 @@ class GameWorld:
         if not teleport:
             self.player_pos_x_in_world += dx
             self.player_pos_y_in_world += dy
-            self.world[self.player_pos_x_in_world + dx][self.player_pos_y_in_world + dy].has_player = True
+            self.world[self.player_pos_x_in_world][self.player_pos_y_in_world].has_player = True
         else:
             pass
 
@@ -96,6 +106,98 @@ class GameWorld:
         return False
 
 
+    def create_village(self, size=2):
+
+        """
+        Chooses an endgame area position.
+
+        """
+
+        border =  randint(0, 3) # clockwise, 0 is top.
+
+
+        #set those x and y.
+
+        if border == 0:
+            start_x = randint(0, WORLD_WIDTH - size)
+            for _ in range(size):
+                self.world[start_x][0].property = ChunkProperty.END
+
+                self.gate_place.append((start_x, 0))
+
+                start_x += 1
+
+        if border == 1:
+            start_y = randint(0, WORLD_HEIGHT - size)
+            for _ in range(size):
+                self.world[WORLD_WIDTH - 1][start_y].property = ChunkProperty.END
+
+                self.gate_place.append((WORLD_WIDTH - 1, start_y))
+
+                start_y += 1
+
+        if border == 2:
+            start_x = randint(0, WORLD_WIDTH - size)
+            for _ in range(size):
+                self.world[start_x][WORLD_HEIGHT - 1].property = ChunkProperty.END
+
+                self.gate_place.append((start_x, WORLD_HEIGHT - 1))
+
+                start_x += 1
+
+        if border == 3:
+            start_y = randint(0, WORLD_HEIGHT - size)
+            for _ in range(size):
+                self.world[0][start_y].property = ChunkProperty.END
+
+                self.gate_place.append((0, start_y))
+
+                start_y += 1
+        
+
+    def place_glyphs(self):
+
+        gate_coordinates = choice(self.gate_place)
+
+        for glyph in range(GLYPHS_NUM):
+
+            # find random place on map
+            # place the right glyph.
+
+            rand_map_place_x = randint(1, WORLD_WIDTH - 1)
+            rand_map_place_y = randint(1, WORLD_HEIGHT - 1)
+            rand_chunk_place_x = randint(0, MAP_WIDTH - 1)
+            rand_chunk_place_y = randint(0, MAP_HEIGHT - 1)
+
+            print(f"GLYPH_POS: {rand_map_place_x}, {rand_map_place_y}")
+            print(f"GLYPH POS ON CHUNK: {rand_chunk_place_x}, {rand_chunk_place_y}")
+
+            difference_x, difference_y = (gate_coordinates[0] - rand_map_place_x, gate_coordinates[1] - rand_map_place_y)
+
+            if difference_x < -2 and difference_y < 0: # glyph is further on x and y axis than gate. It will point to the LEFT.
+                self.world[rand_map_place_x][rand_map_place_y].tiles[rand_chunk_place_x][rand_chunk_place_y] = Tile(False, type_of=arrow_left)
+
+
+            elif difference_x >= -1 and difference_y < 0:
+                self.world[rand_map_place_x][rand_map_place_y].tiles[rand_chunk_place_x][rand_chunk_place_y] = Tile(False, type_of=arrow_up)
+
+
+            elif difference_x > -2 and difference_y > 0:
+                self.world[rand_map_place_x][rand_map_place_y].tiles[rand_chunk_place_x][rand_chunk_place_y] = Tile(False, type_of=arrow_right)
+
+
+            elif difference_x >= -1 and difference_y > 0:
+                self.world[rand_map_place_x][rand_map_place_y].tiles[rand_chunk_place_x][rand_chunk_place_y] = Tile(False, type_of=arrow_down)
+
+
+            # Should work
+
+            self.world[rand_map_place_x][rand_map_place_y].property = ChunkProperty.HAS_DIRECTION
+
+
+
+
+
 class GameMap:
 
     """
@@ -107,18 +209,22 @@ class GameMap:
         self.width = width # of chunk
         self.height = height # of chunk
         self.elevation = MapElevation.ELEV_ABOVE
-        self.current_chunk = None#self.initialize_chunk() # an area of gameplay
+        self.current_chunk = None # an area of gameplay
         self.entities = []
 
-    def initialize_chunk(self):
-
-        chunk = [[Tile(False, type_of=nothing) for y in range(self.height)] for x in range(self.width)]
+    def initialize_chunk(self, chunk): # chunk = world.world[map_x][map_y]
 
         for y in range(1, self.height):
             for x in range(1, self.width):
 
                 # create_sand 
-                chunk[x][y] = Tile(False, type_of=sand) # it is a ground, but water or anything can be an object!
+
+                # add rendering order - if I pick something up, beneath that item will by type_of == nothing.
+
+                if chunk.tiles[x][y].type_of == nothing:
+                    chunk.tiles[x][y] = Tile(False, type_of=sand) # it is a ground, but water or anything can be an object!
+
+                # load tiles
 
          # create random objects etc...
 
@@ -126,9 +232,7 @@ class GameMap:
 
     def restore_chunk(self, chunk):
 
-        chunk = [[Tile(False, type_of=nothing) for y in range(self.height)] for x in range(self.width)]
-
-        map_objects = chunk.objects.extend(tiles)
+        #map_objects = chunk.objects.extend(tiles)
 
         for y in range(1, self.height):
             for x in range(1, self.width):
@@ -146,7 +250,7 @@ class GameMap:
         # place objects etc.
 
     def is_blocked(self, x, y):
-        if self.current_chunk[x][y].blocked:
+        if self.current_chunk.tiles[x][y].blocked:
             return True
 
         return False
