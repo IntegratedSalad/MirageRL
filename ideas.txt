@@ -1,17 +1,25 @@
 1. There'll be passages downstairs with monsters and some water. Essentialy, first floors fill have very small amounts of water. Deeper floors will be extremely dangerous for new players.
 2. Arrows that tell which way to go
 3. Mirages, that'll be showing if the internal temperature of the player will rise and brain will get heated.
-4. Spitting on sand to make shelter. Or clever use of lamas.
+4. Spitting on sand to make shelter. Or clever use of lamas. -> Forming sandstone without dying from their spit.
 5. Player must remember the dungeon floors he cleaned, because it gets very cold when the night comes.
 6. Because I won't be implementing z-levels, when player forms an rectangle from sandstone, print something along the lines of "your structure magically forms walls and roof." And player says: ["What...", "Am I on some kind of Fool Us?", "Magic!"]
 7. Sandstone underground will be slightly darker.
 8. Maybe instead of glyphs with arrows as tiles, they are known only upon looking on them, when player is standing on them.
+9. Random world events e.g Sandstorms
+10. Add respawn of enemies after some time.
+11. Very rare chance of river on map?
+12. Sand people.
 
 Story:
-You were trying to record some documentary about wildlife on a dessert. You got lost, and the crewmen got eaten.
+You were trying to record some documentary about wildlife on a dessert. You got lost, and you lost the crewmen. <- They will be found with their equipment.
+You flew into the dessert by helicopter, noticing very strange, purple rot-like grounds surrounding the whole dessert.
 
 Inspiration:
 Imagining how it would be, to be alone in the dessert.
+
+Philosophy:
+While being a survival game, I want it to have stupid, goofy things. e.g lamas spitting.
 
 Objectives for player:
 	Find exit navigating through dessert by finding marks written on floor.
@@ -28,15 +36,31 @@ Goals of development:
 	0.1 - Of Desserts And Directions
 	1. Walking, killing.
 
-	2{1}. Generating whole map, with glyphs directing the player.
+	2{1}. Generating whole map, with glyphs directing the player. Offloading map, saving and loading.
 	2.1. Generated map. V But without its features
 	2.2 Map walkable - updating the player position V
-	2.3 Glyphs hinting the exit
-	2.4 Offloading entities, everything
+	2.3 Glyphs hinting the exit V
+	2.4 Offloading entities, everything that needs to be offloaded.
 	2.5 Player can escape. Crude end game.
 	2.6 Entities close to the edge can follow player to the chunk he just entered.
+	2.7 Crude end game - reaching end and dying.
+	2.8 Saving and restoring.
+
+	About offloading:
+		If monsters are about to follow player entering new chunk, and they are in a certain range, instead of offloading them, 
+		render them outside window, in exactly the same position as before. Show them only, when they enter the newly generated chunk. 
+		Also, if there are walls, keep them in place, so that monsters do need to manoeuvre around them, and these obstacles don't magically disappear.
+
+	About monsters:
+		Initially, monsters do not see the player, and have 1/4 chance to see him.
+		Each step gives them more chance to see him.
+
+	3/8
 
 
+	3. UI - Thirst, Hunger, Inventory.
+
+	4. Underworld
 
 
 	... Add support for background tiles.
@@ -66,7 +90,7 @@ Data type:
 	id = 2 - has_hint
 
 	Hmm, what is a goal? Dessert has point where it ends.
-	Maybe - there is only one good end. Other 3 lead to lands forgotten, with deadly creatures. There is only one escape to reality.
+	Maybe - there is only one good end. There is only one escape to reality. <- V
 	So, an end is a portion of circumference.
 	The good way out - a civilization with non-sand people.
 
@@ -84,8 +108,9 @@ Goals Of Map:
 	1 - basic data done
 	2 - walking and updating player position. Getting the position done
 	3 - Offloading entities. Loading the entities.
-	4 - walking to the end
-	5 - Direction hints 
+	4 - walking to the end done
+	5 - Direction hints done
+
 
 
 Endgame:

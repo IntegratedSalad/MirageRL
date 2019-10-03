@@ -4,8 +4,8 @@ def enter_new_chunk(px, py):
 
 	""" Returns px, py, mx, my  
 
-	mx - map_x
-	my - map_y
+	wx - world_x
+	wy - world_y
 
 	"""
 

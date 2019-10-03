@@ -11,8 +11,9 @@ class Tile:
 
         self.block_sight = block_sight
 
-        if type(type_of.get('char')) is list: # and non random
+        if type(type_of.get('char')) is list: 
             char = rand_choice(type_of.get('char'))
+
         else:
             char = type_of.get('char') 
           

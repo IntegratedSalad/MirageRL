@@ -7,6 +7,7 @@ from map_objects import fov_functions
 from input_handlers import handle_keys
 from entity import Entity, get_blocking_entities_at_location
 from map_objects.game_map import GameMap, GameWorld, ChunkProperty
+# from map_objects.game_world import GameWorld
 from game_states import GameStates
 from components.fighter import Fighter
 from components.ai import BasicMonster
@@ -23,7 +24,7 @@ def main():
     print(f"PLAYER POS: {game_world.player_pos_x_in_world}, {game_world.player_pos_y_in_world}")
 
     entities = [player]
-    #game_map.place_entities(entities)
+    game_map.place_entities(entities)
 
     tcod.console_set_custom_font('terminal8x8_gs_tc.png', tcod.FONT_TYPE_GREYSCALE | tcod.FONT_LAYOUT_TCOD)
    
@@ -70,20 +71,58 @@ def main():
 
                     if did_enter_new_chunk is not None:
 
-                        px, py, mx, my = did_enter_new_chunk
+                        """Place this procedure in map and world classes accordingly."""
 
-                        #print(did_enter_new_chunk)
+
+                        """Make better algorithm for that:
+
+
+                        1. Offload entities and tiles if they are any.
+                        2. Remove entities and tiles.
+                        3. Update position of player.
+                        4. Check if we are entering a new area (create enemies) or we are re-entering a previously visited area (restore enemies)
+                        
+
+                        """
+
+                        px, py, wx, wy = did_enter_new_chunk
 
                         # offload entities
 
-                        game_world.update_position(mx, my)
-                        print(f"PLAYER POS: {game_world.player_pos_x_in_world}, {game_world.player_pos_y_in_world}")
-                        if game_world.world[game_world.player_pos_x_in_world][game_world.player_pos_y_in_world].property == ChunkProperty.END:
-                            print("You reached the end boi.")
-                        game_world.get_current_chunk()
+                        objects_to_offload = game_map.get_entities(player, entities)
 
+                        if game_world.get_current_chunk().objects == []:
+                            game_world.get_current_chunk().objects = objects_to_offload
+                        else:
+                            pass
+
+                        # offloads
+                        ##
+
+                        # remove entities while keeping the player
+                        entities = game_map.remove_entities(player, entities)
+
+                        # update position of the player in world.
+                        game_world.update_position(wx, wy)
+                        # We are in a new chunk
+
+                        # if end
+                        # print(f"PLAYER POS: {game_world.player_pos_x_in_world}, {game_world.player_pos_y_in_world}")
+                        # if game_world.world[game_world.player_pos_x_in_world][game_world.player_pos_y_in_world].property == ChunkProperty.END:
+                        #     print("You reached the end boi.")
+                        ##
+
+                        # Make new map
                         game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT)
-                        game_map.initialize_chunk(game_world.world[game_world.player_pos_x_in_world][game_world.player_pos_y_in_world])
+
+                        if game_world.is_new_chunk(game_world.player_pos_x_in_world, game_world.player_pos_y_in_world):
+                            game_map.initialize_chunk(game_world.world[game_world.player_pos_x_in_world][game_world.player_pos_y_in_world])
+                        else:
+                            # We can place these positions, because they were updated in .update_position(wx, wy)
+                            new_entities = game_map.restore_chunk(game_world.get_current_chunk(), entities, player)
+                            entities = new_entities
+                        ##
+
                         player.x = px
                         player.y = py
 
@@ -101,7 +140,6 @@ def main():
 
                                 player.move(dx, dy)
 
-
                     game_state = GameStates.ENEMY_TURN
 
                     # see if player walked to a new area. (chunk)
@@ -117,7 +155,7 @@ def main():
                 for entity in entities:
                     if entity.ai:
                         enemy_turn_results = entity.ai.take_turn(player, game_map, entities)
-                        print(enemy_turn_results)
+                        #sprint(enemy_turn_results)
 
                         for enemy_turn_result in enemy_turn_results:
 

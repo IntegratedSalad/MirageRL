@@ -36,26 +36,20 @@ class Chunk:
         self.objects = []
         self.tiles = [[Tile(False, type_of=nothing) for y in range(MAP_HEIGHT)] for x in range(MAP_WIDTH)]
 
-
-    def offload(self, obj_list, tiles):
-
-        """
-        Notice that sand is not offloaded, so every time player returns to chunk, the chunk gets random sand tiles.
-        It is to make a game slightly harder - plaer will not be able to memorize map by looking at sand.
-    
-        """
-
-        self.objects = [obj for obj in obj_list]
-        self.tiles = [tile for tile in tiles if tile.type_of not in [sand, nothing]]
-
     def __str__(self):
         return f"\t\t+Chunk type+\n PROPERTY: {self.property} \n HAS_PLAYER: {self.has_player} \
-                                 \n OBJECTS: {self.objects} \n TILES: {self.tiles} \n \t\t    ++"
+                                 \n OBJECTS: {self.objects} \n TILES: {self.tiles} \n \t\t INSTA ++"
+
+    def __mem__(self):
+        return f"{hex(id(self))}"
+
+
 
 
 class GameWorld:
 
     """
+    Handles chunks and world related features.
     Accessing chunks is done via self.world list.
 
     """
@@ -98,9 +92,13 @@ class GameWorld:
         exit(-1)
 
 
+    def get_current_tiles(self):
+
+        return [tile for tile in self.get_current_chunk().tiles]
+
     def is_new_chunk(self, world_x, world_y):
 
-        if self.world[world_x][world_y].objects == [] and self.word[world_x][world_y] == []:
+        if self.world[world_x][world_y].objects == [] or self.world[world_x][world_y].tiles == []:
             return True
 
         return False
@@ -186,7 +184,7 @@ class GameWorld:
                 self.world[rand_map_place_x][rand_map_place_y].tiles[rand_chunk_place_x][rand_chunk_place_y] = Tile(False, type_of=arrow_right)
 
 
-            elif difference_x >= -1 and difference_y > 0:
+            elif difference_x >= -1 and difference_y > 0: # GATE_CORD_Y - GLYPH_Y > 0 means that gate has greater y - is further down.
                 self.world[rand_map_place_x][rand_map_place_y].tiles[rand_chunk_place_x][rand_chunk_place_y] = Tile(False, type_of=arrow_down)
 
 
@@ -195,7 +193,7 @@ class GameWorld:
             self.world[rand_map_place_x][rand_map_place_y].property = ChunkProperty.HAS_DIRECTION
 
 
-
+            # BUG ! SOMETIMES THE GLYPH ISN'T PLACED !
 
 
 class GameMap:
@@ -210,7 +208,7 @@ class GameMap:
         self.height = height # of chunk
         self.elevation = MapElevation.ELEV_ABOVE
         self.current_chunk = None # an area of gameplay
-        self.entities = []
+        #self.entities = [] # make it local, and self.place_entities to return entities list
 
     def initialize_chunk(self, chunk): # chunk = world.world[map_x][map_y]
 
@@ -226,22 +224,24 @@ class GameMap:
 
                 # load tiles
 
-         # create random objects etc...
+        # create random objects etc...
 
         self.current_chunk = chunk
 
-    def restore_chunk(self, chunk):
-
-        #map_objects = chunk.objects.extend(tiles)
+    def restore_chunk(self, chunk, entities, player):
 
         for y in range(1, self.height):
             for x in range(1, self.width):
 
+                chunk.tiles[x][y] = Tile(False, type_of=sand)
 
-                chunk[x][y] = Tile(False, type_of=sand)
 
-                for obj in map_objects:
-                    pass
+        # Append offloaded objects in chunk.
+        restored_entities = [player] 
+        restored_entities.extend(chunk.objects)
+        self.current_chunk = chunk
+        
+        return restored_entities
 
 
     def place_entities(self, entities):
@@ -275,3 +275,18 @@ class GameMap:
                     monster = Entity(x, y, 's', tcod.dark_yellow, 'scorpion', blocks=True, fighter=monster_fighter_component, ai=monster_ai)
 
             entities.append(monster)
+
+
+    def remove_entities(self, player, entities):
+
+
+        """
+        Removes entites leaving only player. In future, it checks which one are close to the player and doesn't remove them.
+        
+        """
+
+        return [player]
+
+    def get_entities(self, player, entities):
+
+        return [e for e in entities if e != player]
