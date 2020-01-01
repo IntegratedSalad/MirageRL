@@ -1,5 +1,6 @@
 import tcod
 from map_objects.game_map import MapElevation
+from utils import get_pos_in_chunk
 
 def render_all(con, entities, current_game_map, screen_width, screen_height):
 
@@ -27,7 +28,9 @@ def clear_all(con, entities):
 
 def draw_entity(con, entity):
     tcod.console_set_default_foreground(con, entity.color)
-    tcod.console_put_char(con, entity.x, entity.y, entity.char, tcod.BKGND_NONE)
+    x, y = get_pos_in_chunk(entity.x, entity.y)
+    tcod.console_put_char(con, x, y, entity.char, tcod.BKGND_NONE)
 
 def clear_entity(con, entity):
-    tcod.console_put_char(con, entity.x, entity.y, ' ', tcod.BKGND_NONE)
+    x, y = get_pos_in_chunk(entity.x, entity.y)
+    tcod.console_put_char(con, x, y, ' ', tcod.BKGND_NONE)

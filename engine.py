@@ -15,16 +15,17 @@ from components.ai import BasicMonster
 def main():
 
     player_fighter_component = Fighter(8, 2, 1)
-    player = Entity(int(constants.MAP_WIDTH / 2), int(constants.MAP_HEIGHT / 2), '@', tcod.white, constants.PLAYER_NAME, fighter=player_fighter_component)
     game_world = GameWorld()
-    game_world.world[game_world.player_pos_x_in_world][game_world.player_pos_y_in_world].has_player = True
+    player = Entity(game_world.player_pos_x_in_world, game_world.player_pos_y_in_world, '@', tcod.white, constants.PLAYER_NAME, fighter=player_fighter_component)
+    # game_world.world[game_world.player_pos_x_in_world][game_world.player_pos_y_in_world].has_player = True
     game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT)
-
-    game_map.initialize_chunk(game_world.world[game_world.player_pos_x_in_world][game_world.player_pos_y_in_world])
+    game_map.initialize(game_world)
     print(f"PLAYER POS: {game_world.player_pos_x_in_world}, {game_world.player_pos_y_in_world}")
+    print(f"CURRENT CHUNK: {game_world.get_chunk_pos_from_player_pos()}")
 
+    # game_map.initialize_chunk(game_world.world[game_world.player_pos_x_in_world][game_world.player_pos_y_in_world])
     entities = [player]
-    game_map.place_entities(entities)
+    # game_map.place_entities(entities)
 
     tcod.console_set_custom_font('terminal8x8_gs_tc.png', tcod.FONT_TYPE_GREYSCALE | tcod.FONT_LAYOUT_TCOD)
    
