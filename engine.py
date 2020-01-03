@@ -34,9 +34,6 @@ def main():
     with tcod.console_init_root(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, f"{constants.title} {constants.version}",
                                 fullscreen=False, order="F", renderer=tcod.RENDERER_SDL2) as root_console:
 
-
-        #init():
-
         con = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
         key = tcod.Key()
         mouse = tcod.Mouse()
@@ -47,8 +44,6 @@ def main():
         tcod.console_flush()
 
         while not tcod.console_is_window_closed():
-
-            # run():
 
             tcod.sys_wait_for_event(tcod.EVENT_KEY_PRESS, key, mouse, True)
 
@@ -71,18 +66,20 @@ def main():
 
                     pos_in_chunk_x, pos_in_chunk_y = utils.get_pos_in_chunk(player.x, player.y) 
 
-                    did_enter_new_chunk = utils.enter_new_chunk(pos_in_chunk_x + dx, pos_in_chunk_y + dy)
+                    # did_enter_new_chunk = utils.enter_new_chunk(pos_in_chunk_x + dx, pos_in_chunk_y + dy)
                     
-                    if did_enter_new_chunk is not None:
+                    if utils.enter_new_chunk(pos_in_chunk_x + dx, pos_in_chunk_y +dy):
 
                         old_chunk_x, old_chunk_y = game_world.get_chunk_pos_from_player_pos(player.x, player.y)
-                        game_world.chunks[old_chunk_x][old_chunk_y].discovered = True
+                        # game_world.chunks[old_chunk_x][old_chunk_y].discovered = True <- We will offload it later
 
                         player.x += dx
                         player.y += dy
 
                         chunk_pos_x, chunk_pos_y = game_world.get_chunk_pos_from_player_pos(player.x, player.y)
-                        print(game_world.chunks[chunk_pos_x][chunk_pos_y].discovered)
+                        if game_world.chunks[chunk_pos_x][chunk_pos_y].property == ChunkProperty.END:
+                            print("END")
+                        # print(game_world.chunks[chunk_pos_x][chunk_pos_y].discovered)
 
                         """Place this procedure in map and world classes accordingly."""
 
@@ -98,10 +95,8 @@ def main():
 
                         """
 
-                        # px, py, wx, wy = did_enter_new_chunk
-
-                        print((player.x, player.y))
-                        print(utils.get_pos_in_chunk(player.x, player.y))
+                        # print((player.x, player.y))
+                        # print(utils.get_pos_in_chunk(player.x, player.y))
 
                         # offload entities
 
@@ -118,8 +113,6 @@ def main():
                         # remove entities while keeping the player
                         entities = game_map.remove_entities(player, entities)
 
-                        # update position of the player in world.
-                        # game_world.update_position(wx, wy)
                         # We are in a new chunk
 
                         # if end
@@ -155,12 +148,10 @@ def main():
                             else:
 
                                 player.move(dx, dy)
-                                print(player.x, player.y)
-                                print(utils.get_pos_in_chunk(player.x, player.y))
+                                # print(player.x, player.y)
+                                # print(utils.get_pos_in_chunk(player.x, player.y))
 
                     game_state = GameStates.ENEMY_TURN
-
-                    # see if player walked to a new area. (chunk)
 
                 if action_exit:
                     raise SystemExit()
@@ -173,7 +164,6 @@ def main():
                 for entity in entities:
                     if entity.ai:
                         enemy_turn_results = entity.ai.take_turn(player, game_map, entities)
-                        #sprint(enemy_turn_results)
 
                         for enemy_turn_result in enemy_turn_results:
 

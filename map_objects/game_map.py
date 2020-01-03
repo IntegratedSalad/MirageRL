@@ -28,7 +28,7 @@ class Chunk:
 
 
     """
-    Class that represents one area of gameplay.
+    Class that represents one area of gameplay. Used for storing data.
 
     """
 
@@ -41,35 +41,32 @@ class Chunk:
 
     def __str__(self):
         return f"\t\t+Chunk type+\n PROPERTY: {self.property} \n \
-                                 \n OBJECTS: {self.objects} \n  \t\t DISCOVERED: {self.discovered} \n \t\t POS: {self.pos}"
+                                 \n OBJECTS: {self.objects} \n \t\t DISCOVERED: {self.discovered} \n \t\t POS: {self.pos}"
 
     def __mem__(self):
         return f"{hex(id(self))}"
 
 
-
-
 class GameWorld:
 
     """
-    Handles chunks and world related features.
-    Accessing chunks is done via self.world list.
+    Handles chunks initialization and world related features.
+    Accessing chunks is done via self.world_map list.
 
     """
 
 
     def __init__(self):
         self.world_map = [[Tile(False, type_of=sand) for y in range(0, WORLD_HEIGHT * MAP_HEIGHT)] for x in range(0, WORLD_WIDTH * MAP_WIDTH)]
-        # self.chunks = [[Chunk() for y in range(0, WORLD_HEIGHT)] for x in range(0, WORLD_WIDTH)]
         self.chunks = self.initialize_chunks()
         self.gate_place = []
-        # self.create_village()
-        # self.place_glyphs()
+        self.create_village()
+        self.place_glyphs()
 
-        # for x in range(0, WORLD_WIDTH):
-        #     for y in range(0, WORLD_HEIGHT):
-        #         if self.world[x][y].property == ChunkProperty.END:
-        #             print(f"END CHUNK: {x}, {y}")
+        for x in range(0, WORLD_WIDTH):
+            for y in range(0, WORLD_HEIGHT):
+                if self.chunks[x][y].property == ChunkProperty.END:
+                    print(f"END CHUNK: {x}, {y}")
     
 
     def get_chunk_pos_from_player_pos(self, px, py):
@@ -101,15 +98,12 @@ class GameWorld:
 
         """
 
-        border =  randint(0, 3) # clockwise, 0 is top.
-
-
-        #set those x and y.
+        border = randint(0, 3) # clockwise, 0 is top.
 
         if border == 0:
             start_x = randint(0, WORLD_WIDTH - size)
             for _ in range(size):
-                self.world[start_x][0].property = ChunkProperty.END
+                self.chunks[start_x][0].property = ChunkProperty.END
 
                 self.gate_place.append((start_x, 0))
 
@@ -118,7 +112,7 @@ class GameWorld:
         if border == 1:
             start_y = randint(0, WORLD_HEIGHT - size)
             for _ in range(size):
-                self.world[WORLD_WIDTH - 1][start_y].property = ChunkProperty.END
+                self.chunks[WORLD_WIDTH - 1][start_y].property = ChunkProperty.END
 
                 self.gate_place.append((WORLD_WIDTH - 1, start_y))
 
@@ -127,7 +121,7 @@ class GameWorld:
         if border == 2:
             start_x = randint(0, WORLD_WIDTH - size)
             for _ in range(size):
-                self.world[start_x][WORLD_HEIGHT - 1].property = ChunkProperty.END
+                self.chunks[start_x][WORLD_HEIGHT - 1].property = ChunkProperty.END
 
                 self.gate_place.append((start_x, WORLD_HEIGHT - 1))
 
@@ -136,7 +130,7 @@ class GameWorld:
         if border == 3:
             start_y = randint(0, WORLD_HEIGHT - size)
             for _ in range(size):
-                self.world[0][start_y].property = ChunkProperty.END
+                self.chunks[0][start_y].property = ChunkProperty.END
 
                 self.gate_place.append((0, start_y))
 
@@ -163,33 +157,27 @@ class GameWorld:
             difference_x, difference_y = (gate_coordinates[0] - rand_map_place_x, gate_coordinates[1] - rand_map_place_y)
 
             if difference_x < -2 and difference_y < 0: # glyph is further on x and y axis than gate. It will point to the LEFT.
-                self.world[rand_map_place_x][rand_map_place_y].tiles[rand_chunk_place_x][rand_chunk_place_y] = Tile(False, type_of=arrow_left)
+                self.chunks[rand_map_place_x][rand_map_place_y].tiles[rand_chunk_place_x][rand_chunk_place_y] = Tile(False, type_of=arrow_left)
 
 
             elif difference_x >= -1 and difference_y < 0:
-                self.world[rand_map_place_x][rand_map_place_y].tiles[rand_chunk_place_x][rand_chunk_place_y] = Tile(False, type_of=arrow_up)
+                self.chunks[rand_map_place_x][rand_map_place_y].tiles[rand_chunk_place_x][rand_chunk_place_y] = Tile(False, type_of=arrow_up)
 
 
             elif difference_x > -2 and difference_y > 0:
-                self.world[rand_map_place_x][rand_map_place_y].tiles[rand_chunk_place_x][rand_chunk_place_y] = Tile(False, type_of=arrow_right)
+                self.chunks[rand_map_place_x][rand_map_place_y].tiles[rand_chunk_place_x][rand_chunk_place_y] = Tile(False, type_of=arrow_right)
 
 
             elif difference_x >= -1 and difference_y > 0: # GATE_CORD_Y - GLYPH_Y > 0 means that gate has greater y - is further down.
-                self.world[rand_map_place_x][rand_map_place_y].tiles[rand_chunk_place_x][rand_chunk_place_y] = Tile(False, type_of=arrow_down)
+                self.chunks[rand_map_place_x][rand_map_place_y].tiles[rand_chunk_place_x][rand_chunk_place_y] = Tile(False, type_of=arrow_down)
 
-
-            # Should work
-
-            self.world[rand_map_place_x][rand_map_place_y].property = ChunkProperty.HAS_DIRECTION
-
-
-            # BUG ! SOMETIMES THE GLYPH ISN'T PLACED !
-
+            self.chunks[rand_map_place_x][rand_map_place_y].property = ChunkProperty.HAS_DIRECTION
 
 class GameMap:
 
     """
     Current map.
+    This class and its functions operate on chunk and world_map tiles.
 
     """
 
@@ -200,37 +188,19 @@ class GameMap:
         self.current_chunk = current_chunk # an area of gameplay
         #self.entities = [] # make it local, and self.place_entities to return entities list
 
-    # def initialize_chunk(self, world):
-
-    #     chunk_x, chunk_y = world.get_chunk_pos_from_player_pos()
-    #     current_chunk = world.chunks[chunk_x][chunk_y]
-
-    #     chunk_start_x, chunk_start_y = world.get_chunk_pos_from_player_pos()
-    #     chunk_start_x *= MAP_WIDTH
-    #     chunk_start_y *= MAP_HEIGHT
-
-    #     for y in range(chunk_start_y, chunk_start_y + self.height):
-    #         for x in range(chunk_start_x, chunk_start_x + self.width):
-    #             world.world_map[x][y] = Tile(False, type_of=sand)
-
-    #             pos_in_chunk_x, pos_in_chunk_y = utils.get_pos_in_chunk(x, y)
-    #             current_chunk.tiles[pos_in_chunk_x][pos_in_chunk_y] = Tile(False, type_of=sand)
-
-    #     self.current_chunk = current_chunk
-
     def offload_chunk(self, chunk_x, chunk_y, world):#, player_x, player_y, world):
+
+        tiles_to_offload = {}
 
         chunk_start_x = chunk_x * MAP_WIDTH
         chunk_start_y = chunk_y * MAP_HEIGHT
 
         chunk_obj = world.chunks[chunk_x][chunk_y]
 
-        for y in range(chunk_y, chunk_start_y + self.height):
-            for x in range(chunk_start_x, chunk_start_x + self.width):
-                world.world_map[x][y] = Tile(False, type_of=sand) # offloading means saving things into the big world_map 
-
-                # pos_in_chunk_x, pos_in_chunk_y = utils.get_pos_in_chunk(x, y)
-                # chunk_obj.tiles[pos_in_chunk_x][pos_in_chunk_y] = Tile(False, type_of=sand)
+        for y in range(1, self.height):
+            for x in range(1, self.width):
+                # offload entities
+                pass
 
         chunk_obj.discovered = True
 
@@ -238,22 +208,23 @@ class GameMap:
 
         chunk_obj = world.chunks[chunk_x][chunk_y]
 
-        for y in range(1, self.height):
-            for x in range(1, self.width):
+        for y in range(0, self.height):
+            for x in range(0, self.width):
                 if chunk_obj.tiles[x][y].type_of == sand:
                     chunk_obj.tiles[x][y] = Tile(False, type_of=sand)
-        print("dupa")
+
         self.current_chunk = chunk_obj
 
     def restore_chunk(self, chunk_x, chunk_y, entities, player, world):
 
+        chunk_start_x = chunk_x * MAP_WIDTH
+        chunk_start_y = chunk_y * MAP_HEIGHT
+
         chunk_obj = world.chunks[chunk_x][chunk_y]
 
-        for y in range(1, self.height):
-            for x in range(1, self.width):
-
-                chunk_obj.tiles[x][y] = Tile(False, type_of=sand)
-
+        for y in range(chunk_start_y, chunk_start_y + self.height):
+            for x in range(chunk_start_x, chunk_start_x + self.width):
+                pass
 
         # Append offloaded objects in chunk.
         restored_entities = [player] 

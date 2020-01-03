@@ -120,3 +120,10 @@ In terms of how it will be implemented - 2-3 tiles on the edge of the map are "v
 There will be a huge amount of monsters or obstacles (mines etc.) at the gates.
 SO! an .END property on the map, suggests that there is a gate.
 
+
+Map Rework:
+Walking and updating player position done.
+1. Direction hints Done
+2. Offloading entities. Loading entities,
+3. Entities following through chunks,
+4. End game chunk. done
