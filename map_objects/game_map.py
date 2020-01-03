@@ -9,7 +9,6 @@ from entity import Entity
 from map_objects.tile_types import *
 from constants import *
 
-
 # Move GameWorld to different file.
 
 class MapElevation(enum.Enum):
@@ -186,23 +185,13 @@ class GameMap:
         self.height = height # of chunk
         self.elevation = MapElevation.ELEV_ABOVE
         self.current_chunk = current_chunk # an area of gameplay
-        #self.entities = [] # make it local, and self.place_entities to return entities list
 
-    def offload_chunk(self, chunk_x, chunk_y, world):#, player_x, player_y, world):
+    def offload_chunk(self, chunk, player, entities):
 
-        tiles_to_offload = {}
+        chunk.discovered = True
+        chunk.objects = self.get_entities(player, entities)
 
-        chunk_start_x = chunk_x * MAP_WIDTH
-        chunk_start_y = chunk_y * MAP_HEIGHT
-
-        chunk_obj = world.chunks[chunk_x][chunk_y]
-
-        for y in range(1, self.height):
-            for x in range(1, self.width):
-                # offload entities
-                pass
-
-        chunk_obj.discovered = True
+        # offload items
 
     def randomize_sand(self, chunk_x, chunk_y, world):
 
@@ -224,6 +213,7 @@ class GameMap:
 
         for y in range(chunk_start_y, chunk_start_y + self.height):
             for x in range(chunk_start_x, chunk_start_x + self.width):
+                #restore items
                 pass
 
         # Append offloaded objects in chunk.
@@ -234,9 +224,9 @@ class GameMap:
         return restored_entities
 
 
-    def place_entities(self, entities):
+    def place_entities(self, chunk_x, chunk_y, entities):
 
-        self.place_enemies(entities)
+        self.place_enemies(chunk_x, chunk_y, entities)
         # place objects etc.
 
     def is_blocked(self, x, y):
@@ -248,14 +238,14 @@ class GameMap:
 
         return False
 
-    def place_enemies(self, entities):
+    def place_enemies(self, chunk_x, chunk_y, entities):
 
-        enemies_num = randint(0, MAX_MONSTERS_PER_CHUNK)
+        enemies_num = randint(1, MAX_MONSTERS_PER_CHUNK)
 
-        for _ in range(enemies_num):
+        for _ in range(0, enemies_num):
 
-            x = randint(1, self.width - 1)
-            y = randint(1, self.height - 1)
+            x = chunk_x * MAP_WIDTH + randint(0, self.width - 1)
+            y = chunk_y * MAP_HEIGHT + randint(0, self.height - 1)
 
             if not any([entity for entity in entities if entity.x == x and entity.y == y]):
                 monster_ai = BasicMonster()

@@ -16,6 +16,14 @@ def get_pos_in_chunk(pos_x, pos_y):
 
 	return (x, y)
 
+def get_chunk_pos(x, y):
+
+    x = int(x / constants.MAP_WIDTH)
+    y = int(y / constants.MAP_HEIGHT)
+
+    return (x, y)
+
+
 def enter_new_chunk(px, py):
 
 	if (px >= constants.MAP_WIDTH) or (px < 0) or (py >= constants.MAP_HEIGHT) or (py < 0):

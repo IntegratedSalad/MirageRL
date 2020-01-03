@@ -7,13 +7,11 @@ from map_objects import fov_functions
 from input_handlers import handle_keys
 from entity import Entity, get_blocking_entities_at_location
 from map_objects.game_map import GameMap, GameWorld, ChunkProperty
-# from map_objects.game_world import GameWorld
 from game_states import GameStates
 from components.fighter import Fighter
-from components.ai import BasicMonster
+# from components.ai import BasicMonster
 
 def main():
-
 
     game_world = GameWorld()
     player_fighter_component = Fighter(8, 2, 1)
@@ -27,7 +25,8 @@ def main():
     print(f"CURRENT CHUNK: {game_world.get_chunk_pos_from_player_pos(player.x, player.y)}")
 
     entities = [player]
-    # game_map.place_entities(entities)
+    entities_off_map = []
+    game_map.place_entities(start_chunk_pos_x, start_chunk_pos_y, entities)
 
     tcod.console_set_custom_font('terminal8x8_gs_tc.png', tcod.FONT_TYPE_GREYSCALE | tcod.FONT_LAYOUT_TCOD)
    
@@ -40,7 +39,7 @@ def main():
 
         game_state = GameStates.PLAYER_TURN
 
-        render_functions.render_all(con, root_console, entities, game_map, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
+        render_functions.render_all(con, root_console, player, entities, game_map, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
         tcod.console_flush()
 
         while not tcod.console_is_window_closed():
@@ -66,12 +65,9 @@ def main():
 
                     pos_in_chunk_x, pos_in_chunk_y = utils.get_pos_in_chunk(player.x, player.y) 
 
-                    # did_enter_new_chunk = utils.enter_new_chunk(pos_in_chunk_x + dx, pos_in_chunk_y + dy)
-                    
-                    if utils.enter_new_chunk(pos_in_chunk_x + dx, pos_in_chunk_y +dy):
+                    if utils.enter_new_chunk(pos_in_chunk_x + dx, pos_in_chunk_y + dy):
 
                         old_chunk_x, old_chunk_y = game_world.get_chunk_pos_from_player_pos(player.x, player.y)
-                        # game_world.chunks[old_chunk_x][old_chunk_y].discovered = True <- We will offload it later
 
                         player.x += dx
                         player.y += dy
@@ -79,47 +75,16 @@ def main():
                         chunk_pos_x, chunk_pos_y = game_world.get_chunk_pos_from_player_pos(player.x, player.y)
                         if game_world.chunks[chunk_pos_x][chunk_pos_y].property == ChunkProperty.END:
                             print("END")
-                        # print(game_world.chunks[chunk_pos_x][chunk_pos_y].discovered)
 
-                        """Place this procedure in map and world classes accordingly."""
+                        # process only these, which are far.
+                        entities_off_map = set([e for e in entities if e.distance_to(player) < 5 and e != player])
+                        all_entities = set([e for e in entities if e != player])
+                        to_offload = list(all_entities.difference(entities_off_map))
 
-
-                        """Make better algorithm for that:
-
-
-                        1. Offload entities and tiles if they are any.
-                        2. Remove entities and tiles.
-                        3. Update position of player.
-                        4. Check if we are entering a new area (create enemies) or we are re-entering a previously visited area (restore enemies)
-                        
-
-                        """
-
-                        # print((player.x, player.y))
-                        # print(utils.get_pos_in_chunk(player.x, player.y))
-
-                        # offload entities
-
-                        # objects_to_offload = game_map.get_entities(player, entities)
-
-                        # if game_world.get_current_chunk().objects == []:
-                        #     game_world.get_current_chunk().objects = objects_to_offload
-                        # else:
-                        #     pass
-
-                        # offloads
-                        ##
-
-                        # remove entities while keeping the player
+                        game_map.offload_chunk(game_world.chunks[old_chunk_x][old_chunk_y], player, list(to_offload))
                         entities = game_map.remove_entities(player, entities)
 
-                        # We are in a new chunk
-
-                        # if end
-                        # print(f"PLAYER POS: {game_world.player_pos_x_in_world}, {game_world.player_pos_y_in_world}")
-                        # if game_world.world[game_world.player_pos_x_in_world][game_world.player_pos_y_in_world].property == ChunkProperty.END:
-                        #     print("You reached the end boi.")
-                        ##
+                        print(f"CLOSE ENTITIES: {len(entities_off_map)}\nALL ENTITIES: {len(all_entities)}\nENTITIES TO OFFLOAD: {len(to_offload)}")
 
                         # Make new map
                         game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT, game_world.chunks[start_chunk_pos_x][start_chunk_pos_y])
@@ -136,7 +101,6 @@ def main():
 
                     else:
 
-
                         if not game_map.is_blocked(player.x + dx, player.y + dy):
 
                             target = get_blocking_entities_at_location(entities, player.x + dx, player.y + dy)
@@ -146,8 +110,11 @@ def main():
                                 attack_results = player.fighter.attack(target)
                                 player_turn_results.extend(attack_results)
                             else:
-
                                 player.move(dx, dy)
+                                print([e.distance_to(player) for e in entities if e != player])
+
+                                print(utils.get_pos_in_chunk(player.x, player.y))
+
                                 # print(player.x, player.y)
                                 # print(utils.get_pos_in_chunk(player.x, player.y))
 
@@ -161,7 +128,7 @@ def main():
 
             if game_state == GameStates.ENEMY_TURN:
 
-                for entity in entities:
+                for entity in entities + list(entities_off_map):
                     if entity.ai:
                         enemy_turn_results = entity.ai.take_turn(player, game_map, entities)
 
@@ -178,7 +145,7 @@ def main():
 
                 game_state = GameStates.PLAYER_TURN
 
-            render_functions.render_all(con, root_console, entities, game_map, constants.SCREEN_WIDTH, \
+            render_functions.render_all(con, root_console, player, entities + list(entities_off_map), game_map, constants.SCREEN_WIDTH, \
                                         constants.SCREEN_HEIGHT)
 
 

@@ -124,6 +124,6 @@ SO! an .END property on the map, suggests that there is a gate.
 Map Rework:
 Walking and updating player position done.
 1. Direction hints Done
-2. Offloading entities. Loading entities,
+2. Offloading entities. Loading entities done
 3. Entities following through chunks,
 4. End game chunk. done
