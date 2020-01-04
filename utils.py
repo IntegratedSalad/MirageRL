@@ -1,24 +1,32 @@
 import constants
 
-def enter_new_chunk(px, py):
+def get_pos_in_chunk(pos_x, pos_y):
 
-	""" Returns px, py, mx, my  
-
-	wx - world_x
-	wy - world_y
+	"""
+	Returns x, y in chunk, that is between 0 and MAP_WIDTH or MAP_HEIGHT from world position, 
+	that is between 0 and WORLD_WIDTH * MAP_WIDTH or WORLD_HEIGHT * MAP_HEIGHT.
 
 	"""
 
-	if px >= constants.MAP_WIDTH:
-		return (1, py, 1, 0)
+	chunk_x = int(pos_x / constants.MAP_WIDTH) 
+	x = pos_x - (chunk_x * constants.MAP_WIDTH)
 
-	elif px <= 0:
-		return (constants.MAP_WIDTH - 1, py, -1, 0)
+	chunk_y = int(pos_y / constants.MAP_HEIGHT)
+	y = pos_y - (chunk_y * constants.MAP_HEIGHT)
 
-	elif py >= constants.MAP_HEIGHT:
-		return (px, 1, 0, 1)
+	return (x, y)
 
-	elif py <= 0:
-		return (px, constants.MAP_HEIGHT - 1, 0, -1)
+def get_chunk_pos(x, y):
 
-	return None
+    x = int(x / constants.MAP_WIDTH)
+    y = int(y / constants.MAP_HEIGHT)
+
+    return (x, y)
+
+
+def enter_new_chunk(px, py):
+
+	if (px >= constants.MAP_WIDTH) or (px < 0) or (py >= constants.MAP_HEIGHT) or (py < 0):
+		return True
+
+	return False
