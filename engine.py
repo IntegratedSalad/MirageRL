@@ -1,14 +1,16 @@
 import tcod
-import tcod.event
-import constants
-import render_functions
 import utils
-from map_objects import fov_functions
-from input_handlers import handle_keys
-from entity import Entity, get_blocking_entities_at_location
-from map_objects.game_map import GameMap, GameWorld, ChunkProperty
+import constants
+import tcod.event
+import render_functions
 from game_states import GameStates
+from map_objects import fov_functions
 from components.fighter import Fighter
+from input_handlers import handle_keys
+from map_objects.game_map import GameMap
+from map_objects.game_world import GameWorld
+from map_objects.chunk import ChunkProperty
+from entity import Entity, get_blocking_entities_at_location
 
 def main():
 
@@ -101,13 +103,11 @@ def main():
 
                         # Make new map
                         game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT, game_world.chunks[start_chunk_pos_x][start_chunk_pos_y])
-                        # print(game_world.chunks[chunk_pos_x][chunk_pos_y])
                         print((chunk_pos_x, chunk_pos_y))
 
                         if not game_world.chunks[chunk_pos_x][chunk_pos_y].discovered:
                             game_map.randomize_sand(chunk_pos_x, chunk_pos_y, game_world)
                         else:
-                            # We can place these positions, because they were updated in .update_position(wx, wy)
                             new_entities = game_map.restore_chunk(chunk_pos_x, chunk_pos_y, entities, player, game_world)
                             entities = new_entities + list(close_entities)
                         ##
