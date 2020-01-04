@@ -20,7 +20,7 @@ def render_all(con, root_con, player, entities, current_game_map, screen_width, 
         player_chunk = get_chunk_pos(player.x, player.y)
         entity_chunk = get_chunk_pos(entity.x, entity.y)
 
-        if player_chunk == entity_chunk:
+        if player_chunk == entity_chunk: # without this, entity close to the player (which we are processing) would appear on player's chunk.
             draw_entity(con, entity)
 
     con.blit(dest=root_con, dest_x=1, dest_y=1, src_x=0, src_y=0, width=screen_width, height=screen_height)

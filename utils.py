@@ -4,7 +4,7 @@ def get_pos_in_chunk(pos_x, pos_y):
 
 	"""
 	Returns x, y in chunk, that is between 0 and MAP_WIDTH or MAP_HEIGHT from world position, 
-	that is between 0 and WORLD_WIDTH * MAP_WIDTH or WORLD_HEIGHT * MAP_HEIGHT
+	that is between 0 and WORLD_WIDTH * MAP_WIDTH or WORLD_HEIGHT * MAP_HEIGHT.
 
 	"""
 
