@@ -3,6 +3,8 @@ import utils
 from constants import *
 from entity import Entity
 from random import randint
+# from data.item_data import item_dat
+from data.monster_data import mon_dat
 from map_objects.tile import Tile
 from map_objects.tile_types import *
 from components.fighter import Fighter
@@ -85,15 +87,20 @@ class GameMap:
             y = chunk_y * MAP_HEIGHT + randint(0, self.height - 1)
 
             if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-                monster_ai = BasicMonster()
+
                 if randint(0, 100) < 50:
-                    monster_fighter_component = Fighter(3, 1, 2)
-                    monster = Entity(x, y, 'a', tcod.darker_red, 'red ant', blocks=True, fighter=monster_fighter_component, ai=monster_ai)
+
+                    m_glyph, m_color, m_name, m_fighter_stats, m_ai, m_ai_args = mon_dat.monsters['colony_of_ants']
 
                 else:
-                    monster_fighter_component = Fighter(3, 1, 4)
-                    monster = Entity(x, y, 's', tcod.dark_yellow, 'scorpion', blocks=True, fighter=monster_fighter_component, ai=monster_ai)
+                    m_glyph, m_color, m_name, m_fighter_stats, m_ai, m_ai_args = mon_dat.monsters['dessert_snake']
 
+
+            m_color_r, m_color_g, m_color_b = m_color
+            m_hp, m_def, m_atkval = m_fighter_stats
+            
+            monster_fighter_component = Fighter(m_hp, m_def, m_atkval)
+            monster = Entity(x, y, m_glyph, tcod.color.Color(m_color_r, m_color_g, m_color_b), m_name, blocks=True, fighter=monster_fighter_component, ai=m_ai())
             entities.append(monster)
 
 

@@ -98,8 +98,10 @@ class Entity:
 	# 	else:
 	# 		self.move_towards(target_map_x, target_map_y, game_map, entities)
 
-	def move_astar(self, target, entities, game_map): # it can overshoot, because of how we are setting map - see map_bjects.game_map.initialize_chunk range(1, ...)
-		inframap = tcod.map.Map(450, 450) # map used in above map
+	def move_astar(self, target, entities, game_map):
+		inframap = tcod.map.Map(450, 450, "F") # map used in above map
+		inframap.walkable[:] = True
+		inframap.transparent[:] = False
 
 		for entity in entities:
 			if entity.blocks and entity != self and entity != target:
@@ -113,7 +115,6 @@ class Entity:
 
 		# print(f"PLAYER WORLD: {target.x, target.y}")
 		# print(f"MON WORLD: {self.x, self.y}")
-		# print(tcod.path_size(monster_path))
 
 		if not tcod.path_is_empty(monster_path) and tcod.path_size(monster_path) < 25:
 			x, y = tcod.path_walk(monster_path, True)

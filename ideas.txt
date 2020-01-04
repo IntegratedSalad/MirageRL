@@ -26,7 +26,6 @@ Objectives for player:
 	Try surviving in harsh environment, with food and drink to worry about.
 
 
-
 Goals of development:
 
 	{1} - footnote nr 1
@@ -36,14 +35,13 @@ Goals of development:
 	0.1 - Of Desserts And Directions
 	1. Walking, killing.
 
-	2{1}. Generating whole map, with glyphs directing the player. Offloading map, saving and loading.
-	2.1. Generated map. V But without its features
-	2.2 Map walkable - updating the player position V
-	2.3 Glyphs hinting the exit V
-	2.4 Offloading entities, everything that needs to be offloaded.
-	2.5 Player can escape. Crude end game.
-	2.6 Entities close to the edge can follow player to the chunk he just entered.
-	2.7 Crude end game - reaching end and dying.
+	2{1}. Generating whole map, with glyphs directing the player. Offloading map, saving and loading. v
+	2.2. Generated map. V 
+	2.3 Map walkable - updating the player position V
+	2.4 Glyphs hinting the exit V
+	2.5 Offloading entities, everything that needs to be offloaded. V
+	2.6 Entities close to the edge can follow player to the chunk he just entered. V
+	2.7 Crude end game - reaching end and dying. - At the end will be two buttons - restart or quit.
 	2.8 Saving and restoring.
 
 	About offloading:
@@ -52,10 +50,10 @@ Goals of development:
 		Also, if there are walls, keep them in place, so that monsters do need to manoeuvre around them, and these obstacles don't magically disappear.
 
 	About monsters:
-		Initially, monsters do not see the player, and have 1/4 chance to see him.
-		Each step gives them more chance to see him.
+		Initially, some monsters do not see the player, and have 1/4 chance to see him.
+			Each step gives them more chance to see him.
 
-	3/8
+	6/8
 
 
 	3. UI - Thirst, Hunger, Inventory.
@@ -75,7 +73,6 @@ Map:
 
 Size: 
 
-	Dimensions: 100x100 is this ok? Maybe, can't tell without testing it.
 	let's try 50x50
 
 
@@ -107,7 +104,7 @@ Goals Of Map:
 
 	1 - basic data done
 	2 - walking and updating player position. Getting the position done
-	3 - Offloading entities. Loading the entities.
+	3 - Offloading entities. Loading the entities. done
 	4 - walking to the end done
 	5 - Direction hints done
 
@@ -121,9 +118,9 @@ There will be a huge amount of monsters or obstacles (mines etc.) at the gates.
 SO! an .END property on the map, suggests that there is a gate.
 
 
-Map Rework:
+Map Rework: DONE
 Walking and updating player position done.
 1. Direction hints Done
 2. Offloading entities. Loading entities done
-3. Entities following through chunks,
+3. Entities following through chunks done
 4. End game chunk. done

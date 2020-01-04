@@ -15,7 +15,7 @@ from entity import Entity, get_blocking_entities_at_location
 def main():
 
     game_world = GameWorld()
-    player_fighter_component = Fighter(8, 2, 1)
+    player_fighter_component = Fighter(8, 2, 20)
     player = Entity(int((constants.WORLD_WIDTH * constants.MAP_WIDTH / 2) + constants.MAP_WIDTH / 2), int((constants.WORLD_HEIGHT * constants.MAP_HEIGHT / 2) + constants.MAP_HEIGHT / 2), '@', tcod.white, constants.PLAYER_NAME, fighter=player_fighter_component)
     px, py = game_world.get_chunk_pos_from_player_pos(player.x, player.y)
     game_world.chunks[px][py].property = ChunkProperty.START
@@ -56,6 +56,7 @@ def main():
                 action_move = action.get('move')
                 action_exit = action.get('exit')
                 action_fullscreen = action.get('fullscreen')
+                action_pass = action.get('pass')
 
                 player_turn_results = []
 
@@ -91,6 +92,7 @@ def main():
                             print("END")
 
                         # process only these, which are far.
+
                         close_entities = set([e for e in entities if e.distance_to(player) < constants.DISTANCE_TO_PROCESS_ENTITY and e != player])
                         all_entities = set([e for e in entities if e != player])
                         to_offload = list(all_entities.difference(close_entities))
@@ -122,16 +124,27 @@ def main():
                                 # do damage etc.
                                 attack_results = player.fighter.attack(target)
                                 player_turn_results.extend(attack_results)
+
                             else:
                                 player.move(dx, dy)
 
                     game_state = GameStates.ENEMY_TURN
+
+                    for player_turn_result in player_turn_results:
+
+                        message = player_turn_result.get('message')
+
+                        if message:
+                            print(message)
 
                 if action_exit:
                     raise SystemExit()
 
                 if action_fullscreen:
                     tcod.console_set_fullscreen(not tcod.console_is_fullscreen())
+
+                if action_pass:
+                    game_state = GameStates.ENEMY_TURN
 
             if game_state == GameStates.ENEMY_TURN:
 
@@ -148,7 +161,7 @@ def main():
                                 print(message)
 
                             if dead_entity:
-                                pass 
+                                print(dead_entity.name + " is dead")
 
                 game_state = GameStates.PLAYER_TURN
 
