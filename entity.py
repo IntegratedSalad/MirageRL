@@ -111,8 +111,8 @@ class Entity:
 
 		tcod.path_compute(monster_path, self.x, self.y, target.x, target.y)
 
-		print(f"PLAYER WORLD: {target.x, target.y}")
-		print(f"MON WORLD: {self.x, self.y}")
+		# print(f"PLAYER WORLD: {target.x, target.y}")
+		# print(f"MON WORLD: {self.x, self.y}")
 		# print(tcod.path_size(monster_path))
 
 		if not tcod.path_is_empty(monster_path) and tcod.path_size(monster_path) < 25:

@@ -1,6 +1,6 @@
 import tcod
 import constants
-from map_objects.game_map import MapElevation
+from map_objects.chunk import MapElevation
 from utils import get_pos_in_chunk, get_chunk_pos
 
 def render_all(con, root_con, player, entities, current_game_map, screen_width, screen_height):
