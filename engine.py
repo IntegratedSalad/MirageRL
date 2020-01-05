@@ -7,6 +7,8 @@ from game_states import GameStates
 from map_objects import fov_functions
 from components.fighter import Fighter
 from input_handlers import handle_keys
+from ui_objects import render_functions
+from ui_objects import view
 from map_objects.game_map import GameMap
 from map_objects.game_world import GameWorld
 from map_objects.chunk import ChunkProperty
@@ -40,7 +42,7 @@ def main():
 
         game_state = GameStates.PLAYER_TURN
 
-        render_functions.render_all(con, root_console, player, entities, game_map, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
+        render_functions.render_map(con, root_console, player, entities, game_map, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
         tcod.console_flush()
 
         while not tcod.console_is_window_closed():
@@ -105,7 +107,6 @@ def main():
 
                         # Make new map
                         game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT, game_world.chunks[start_chunk_pos_x][start_chunk_pos_y])
-                        print((chunk_pos_x, chunk_pos_y))
 
                         if not game_world.chunks[chunk_pos_x][chunk_pos_y].discovered:
                             game_map.randomize_sand(chunk_pos_x, chunk_pos_y, game_world)
@@ -161,11 +162,12 @@ def main():
                                 print(message)
 
                             if dead_entity:
+                                # player is dead
                                 print(dead_entity.name + " is dead")
 
                 game_state = GameStates.PLAYER_TURN
 
-            render_functions.render_all(con, root_console, player, entities + list(close_entities), game_map, constants.SCREEN_WIDTH, \
+            render_functions.render_map(con, root_console, player, entities + list(close_entities), game_map, constants.SCREEN_WIDTH, \
                                         constants.SCREEN_HEIGHT)
 
 

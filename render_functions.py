@@ -3,7 +3,7 @@ import constants
 from map_objects.chunk import MapElevation
 from utils import get_pos_in_chunk, get_chunk_pos
 
-def render_all(con, root_con, player, entities, current_game_map, screen_width, screen_height):
+def render_map(con, root_con, player, entities, current_game_map, screen_width, screen_height):
 
     for y in range(0, current_game_map.height):
         for x in range(0, current_game_map.width):
@@ -26,6 +26,9 @@ def render_all(con, root_con, player, entities, current_game_map, screen_width, 
     con.blit(dest=root_con, dest_x=1, dest_y=1, src_x=0, src_y=0, width=screen_width, height=screen_height)
 
     clear_all(con, entities)
+
+def render_esc_menu():
+    pass
 
 def clear_all(con, entities):
     for entity in entities:

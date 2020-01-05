@@ -19,7 +19,7 @@ Inspiration:
 Imagining how it would be, to be alone in the dessert.
 
 Philosophy:
-While being a survival game, I want it to have stupid, goofy things. e.g lamas spitting.
+While being a survival game, I want it to have stupid, goofy things. e.g lamas spitting. Player spitting.
 
 Objectives for player:
 	Find exit navigating through dessert by finding marks written on floor.
@@ -32,16 +32,16 @@ Goals of development:
 	... - development stage unknown
 
 
-	0.1 - Of Desserts And Directions
+	0.1 - Of World, Glyphs and ass.
 	1. Walking, killing.
 
 	2{1}. Generating whole map, with glyphs directing the player. Offloading map, saving and loading. v
-	2.2. Generated map. V 
+	2.2 Generated map. V 
 	2.3 Map walkable - updating the player position V
 	2.4 Glyphs hinting the exit V
 	2.5 Offloading entities, everything that needs to be offloaded. V
 	2.6 Entities close to the edge can follow player to the chunk he just entered. V
-	2.7 Crude end game - reaching end and dying. - At the end will be two buttons - restart or quit.
+	2.7 Crude end game - reaching end and dying. - At the end will be two buttons - restart or quit. Killing enemies.
 	2.8 Saving and restoring.
 
 	About offloading:
@@ -55,13 +55,20 @@ Goals of development:
 
 	6/8
 
+	0.2. Of Surviving and Materialism - UI, Thirst, Hunger, Inventory, Items, Equipment.
 
-	3. UI - Thirst, Hunger, Inventory.
+	0.3. Of Invention - Crafting.
 
-	4. Underworld
+	0.4. Of The Depths Below Underworld
 
+	0.5 ...
+
+
+	... Special chunks with unique enemies and items.
 
 	... Add support for background tiles.
+
+	... Add runic magic.
 
 
 {1} Key mechanic, has to be done first, and after initial basic working state it can be improved.

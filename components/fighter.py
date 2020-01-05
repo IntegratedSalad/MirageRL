@@ -14,6 +14,7 @@ class Fighter:
 		print(self.owner.name, self.hp)
 
 		if self.hp <= 0:
+			print("DEDE")
 			results.append({'dead': self.owner})
 
 		return results

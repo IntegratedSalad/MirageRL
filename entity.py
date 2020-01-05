@@ -1,8 +1,12 @@
 """A generic object on game that can be interacted in some way"""
 import tcod
-import tcod.path
 import utils
+import tcod.path
+import constants
 from math import sqrt
+
+"""TODO: Move that to components."""
+
 
 class Entity:
 
@@ -99,7 +103,7 @@ class Entity:
 	# 		self.move_towards(target_map_x, target_map_y, game_map, entities)
 
 	def move_astar(self, target, entities, game_map):
-		inframap = tcod.map.Map(450, 450, "F") # map used in above map
+		inframap = tcod.map.Map(constants.MAP_WIDTH * constants.WORLD_WIDTH, constants.MAP_HEIGHT * constants.WORLD_HEIGHT, "F") # map used in above map
 		inframap.walkable[:] = True
 		inframap.transparent[:] = False
 
