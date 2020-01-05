@@ -2,7 +2,6 @@ import tcod
 import utils
 import constants
 import tcod.event
-import render_functions
 from game_states import GameStates
 from map_objects import fov_functions
 from components.fighter import Fighter
@@ -42,7 +41,8 @@ def main():
 
         game_state = GameStates.PLAYER_TURN
 
-        render_functions.render_map(con, root_console, player, entities, game_map, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
+        view_obj = view.View(render_functions.render_map, con, root_console, player, entities, game_map)
+        view_obj.render()
         tcod.console_flush()
 
         while not tcod.console_is_window_closed():
@@ -162,16 +162,29 @@ def main():
                                 print(message)
 
                             if dead_entity:
+                                game_state = GameStates.PLAYER_DEATH
                                 # player is dead
                                 print(dead_entity.name + " is dead")
 
-                game_state = GameStates.PLAYER_TURN
 
-            render_functions.render_map(con, root_console, player, entities + list(close_entities), game_map, constants.SCREEN_WIDTH, \
-                                        constants.SCREEN_HEIGHT)
+                if game_state != GameStates.PLAYER_DEATH:
+                    game_state = GameStates.PLAYER_TURN
 
+
+            if game_state == GameStates.PLAYER_DEATH:
+
+                con = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
+
+                action = handle_keys(key)
+
+                if action.get('exit'):
+                    raise SystemExit()
+
+                view_obj = view.View(render_functions.render_death_screen, con, root_console)
+
+
+            view_obj.render()
 
             tcod.console_flush()
 
             tcod.sys_set_fps(60)
-            

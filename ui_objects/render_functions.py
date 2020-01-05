@@ -2,8 +2,15 @@ import tcod
 import constants
 from map_objects.chunk import MapElevation
 from utils import get_pos_in_chunk, get_chunk_pos
+from ui_objects.draw_functions import *
 
-def render_map(con, root_con, player, entities, current_game_map, screen_width, screen_height):
+"""
+Every function must have con and root con in args. (for now)
+
+"""
+
+
+def render_map(con, root_con, player, entities, current_game_map):
 
     for y in range(0, current_game_map.height):
         for x in range(0, current_game_map.width):
@@ -23,12 +30,20 @@ def render_map(con, root_con, player, entities, current_game_map, screen_width, 
         if player_chunk == entity_chunk: # without this, entity close to the player (which we are processing) would appear on player's chunk.
             draw_entity(con, entity)
 
-    con.blit(dest=root_con, dest_x=1, dest_y=1, src_x=0, src_y=0, width=screen_width, height=screen_height)
+    con.blit(dest=root_con, dest_x=1, dest_y=1, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
 
     clear_all(con, entities)
 
 def render_esc_menu():
     pass
+
+def render_death_screen(con, root_con):
+
+    draw_text(con, int(constants.SCREEN_WIDTH / 2) - int(len("You have perished.") / 2), int(constants.SCREEN_HEIGHT / 2), "You have perished", tcod.color.Color(100, 0, 0))
+
+    con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
+    
+
 
 def clear_all(con, entities):
     for entity in entities:

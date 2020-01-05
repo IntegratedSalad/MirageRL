@@ -90,7 +90,7 @@ class GameMap:
 
                 if randint(0, 100) < 50:
 
-                    m_glyph, m_color, m_name, m_fighter_stats, m_ai, m_ai_args = mon_dat.monsters['colony_of_ants']
+                    m_glyph, m_color, m_name, m_fighter_stats, m_ai, m_ai_args = mon_dat.monsters['dessert_snake']
 
                 else:
                     m_glyph, m_color, m_name, m_fighter_stats, m_ai, m_ai_args = mon_dat.monsters['dessert_snake']
