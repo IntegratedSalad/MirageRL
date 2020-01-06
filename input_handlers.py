@@ -1,39 +1,54 @@
 import tcod
 
-def handle_keys(key):
+movement_settings = {
+    'up': {'move': (0, -1)}, 
+    'down': {'move': (0, 1)},
+    'right': {'move': (1, 0)},
+    'left': {'move': (-1, 0)},
+    'u': {'move': (1, -1)},
+    'y': {'move': (-1, -1)},
+    'b': {'move': (-1, 1)},
+    'n': {'move': (1, 1)},
+    '.': {'pass': (0, 0)},
+    'enter': {'fullscreen': True},
+    'escape': {'exit': True}
+    }
+
+def handle_keys(key, settings):
+    # settings is dict
     key_char = chr(key.c)
 
     if key.vk == tcod.KEY_UP or key_char == 'k':
-        return {'move': (0, -1)}
+        return settings['up']
 
     elif key.vk == tcod.KEY_DOWN or key_char == 'j':
-        return {'move': (0, 1)}
+        return settings['down']
 
     elif key.vk == tcod.KEY_RIGHT or key_char == 'l':
-        return {'move': (1, 0)}
+        return settings['right']
 
     elif key.vk == tcod.KEY_LEFT or key_char == 'h':
-        return {'move': (-1, 0)}
+        return settings['left']
 
     elif key_char == 'u':
-        return {'move': (1, -1)}
+        return settings['u']
 
     elif key_char == 'y':
-        return {'move': (-1, -1)}
+        return settings['y']
 
     elif key_char == 'b':
-        return {'move': (-1, 1)}
+        return settings['b']
 
     elif key_char == 'n':
-        return {'move': (1, 1)} 
+        return settings['n']
 
     elif key_char == '.':
-        return {'pass': (0, 0)}
+        return settings['.']
 
     if key.vk == tcod.KEY_ENTER and key.lalt:
-        return {'fullscreen': True}
+        return settings['enter']
 
     elif key.vk == tcod.KEY_ESCAPE:
-        return {'exit': True}
+        return settings['escape']
 
     return {}

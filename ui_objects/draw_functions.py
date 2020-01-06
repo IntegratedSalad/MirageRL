@@ -3,11 +3,15 @@ import textwrap
 import constants
 
 
-def draw_window(con, x, y, width, height, options=None, key_handler=None):
-    """
-    Rectangular area.
-    """
-    pass
+def draw_menu(con, x, y, width, height, options, key_handler):
+
+	key_handler.get('up')
+	key_handler.get('down')
+
+	for option in options:
+		pass
+
+	return None
 
 def draw_text(con, x, y, text, color_fg, color_bg=None):
 
@@ -26,6 +30,12 @@ def draw_text(con, x, y, text, color_fg, color_bg=None):
 		return
 
 	con.print(x, y, text, fg=color_fg, bg=color_bg)
+
+
+def draw_bar(con, x, y, char, value, color_bright, color_dark):
+	"""E.g health bar or mana bar"""
+
+	pass
 
 
 

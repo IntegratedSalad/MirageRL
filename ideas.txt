@@ -41,7 +41,7 @@ Goals of development:
 	2.4 Glyphs hinting the exit V
 	2.5 Offloading entities, everything that needs to be offloaded. V
 	2.6 Entities close to the edge can follow player to the chunk he just entered. V
-	2.7 Crude end game - reaching end and dying. - At the end will be two buttons - restart or quit. Killing enemies.
+	2.7 Crude end game - reaching end and V dying V. - At the end will be two buttons - go to menu or quit. Killing enemies.
 	2.8 Saving and restoring.
 
 	About offloading:

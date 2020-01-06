@@ -5,12 +5,15 @@ from utils import get_pos_in_chunk, get_chunk_pos
 from ui_objects.draw_functions import *
 
 """
-Every function must have con and root con in args. (for now)
+Every function must have con and root_con in args. (for now)
+Render functions are logic that is displayed in consoles.
 
 """
 
 
 def render_map(con, root_con, player, entities, current_game_map):
+
+    """Map is what's happening in the game."""
 
     for y in range(0, current_game_map.height):
         for x in range(0, current_game_map.width):
@@ -34,6 +37,17 @@ def render_map(con, root_con, player, entities, current_game_map):
 
     clear_all(con, entities)
 
+def render_title_screen(con, root_con, options, key_handler):
+    option = draw_menu(con, 0, 0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT, options=options, key_handler=key_handler)
+
+
+    if option is not None:
+        return {'option': option}
+    else:
+        return None
+    
+
+
 def render_esc_menu():
     pass
 
@@ -43,6 +57,8 @@ def render_death_screen(con, root_con):
 
     con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
     
+
+
 
 
 def clear_all(con, entities):

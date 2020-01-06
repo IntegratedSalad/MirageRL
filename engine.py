@@ -2,58 +2,72 @@ import tcod
 import utils
 import constants
 import tcod.event
+from ui_objects import view
+from input_handlers import *
 from game_states import GameStates
 from map_objects import fov_functions
 from components.fighter import Fighter
-from input_handlers import handle_keys
 from ui_objects import render_functions
-from ui_objects import view
 from map_objects.game_map import GameMap
-from map_objects.game_world import GameWorld
 from map_objects.chunk import ChunkProperty
+from map_objects.game_world import GameWorld
+from engine_functions.new_game import init_new_game, init_game
+from engine_functions.main_menu import main_menu
 from entity import Entity, get_blocking_entities_at_location
 
 def main():
 
-    game_world = GameWorld()
-    player_fighter_component = Fighter(8, 2, 20)
-    player = Entity(int((constants.WORLD_WIDTH * constants.MAP_WIDTH / 2) + constants.MAP_WIDTH / 2), int((constants.WORLD_HEIGHT * constants.MAP_HEIGHT / 2) + constants.MAP_HEIGHT / 2), '@', tcod.white, constants.PLAYER_NAME, fighter=player_fighter_component)
-    px, py = game_world.get_chunk_pos_from_player_pos(player.x, player.y)
-    game_world.chunks[px][py].property = ChunkProperty.START
-    start_chunk_pos_x, start_chunk_pos_y = game_world.get_chunk_pos_from_player_pos(player.x, player.y)
-    game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT, game_world.chunks[start_chunk_pos_x][start_chunk_pos_y])
-    print(f"PLAYER POS: {player.x}, {player.y}")
-
-    print(f"CURRENT CHUNK: {game_world.get_chunk_pos_from_player_pos(player.x, player.y)}")
-
-    entities = [player]
-    close_entities = []
-    game_map.place_entities(start_chunk_pos_x, start_chunk_pos_y, entities)
-
-    tcod.console_set_custom_font('terminal8x8_gs_tc.png', tcod.FONT_TYPE_GREYSCALE | tcod.FONT_LAYOUT_TCOD)
-   
     with tcod.console_init_root(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, f"{constants.title} {constants.version}",
                                 fullscreen=False, order="F", renderer=tcod.RENDERER_SDL2) as root_console:
 
-        con = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
+        tcod.console_set_default_foreground(0, tcod.white)
+
+        title_screen_con = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
         key = tcod.Key()
         mouse = tcod.Mouse()
 
+        game_state = GameStates.TITLE_SCREEN
+
+        mode_chosen = None
+
+        title_screen_options = ["New Game", "Load Game", "Quit Game"]
+
+        # main menu
+
+        if GameStates.TITLE_SCREEN and mode_chosen is None:
+
+            # view_obj = view.View("title", title_screen_con, render_functions.render_title_screen, root_console, title_screen_options, action)
+
+            # view_obj.render()
+            pass
+
+
+
+        initialization = init_new_game()
+        game_world = initialization.get('game_world')
+        player = initialization.get('player')
+        game_map = initialization.get('game_map')
+        entities = initialization.get('entities')
+        close_entities = initialization.get('close_entities')
+        start_chunk_pos_x = initialization.get('start_chunk_pos_x')
+        start_chunk_pos_y = initialization.get('start_chunk_pos_y')
+
+
         game_state = GameStates.PLAYER_TURN
 
-        view_obj = view.View(render_functions.render_map, con, root_console, player, entities, game_map)
+        map_console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
+
+        view_obj = view.View("map_screen", map_console, render_functions.render_map, root_console, player, entities, game_map)
         view_obj.render()
         tcod.console_flush()
 
         while not tcod.console_is_window_closed():
 
             tcod.sys_wait_for_event(tcod.EVENT_KEY_PRESS, key, mouse, True)
+            action = handle_keys(key, movement_settings)
 
-            tcod.console_set_default_foreground(0, tcod.white)
 
             if game_state == GameStates.PLAYER_TURN:
-
-                action = handle_keys(key)
 
                 action_move = action.get('move')
                 action_exit = action.get('exit')
@@ -173,14 +187,14 @@ def main():
 
             if game_state == GameStates.PLAYER_DEATH:
 
-                con = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
+                death_console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
 
                 action = handle_keys(key)
 
                 if action.get('exit'):
                     raise SystemExit()
 
-                view_obj = view.View(render_functions.render_death_screen, con, root_console)
+                view_obj = view.View("death_screen", death_console, render_functions.render_death_screen, root_console)
 
 
             view_obj.render()
@@ -188,3 +202,5 @@ def main():
             tcod.console_flush()
 
             tcod.sys_set_fps(60)
+
+
