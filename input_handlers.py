@@ -14,6 +14,13 @@ movement_settings = {
     'escape': {'exit': True}
     }
 
+title_screen_settings = {
+    
+    'up': True,
+    'down': True,
+    'enter': True
+}
+
 def handle_keys(key, settings):
     # settings is dict
     key_char = chr(key.c)

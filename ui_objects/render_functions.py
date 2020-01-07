@@ -40,13 +40,11 @@ def render_map(con, root_con, player, entities, current_game_map):
 def render_title_screen(con, root_con, options, key_handler):
     option = draw_menu(con, 0, 0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT, options=options, key_handler=key_handler)
 
-
     if option is not None:
         return {'option': option}
     else:
         return None
     
-
 
 def render_esc_menu():
     pass
