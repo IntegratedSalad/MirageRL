@@ -42,8 +42,8 @@ def render_title_screen(con, root_con, options, key_handler):
 
     if option is not None:
         return {'option': option}
-    else:
-        return None
+
+    con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
     
 
 def render_esc_menu():

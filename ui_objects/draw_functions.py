@@ -1,37 +1,40 @@
 import tcod
 import textwrap
 import constants
-
+import variables
 
 def draw_menu(con, x, y, width, height, options, key_handler):
 
-	up_key = key_handler.get('up')
-	down_key = key_handler.get('down')
-	enter = key_handler.get('enter')
+	if key_handler is not None:
 
-	if up_key:
-
-		choice += 1
-
-		if choice > len(options):
-			choice = 0
+		key = key_handler
 	else:
-		choice -= 1
+		return None
 
-		if choice < 0:
-			choice = 0
+	print(key)
+
+	if key == 'up':
+
+		variables.title_screen_choice -= 1
+
+		if variables.title_screen_choice < 0:
+			variables.title_screen_choice = len(options) - 1
+
+	if key == 'down':
+		variables.title_screen_choice += 1
+
+		if variables.title_screen_choice > len(options) - 1:
+			variables.title_screen_choice = 0
 
 	color_active = (255, 255, 255)
 	color_inactive = (114, 114, 114)
 
-	choice = 0
-
 	_x = int(constants.SCREEN_WIDTH / 2)
 	_y = int(constants.SCREEN_HEIGHT / 2)
 
-	for index, option in options.enumerate():
+	for index, option in enumerate(options):
 
-		if index == choice:
+		if index == variables.title_screen_choice:
 
 			draw_text(con, _x, _y, option, color_active)
 
@@ -40,9 +43,8 @@ def draw_menu(con, x, y, width, height, options, key_handler):
 
 		_y += 1
 
-
-	if enter:
-		return options['choice']
+	if key == 'enter':
+		return options[variables.title_screen_choice]
 	
 	return None
 

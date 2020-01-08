@@ -24,23 +24,11 @@ start_chunk_pos_x = None
 start_chunk_pos_y = None
 
 
-def main_loop(action, view, root_con, key, mouse):
-    if action == 'new_game':
-        initialization = init_new_game()
-        game_world = initialization.get('game_world')
-        player = initialization.get('player')
-        game_map = initialization.get('game_map')
-        entities = initialization.get('entities')
-        close_entities = initialization.get('close_entities')
-        start_chunk_pos_x = initialization.get('start_chunk_pos_x')
-        start_chunk_pos_y = initialization.get('start_chunk_pos_y')
-
-    else:
-        pass
+def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, entities, close_entities, start_chunk_pos_x, start_chunk_pos_y):
 
     game_state = GameStates.PLAYER_TURN
 
-    view_obj.render()
+    current_view.render()
     tcod.console_flush()
     action = handle_keys(key, movement_settings)
 
@@ -172,10 +160,7 @@ def main_loop(action, view, root_con, key, mouse):
         if action.get('exit'):
             raise SystemExit()
 
-        view_obj = view.View("death_screen", death_console, render_functions.render_death_screen, root_console)
+        current_view = view.View("death_screen", death_console, render_functions.render_death_screen, root_console)
 
-    view_obj.render()
+    current_view.render()
 
-    tcod.console_flush()
-
-    tcod.sys_set_fps(60)
