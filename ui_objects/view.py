@@ -14,7 +14,7 @@ class View:
 		self.args = args
 		self.kwargs = kwargs
 		self.consoles = {self.name: (self.main_con, self.render_func)}
-		self.menu_returns = {'option': None}
+		self.menus = dict()
 
 
 	def render(self, *args):
