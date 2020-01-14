@@ -61,8 +61,6 @@ def render_death_screen(con, root_con):
     
 
 
-
-
 def clear_all(con, entities):
     for entity in entities:
         clear_entity(con, entity)

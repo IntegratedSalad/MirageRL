@@ -3,7 +3,7 @@
 import tcod
 
 title = "Mirage RL"
-version = "0.0.6 - Of World, Glyphs and ass."
+version = "0.0.7 - Of Title."
 
 SCREEN_WIDTH = 60
 SCREEN_HEIGHT = 55
