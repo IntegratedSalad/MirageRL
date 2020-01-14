@@ -11,17 +11,15 @@ class View:
 		self.main_con = main_con
 		self.render_func = render_func
 		self.root_console = root_console
-		self.args = args
-		self.kwargs = kwargs
 		self.consoles = {self.name: (self.main_con, self.render_func)}
 		self.menus = dict()
 
 
-	def render(self, *args):
+	def render(self, *rargs):
 
 		# iterate over dict
-
-		self.render_func(self.main_con, self.root_console, *self.args)
+		self.main_con.clear()
+		self.render_func(self.main_con, self.root_console, *rargs)
 
 
 	def add_console(self, name, func, *func_args):

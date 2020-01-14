@@ -79,7 +79,7 @@ class GameMap:
 
     def place_enemies(self, chunk_x, chunk_y, entities):
 
-        enemies_num = randint(10, MAX_MONSTERS_PER_CHUNK)
+        enemies_num = randint(0, MAX_MONSTERS_PER_CHUNK)
 
         for _ in range(0, enemies_num):
 

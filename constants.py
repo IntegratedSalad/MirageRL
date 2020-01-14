@@ -15,7 +15,7 @@ WORLD_HEIGHT = 10
 if (MAP_WIDTH != MAP_HEIGHT) or (WORLD_WIDTH != WORLD_HEIGHT):
 	raise ValueError("Dimensions are not squares!")
 #
-MAX_MONSTERS_PER_CHUNK = 12
+MAX_MONSTERS_PER_CHUNK = 1
 PLAYER_NAME = "Pysio"
 FOV_ALGO = 0
 FOV_LIGHT_WALLS = True

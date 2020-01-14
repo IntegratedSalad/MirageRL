@@ -10,9 +10,9 @@ from input_handlers import *
 # from components.fighter import Fighter
 from ui_objects import render_functions
 from ui_objects.draw_functions import draw_text
-# from map_objects.game_map import GameMap
+from map_objects.game_map import GameMap
 # from map_objects.chunk import ChunkProperty
-# from map_objects.game_world import GameWorld
+from map_objects.game_world import GameWorld
 from engine_functions.new_game import init_new_game, init_game
 from engine_functions.main_menu import main_menu
 from engine_functions.main_loop import main_loop
@@ -79,15 +79,9 @@ def main():
 
         map_console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
         current_view_game_map = view.View("map_screen", map_console, render_functions.render_map, root_console, player, entities, game_map)
-        current_view_game_map.render()
+        current_view_game_map.render(player, entities, game_map)
         tcod.console_flush()
 
-        while not tcod.console_is_window_closed():
+        state = main_loop(root_console, key, mouse, current_view_game_map, game_world, player, game_map, entities, close_entities, start_chunk_pos_x, start_chunk_pos_y)
 
-            tcod.sys_wait_for_event(tcod.EVENT_KEY_PRESS, key, mouse, True)
-
-            state = main_loop(root_console, key, mouse, current_view_game_map, game_world, player, game_map, entities, close_entities, start_chunk_pos_x, start_chunk_pos_y)
-
-            tcod.console_flush()
-
-            tcod.sys_set_fps(60)
+        # save quit or other options.
