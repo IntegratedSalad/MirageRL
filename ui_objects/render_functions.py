@@ -37,11 +37,11 @@ def render_map(con, root_con, player, entities, current_game_map):
 
     clear_all(con, entities)
 
-def render_title_screen(con, root_con, options, key_handler):
+def render_title_screen(con, root_con, options, **key_handler):
     option = draw_menu(con, 0, 0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT, options=options, key_handler=key_handler)
 
     if option is not None:
-        return {'option': option}
+        return option
 
     con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
     

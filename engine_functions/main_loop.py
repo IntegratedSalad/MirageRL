@@ -155,7 +155,7 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
 
         death_console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
 
-        action = handle_keys(key)
+        action = handle_keys(key, movement_settings)
 
         if action.get('exit'):
             raise SystemExit()

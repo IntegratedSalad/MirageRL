@@ -3,15 +3,15 @@ import textwrap
 import constants
 import variables
 
-def draw_menu(con, x, y, width, height, options, key_handler):
+def draw_menu(con, x, y, width, height, options, **kwargs):
+
+	key_handler = kwargs.get('key_handler')
 
 	if key_handler is not None:
 
-		key = key_handler
+		key = key_handler['key_handler']
 	else:
 		return None
-
-	print(key)
 
 	if key == 'up':
 
@@ -44,7 +44,9 @@ def draw_menu(con, x, y, width, height, options, key_handler):
 		_y += 1
 
 	if key == 'enter':
-		return options[variables.title_screen_choice]
+		to_return = options[variables.title_screen_choice]
+		variables.title_screen_choice = 0
+		return to_return
 	
 	return None
 

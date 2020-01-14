@@ -3,17 +3,18 @@
 class OptionMenu:
 	"""
 	Base option menu class.
-	TODO: Plan how menus will work in views.
-
+	Returns value.
 
 	"""
-	def __init__(self, con, variables, name, view, func, *func_args):
-		self.con = con
-		self.variables = variables
+	def __init__(self, name, con, view, func, *func_args, **func_kwargs):
 		self.name = name
+		self.con = con
 		self.view = view
 		self.func = func
-		self.view.menus[name] = self
+		# self.view.menus[name] = self
 		self.func_args = func_args
+		self.func_kwargs = func_kwargs
 
+	def render(self, key_handler):
 
+		return self.func(*self.func_args, key_handler=key_handler)

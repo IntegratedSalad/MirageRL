@@ -21,11 +21,7 @@ class View:
 
 		# iterate over dict
 
-		val = self.render_func(self.main_con, self.root_console, *self.args)
-
-		if val is not None:
-			val = val.get('option')
-			self.menu_returns['option'] = val
+		self.render_func(self.main_con, self.root_console, *self.args)
 
 
 	def add_console(self, name, func, *func_args):
