@@ -57,7 +57,7 @@ def main():
 
             if option == 'New Game':
                 title_screen_con.clear()
-                draw_text(title_screen_con, int((constants.SCREEN_WIDTH / 2) - 8), int(constants.SCREEN_HEIGHT / 2), "Loading...", (255, 255, 255))
+                draw_text(title_screen_con, int((constants.SCREEN_WIDTH / 2) - 5), int(constants.SCREEN_HEIGHT / 2), "Loading...", (255, 255, 255))
                 title_screen_con.blit(dest=root_console, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
                 tcod.console_flush()
                 break
@@ -65,7 +65,10 @@ def main():
             if option == 'Quit Game' or tcod.console_is_window_closed():
                 raise SystemExit()
 
-        initialization = init_new_game()
+            if option == 'Load Game':
+                raise SystemExit("Saving not implemented.")
+
+        initialization = init_new_game()        
         game_world = initialization.get('game_world')
         player = initialization.get('player')
         game_map = initialization.get('game_map')

@@ -17,7 +17,7 @@ nothing = \
 sandstone = \
 {
 	'char': '#',
-	'color': (237, 217, 175)
+	'color': (227, 200, 153)
 
 }
 

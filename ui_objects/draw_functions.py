@@ -29,8 +29,8 @@ def draw_menu(con, x, y, width, height, options, **kwargs):
 	color_active = (255, 255, 255)
 	color_inactive = (114, 114, 114)
 
-	_x = int(constants.SCREEN_WIDTH / 2)
-	_y = int(constants.SCREEN_HEIGHT / 2)
+	_x = int(constants.SCREEN_WIDTH / 2) + 7
+	_y = int(constants.SCREEN_HEIGHT / 2) + 7
 
 	for index, option in enumerate(options):
 
@@ -53,6 +53,7 @@ def draw_menu(con, x, y, width, height, options, **kwargs):
 def draw_text(con, x, y, text, color_fg, color_bg=None):
 
 	if len(text) > constants.SCREEN_WIDTH:
+		print(text)
 		wrapped_text = textwrap.wrap(text, width=constants.SCREEN_WIDTH)
 
 		if len(wrapped_text) > constants.SCREEN_HEIGHT:
@@ -74,5 +75,15 @@ def draw_bar(con, x, y, char, value, color_bright, color_dark):
 
 	pass
 
+
+def draw_graphics(con, x, y, text, color_fg, color_bg=None):
+
+	text_list = text.split()
+	if len(text_list) > constants.SCREEN_WIDTH or len(text_list) > constants.SCREEN_HEIGHT:
+		raise ValueError(f"Graphics too big: {text}")
+
+	else:
+
+		con.print(x, y, text, fg=color_fg, bg=color_bg)
 
 

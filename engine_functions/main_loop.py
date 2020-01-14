@@ -23,7 +23,6 @@ close_entities = None
 start_chunk_pos_x = None
 start_chunk_pos_y = None
 
-
 def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, entities, close_entities, start_chunk_pos_x, start_chunk_pos_y):
 
     game_state = GameStates.PLAYER_TURN
@@ -160,7 +159,7 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
         if action.get('exit'):
             raise SystemExit()
 
-        current_view = view.View("death_screen", death_console, render_functions.render_death_screen, root_console)
+        current_view = view.View("death_screen", death_console, render_functions.render_death_screen, root_con)
 
     current_view.render()
 

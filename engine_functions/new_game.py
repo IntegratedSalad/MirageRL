@@ -13,6 +13,7 @@ def init_game():
 def init_new_game():
 
 	game_world = GameWorld()
+
 	player_fighter_component = Fighter(8, 2, 20)
 	player = Entity(int((constants.WORLD_WIDTH * constants.MAP_WIDTH / 2) + constants.MAP_WIDTH / 2), int((constants.WORLD_HEIGHT * constants.MAP_HEIGHT / 2) + constants.MAP_HEIGHT / 2), '@', tcod.white, constants.PLAYER_NAME, fighter=player_fighter_component)
 	px, py = game_world.get_chunk_pos_from_player_pos(player.x, player.y)
