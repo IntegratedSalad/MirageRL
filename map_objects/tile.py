@@ -11,7 +11,7 @@ class Tile:
 
         self.block_sight = block_sight
 
-        if type(type_of.get('char')) is list: 
+        if type(type_of.get('char')) is list: # it gets called 1215029 times
             char = rand_choice(type_of.get('char'))
 
         else:

@@ -3,6 +3,7 @@ import constants
 from map_objects.chunk import MapElevation
 from utils import get_pos_in_chunk, get_chunk_pos
 from ui_objects.draw_functions import *
+from get_art import get_title
 
 """
 Every function must have con and root_con in args. (for now)
@@ -37,16 +38,17 @@ def render_map(con, root_con, player, entities, current_game_map):
 
     clear_all(con, entities)
 
-def render_title_screen(con, root_con, options, key_handler):
+def render_title_screen(con, root_con, options, **key_handler):
     option = draw_menu(con, 0, 0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT, options=options, key_handler=key_handler)
-
+    draw_text(con, constants.SCREEN_WIDTH - len(constants.version), constants.SCREEN_HEIGHT - 1, constants.version, (255, 255, 255))
+    draw_text(con, 47, 15, "RL", (245, 183, 60))
+    draw_graphics(con, 9, 6, get_title(), (245, 183, 60))
 
     if option is not None:
-        return {'option': option}
-    else:
-        return None
-    
+        return option
 
+    con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
+    
 
 def render_esc_menu():
     pass
