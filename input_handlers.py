@@ -11,7 +11,8 @@ movement_settings = {
     'n': {'move': (1, 1)},
     '.': {'pass': (0, 0)},
     'enter_lalt': {'fullscreen': True},
-    'escape': {'exit': True}
+    'escape': {'exit': True},
+    's': {'save': True}
     }
 
 title_screen_settings = {
@@ -55,10 +56,16 @@ def handle_keys(key, settings):
     elif key.vk == tcod.KEY_ENTER:
         return settings['enter']
 
+    elif key_char == 's':
+        return settings['s']
+
     if key.vk == tcod.KEY_ENTER and key.lalt:
         return settings['enter_lalt']
 
     elif key.vk == tcod.KEY_ESCAPE:
         return settings['escape']
+
+
+    # this is deprecated
 
     return {}

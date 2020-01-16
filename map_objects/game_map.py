@@ -108,7 +108,7 @@ class GameMap:
 
 
         """
-        Removes entites leaving only player. In future, it checks which one are close to the player and doesn't remove them.
+        Removes entites leaving only player.
         
         """
 

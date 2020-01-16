@@ -2,7 +2,6 @@ import tcod
 import utils
 import constants
 import tcod.event
-import pickle
 from ui_objects import view
 from input_handlers import *
 from game_states import GameStates
@@ -16,8 +15,7 @@ from engine_functions.new_game import init_new_game, init_game
 from engine_functions.main_menu import main_menu
 from entity import Entity, get_blocking_entities_at_location
 
-def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, entities, close_entities, start_chunk_pos_x, start_chunk_pos_y):
-
+def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, entities, close_entities):
 
     while not tcod.console_is_window_closed():
 
@@ -33,6 +31,11 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
             action_exit = action.get('exit')
             action_fullscreen = action.get('fullscreen')
             action_pass = action.get('pass')
+            action_save = action.get('save')
+
+            if action_save:
+                print("Saving...")
+                return {'save': (game_world, game_map, player, entities, close_entities)}
 
             player_turn_results = []
 
@@ -79,18 +82,19 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                     entities += list(close_entities)
 
                     print(chunk_pos_x, chunk_pos_y)
-                    print(game_world.chunks[chunk_pos_x][chunk_pos_y].property == ChunkProperty.HAS_DIRECTION)
+                    print(game_world.chunks[chunk_pos_x][chunk_pos_y].discovered)
 
                     # print(
                     #     f"CLOSE ENTITIES: {len(close_entities)}\nALL ENTITIES: {len(all_entities)}\nENTITIES TO OFFLOAD: {len(to_offload)}")
 
                     # # Make new map
                     game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT,
-                                       game_world.chunks[start_chunk_pos_x][start_chunk_pos_y])
+                                       game_world.chunks[chunk_pos_x][chunk_pos_y])
 
                     if not game_world.chunks[chunk_pos_x][chunk_pos_y].discovered:
                         game_map.randomize_sand(chunk_pos_x, chunk_pos_y, game_world)
                     else:
+                        # here we should randomize...
                         new_entities = game_map.restore_chunk(chunk_pos_x, chunk_pos_y, entities, player, game_world)
                         entities = new_entities + list(close_entities)
                     ##
@@ -160,7 +164,7 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
 
             current_view = view.View("death_screen", death_console, render_functions.render_death_screen, root_con)
 
-        current_view.render(player, entities, game_map)
+        current_view.render(player, entities, game_map) # BUG: old player
 
         tcod.console_flush()
 

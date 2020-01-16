@@ -139,4 +139,4 @@ Walking and updating player position done.
 
 
 BUGS:
-SAND ISN'T BEING RANDOMLY GENERATED!!! <- View is having the same old game map.
+SAND ISN'T BEING RANDOMLY GENERATED!!! <- View is having the same old game map. !FIXED!
