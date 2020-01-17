@@ -105,3 +105,7 @@ venv.bak/
 
 # custom
 #ideas.txt
+
+*.bak
+*.dat
+*.dir

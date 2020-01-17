@@ -32,7 +32,7 @@ Goals of development:
 	... - development stage unknown
 
 
-	0.1 - Of World, Glyphs and ass.
+	0.1 - Of World with vermin and persistence.
 	1. Walking, killing.
 
 	2{1}. Generating whole map, with glyphs directing the player. Offloading map, saving and loading. v
@@ -41,8 +41,9 @@ Goals of development:
 	2.4 Glyphs hinting the exit V
 	2.5 Offloading entities, everything that needs to be offloaded. V
 	2.6 Entities close to the edge can follow player to the chunk he just entered. V
-	2.7 Crude end game - reaching end and V dying V. - At the end will be two buttons - go to menu or quit. Killing enemies.
-	2.8 Saving and restoring.
+	2.7 Crude end game - reaching end and V dying V. - At the end will be two buttons - go to menu or quit. 
+	2.8 Saving and restoring V. Saving closes the game V. 
+	2.9 Message System. Killing enemies.
 
 	About offloading:
 		If monsters are about to follow player entering new chunk, and they are in a certain range, instead of offloading them, 
@@ -55,9 +56,16 @@ Goals of development:
 
 	6/8
 
+	---0.1 FIXES---
+
+	1. Think of how the View object should behave.
+	---------------
+
 	0.2. Of Surviving and Materialism - UI, Thirst, Hunger, Inventory, Items, Equipment.
 
-	0.3. Of Invention - Crafting.
+	0.3. Of Invention and Speed - Crafting & Energy based combat. Fleeing AI.
+
+	0.3.5 Of Day & Night
 
 	0.4. Of The Depths Below Underworld
 
@@ -66,9 +74,11 @@ Goals of development:
 
 	... Special chunks with unique enemies and items.
 
-	... Add support for background tiles.
+	... Add support for background tiles. V
 
 	... Add runic magic.
+
+	... Add data loaded from JSON files.
 
 
 {1} Key mechanic, has to be done first, and after initial basic working state it can be improved.
@@ -116,7 +126,6 @@ Goals Of Map:
 	5 - Direction hints done
 
 
-
 Endgame:
 
 It will be a village! You actually have to go and talk to someone, in order to get rescued.
@@ -131,3 +140,8 @@ Walking and updating player position done.
 2. Offloading entities. Loading entities done
 3. Entities following through chunks done
 4. End game chunk. done
+
+
+BUGS:
+SAND ISN'T BEING RANDOMLY GENERATED!!! <- View is having the same old game map. !FIXED!
+UPON LOADING THERE ARE TWO PLAYERS - STATIC ONE AND CONTROLLABLE.

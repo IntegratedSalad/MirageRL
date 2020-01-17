@@ -10,156 +10,169 @@ from components.fighter import Fighter
 from ui_objects import render_functions
 from map_objects.game_map import GameMap
 from map_objects.chunk import ChunkProperty
-from map_objects.game_world import GameWorld
+# from map_objects.game_world import GameWorld
 from engine_functions.new_game import init_new_game, init_game
 from engine_functions.main_menu import main_menu
 from entity import Entity, get_blocking_entities_at_location
 
-game_world = None
-player = None
-game_map = None
-entities = None
-close_entities = None
-start_chunk_pos_x = None
-start_chunk_pos_y = None
+def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, entities, close_entities):
 
-def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, entities, close_entities, start_chunk_pos_x, start_chunk_pos_y):
-
+    render_args = None
     game_state = GameStates.PLAYER_TURN
 
-    current_view.render()
-    tcod.console_flush()
-    action = handle_keys(key, movement_settings)
+    while not tcod.console_is_window_closed():
 
-    if game_state == GameStates.PLAYER_TURN:
+        tcod.sys_wait_for_event(tcod.EVENT_KEY_PRESS, key, mouse, True)
 
-        action_move = action.get('move')
-        action_exit = action.get('exit')
-        action_fullscreen = action.get('fullscreen')
-        action_pass = action.get('pass')
+        action = handle_keys(key, movement_settings)
 
-        player_turn_results = []
+        if game_state == GameStates.PLAYER_TURN:
 
-        if action_move:
-            dx, dy = action_move
+            action_move = action.get('move')
+            action_exit = action.get('exit')
+            action_fullscreen = action.get('fullscreen')
+            action_pass = action.get('pass')
+            action_save = action.get('save')
 
-            """ Check if player entered new chunk """
+            if action_save:
+                print("Saving...")
+                return {'save': (game_world, game_map, player, entities, close_entities)}
 
-            pos_in_chunk_x, pos_in_chunk_y = utils.get_pos_in_chunk(player.x, player.y)
+            player_turn_results = []
 
-            if utils.enter_new_chunk(pos_in_chunk_x + dx, pos_in_chunk_y + dy):
+            if action_move:
+                dx, dy = action_move
 
-                """
-                Here is code for changing chunks.
-                If player.x, player.y + direction from action_move goes beyond the chunk area,
-                he is changing chunks.
-                We don't have to calculate in which way he went, because get_chunk_pos_from_player_pos does that automatically.
-                We don't have to calculate on what place in the next chunk he will appear, because in the render_functions file and
-                draw entity function, his position is calculated from world pos (0...WORLD_HEIGHT or _WIDTH) to (0...CHUNK_HEIGHT or _WIDTH).
-                Next, we create two sets - close_entities and all_entities. Then, we exclude close entities from all, and add those that are close,
-                to final entities list.
-                Offloaded entities are those who are far and won't chase the player. We are storing them in chunk.objects list.
+                """ Check if player entered new chunk """
 
-                """
+                pos_in_chunk_x, pos_in_chunk_y = utils.get_pos_in_chunk(player.x, player.y)
 
-                old_chunk_x, old_chunk_y = game_world.get_chunk_pos_from_player_pos(player.x, player.y)
+                if utils.enter_new_chunk(pos_in_chunk_x + dx, pos_in_chunk_y + dy):
 
-                player.x += dx
-                player.y += dy
+                    """
+                    Here is code for changing chunks.
+                    If player.x, player.y + direction from action_move goes beyond the chunk area,
+                    he is changing chunks.
+                    We don't have to calculate in which way he went, because get_chunk_pos_from_player_pos does that automatically.
+                    We don't have to calculate on what place in the next chunk he will appear, because in the render_functions file and
+                    draw entity function, his position is calculated from world pos (0...WORLD_HEIGHT or _WIDTH) to (0...CHUNK_HEIGHT or _WIDTH).
+                    Next, we create two sets - close_entities and all_entities. Then, we exclude close entities from all, and add those that are close,
+                    to final entities list.
+                    Offloaded entities are those who are far and won't chase the player. We are storing them in chunk.objects list.
 
-                chunk_pos_x, chunk_pos_y = game_world.get_chunk_pos_from_player_pos(player.x, player.y)
-                if game_world.chunks[chunk_pos_x][chunk_pos_y].property == ChunkProperty.END:
-                    print("END")
+                    """
 
-                # process only these, which are far.
+                    old_chunk_x, old_chunk_y = game_world.get_chunk_pos_from_player_pos(player.x, player.y)
 
-                close_entities = set(
-                    [e for e in entities if e.distance_to(player) < constants.DISTANCE_TO_PROCESS_ENTITY and e != player])
-                all_entities = set([e for e in entities if e != player])
-                to_offload = list(all_entities.difference(close_entities))
+                    player.x += dx
+                    player.y += dy
 
-                game_map.offload_chunk(game_world.chunks[old_chunk_x][old_chunk_y], player, list(to_offload))
-                entities = game_map.remove_entities(player, entities)
-                entities += list(close_entities)
+                    chunk_pos_x, chunk_pos_y = game_world.get_chunk_pos_from_player_pos(player.x, player.y)
+                    if game_world.chunks[chunk_pos_x][chunk_pos_y].property == ChunkProperty.END:
+                        print("END")
 
-                print(
-                    f"CLOSE ENTITIES: {len(close_entities)}\nALL ENTITIES: {len(all_entities)}\nENTITIES TO OFFLOAD: {len(to_offload)}")
+                    # process only these, which are far.
 
-                # Make new map
-                game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT,
-                                   game_world.chunks[start_chunk_pos_x][start_chunk_pos_y])
+                    close_entities = set(
+                        [e for e in entities if e.distance_to(player) < constants.DISTANCE_TO_PROCESS_ENTITY and e != player])
+                    all_entities = set([e for e in entities if e != player])
+                    to_offload = list(all_entities.difference(close_entities))
 
-                if not game_world.chunks[chunk_pos_x][chunk_pos_y].discovered:
-                    game_map.randomize_sand(chunk_pos_x, chunk_pos_y, game_world)
-                else:
-                    new_entities = game_map.restore_chunk(chunk_pos_x, chunk_pos_y, entities, player, game_world)
-                    entities = new_entities + list(close_entities)
-                ##
+                    game_map.offload_chunk(game_world.chunks[old_chunk_x][old_chunk_y], player, list(to_offload))
+                    entities = game_map.remove_entities(player, entities)
+                    entities += list(close_entities)
 
-            else:
+                    print(chunk_pos_x, chunk_pos_y)
+                    print(game_world.chunks[chunk_pos_x][chunk_pos_y].discovered)
 
-                if not game_map.is_blocked(player.x + dx, player.y + dy):
+                    # print(
+                    #     f"CLOSE ENTITIES: {len(close_entities)}\nALL ENTITIES: {len(all_entities)}\nENTITIES TO OFFLOAD: {len(to_offload)}")
 
-                    target = get_blocking_entities_at_location(entities, player.x + dx, player.y + dy)
+                    # # Make new map
+                    game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT,
+                                       game_world.chunks[chunk_pos_x][chunk_pos_y])
 
-                    if target:
-                        # do damage etc.
-                        attack_results = player.fighter.attack(target)
-                        player_turn_results.extend(attack_results)
-
+                    if not game_world.chunks[chunk_pos_x][chunk_pos_y].discovered:
+                        game_map.randomize_sand(chunk_pos_x, chunk_pos_y, game_world)
                     else:
-                        player.move(dx, dy)
+                        # here we should randomize...
+                        new_entities = game_map.restore_chunk(chunk_pos_x, chunk_pos_y, entities, player, game_world)
+                        entities = new_entities + list(close_entities)
+                    ##
 
-            game_state = GameStates.ENEMY_TURN
+                else:
 
-            for player_turn_result in player_turn_results:
+                    if not game_map.is_blocked(player.x + dx, player.y + dy):
 
-                message = player_turn_result.get('message')
+                        target = get_blocking_entities_at_location(entities, player.x + dx, player.y + dy)
 
-                if message:
-                    print(message)
+                        if target:
+                            # do damage etc.
+                            attack_results = player.fighter.attack(target)
+                            player_turn_results.extend(attack_results)
 
-        if action_exit:
-            raise SystemExit()
+                        else:
+                            player.move(dx, dy)
 
-        if action_fullscreen:
-            tcod.console_set_fullscreen(not tcod.console_is_fullscreen())
+                game_state = GameStates.ENEMY_TURN
 
-        if action_pass:
-            game_state = GameStates.ENEMY_TURN
+                for player_turn_result in player_turn_results:
 
-    if game_state == GameStates.ENEMY_TURN:
-
-        for entity in entities:
-            if entity.ai:
-                enemy_turn_results = entity.ai.take_turn(player, game_map, entities)
-
-                for enemy_turn_result in enemy_turn_results:
-
-                    message = enemy_turn_result.get('message')
-                    dead_entity = enemy_turn_result.get('dead')
+                    message = player_turn_result.get('message')
 
                     if message:
                         print(message)
 
-                    if dead_entity:
-                        game_state = GameStates.PLAYER_DEATH
-                        # player is dead
-                        print(dead_entity.name + " is dead")
+            if action_exit:
+                raise SystemExit()
 
-        if game_state != GameStates.PLAYER_DEATH:
-            game_state = GameStates.PLAYER_TURN
+            if action_fullscreen:
+                tcod.console_set_fullscreen(not tcod.console_is_fullscreen())
 
-    if game_state == GameStates.PLAYER_DEATH:
+            if action_pass:
+                game_state = GameStates.ENEMY_TURN
 
-        death_console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
+            render_args = (player, entities, game_map)
 
-        action = handle_keys(key, movement_settings)
+        if game_state == GameStates.ENEMY_TURN:
 
-        if action.get('exit'):
-            raise SystemExit()
+            for entity in entities:
+                if entity.ai:
+                    enemy_turn_results = entity.ai.take_turn(player, game_map, entities)
 
-        current_view = view.View("death_screen", death_console, render_functions.render_death_screen, root_con)
+                    for enemy_turn_result in enemy_turn_results:
 
-    current_view.render()
+                        message = enemy_turn_result.get('message')
+                        dead_entity = enemy_turn_result.get('dead')
+
+                        if message:
+                            print(message)
+
+                        if dead_entity:
+                            game_state = GameStates.PLAYER_DEATH
+                            # player is dead
+                            print(dead_entity.name + " is dead")
+
+            if game_state != GameStates.PLAYER_DEATH:
+                game_state = GameStates.PLAYER_TURN
+
+        if game_state == GameStates.PLAYER_DEATH:
+
+            death_console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
+
+            action = handle_keys(key, movement_settings)
+
+            if action.get('exit'):
+                raise SystemExit()
+
+            current_view = view.View("death_screen", death_console, render_functions.render_death_screen, root_con)
+
+            render_args = ()
+
+        current_view.render(*render_args) 
+
+        tcod.console_flush()
+
+        tcod.sys_set_fps(60)
+
 

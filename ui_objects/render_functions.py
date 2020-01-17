@@ -34,6 +34,7 @@ def render_map(con, root_con, player, entities, current_game_map):
         if player_chunk == entity_chunk: # without this, entity close to the player (which we are processing) would appear on player's chunk.
             draw_entity(con, entity)
 
+    # print(player.x, player.y)
     con.blit(dest=root_con, dest_x=1, dest_y=1, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
 
     clear_all(con, entities)
@@ -49,6 +50,9 @@ def render_title_screen(con, root_con, options, **key_handler):
 
     con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
     
+def render_messages(con, root_con, msg_list):
+    pass
+
 
 def render_esc_menu():
     pass
@@ -60,15 +64,14 @@ def render_death_screen(con, root_con):
     con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
     
 
-
-
-
 def clear_all(con, entities):
     for entity in entities:
         clear_entity(con, entity)
 
 def draw_entity(con, entity):
     tcod.console_set_default_foreground(con, entity.color)
+    if entity.name == 'Pysio':
+        print(entity.x, entity.y)
     x, y = get_pos_in_chunk(entity.x, entity.y)
     tcod.console_put_char(con, x, y, entity.char, tcod.BKGND_NONE)
 

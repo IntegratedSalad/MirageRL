@@ -3,7 +3,7 @@
 import tcod
 
 title = "Mirage RL"
-version = "0.0.6 - Of World, Glyphs and ass."
+version = "0.0.7 - Of Title."
 
 SCREEN_WIDTH = 60
 SCREEN_HEIGHT = 55
@@ -15,7 +15,7 @@ WORLD_HEIGHT = 10
 if (MAP_WIDTH != MAP_HEIGHT) or (WORLD_WIDTH != WORLD_HEIGHT):
 	raise ValueError("Dimensions are not squares!")
 #
-MAX_MONSTERS_PER_CHUNK = 12
+MAX_MONSTERS_PER_CHUNK = 3
 PLAYER_NAME = "Pysio"
 FOV_ALGO = 0
 FOV_LIGHT_WALLS = True
