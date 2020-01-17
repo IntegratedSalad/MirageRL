@@ -50,6 +50,9 @@ def render_title_screen(con, root_con, options, **key_handler):
 
     con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
     
+def render_messages(con, root_con, msg_list):
+    pass
+
 
 def render_esc_menu():
     pass
@@ -60,7 +63,6 @@ def render_death_screen(con, root_con):
 
     con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
     
-
 
 def clear_all(con, entities):
     for entity in entities:

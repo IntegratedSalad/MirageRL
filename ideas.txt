@@ -32,7 +32,7 @@ Goals of development:
 	... - development stage unknown
 
 
-	0.1 - Of World with many a(nts)s(nake)s.
+	0.1 - Of World with vermin and persistence.
 	1. Walking, killing.
 
 	2{1}. Generating whole map, with glyphs directing the player. Offloading map, saving and loading. v
@@ -42,7 +42,7 @@ Goals of development:
 	2.5 Offloading entities, everything that needs to be offloaded. V
 	2.6 Entities close to the edge can follow player to the chunk he just entered. V
 	2.7 Crude end game - reaching end and V dying V. - At the end will be two buttons - go to menu or quit. 
-	2.8 Saving and restoring. Saving closes the game. 
+	2.8 Saving and restoring V. Saving closes the game V. 
 	2.9 Message System. Killing enemies.
 
 	About offloading:
@@ -55,6 +55,11 @@ Goals of development:
 			Each step gives them more chance to see him.
 
 	6/8
+
+	---0.1 FIXES---
+
+	1. Think of how the View object should behave.
+	---------------
 
 	0.2. Of Surviving and Materialism - UI, Thirst, Hunger, Inventory, Items, Equipment.
 
@@ -121,7 +126,6 @@ Goals Of Map:
 	5 - Direction hints done
 
 
-
 Endgame:
 
 It will be a village! You actually have to go and talk to someone, in order to get rescued.
@@ -140,3 +144,4 @@ Walking and updating player position done.
 
 BUGS:
 SAND ISN'T BEING RANDOMLY GENERATED!!! <- View is having the same old game map. !FIXED!
+UPON LOADING THERE ARE TWO PLAYERS - STATIC ONE AND CONTROLLABLE.

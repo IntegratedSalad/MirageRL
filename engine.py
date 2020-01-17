@@ -19,9 +19,6 @@ from engine_functions.main_loop import main_loop
 # from entity import Entity, get_blocking_entities_at_location
 from engine_functions.save import save_game
 from engine_functions.load import load_game
-from map_objects.tile import Tile
-from map_objects.tile_types import sand
-
 
 def main():
 
@@ -71,6 +68,7 @@ def main():
                 raise SystemExit()
 
             if option == 'Load Game':
+                # IF THERE'S NOT FILE, PRINT "THERE ARE NO SAVEGAMES"
                 title_screen_con.clear()
                 draw_text(title_screen_con, int((constants.SCREEN_WIDTH / 2) - 5), int(constants.SCREEN_HEIGHT / 2), "Loading...", (255, 255, 255))
                 title_screen_con.blit(dest=root_console, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
@@ -94,15 +92,10 @@ def main():
                 if entity.name == 'Pysio':
                     entities.remove(entity) # remove duplicate (why is it there?)
 
-            entities = game_map.get_entities(player, entities) # 
+            entities = game_map.get_entities(player, entities) 
             print(entities)
 
             entities.append(player)
-
-            # for ent in entities:
-                # print(ent.name)
-
-            # exit(0)
 
         map_console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
         current_view_game_map = view.View("map_screen", map_console, render_functions.render_map, root_console, player, entities, game_map)

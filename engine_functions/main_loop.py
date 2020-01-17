@@ -17,11 +17,12 @@ from entity import Entity, get_blocking_entities_at_location
 
 def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, entities, close_entities):
 
+    render_args = None
+    game_state = GameStates.PLAYER_TURN
+
     while not tcod.console_is_window_closed():
 
         tcod.sys_wait_for_event(tcod.EVENT_KEY_PRESS, key, mouse, True)
-
-        game_state = GameStates.PLAYER_TURN
 
         action = handle_keys(key, movement_settings)
 
@@ -131,6 +132,8 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
             if action_pass:
                 game_state = GameStates.ENEMY_TURN
 
+            render_args = (player, entities, game_map)
+
         if game_state == GameStates.ENEMY_TURN:
 
             for entity in entities:
@@ -164,7 +167,9 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
 
             current_view = view.View("death_screen", death_console, render_functions.render_death_screen, root_con)
 
-        current_view.render(player, entities, game_map) # BUG: old player
+            render_args = ()
+
+        current_view.render(*render_args) 
 
         tcod.console_flush()
 

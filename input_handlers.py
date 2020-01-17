@@ -26,45 +26,48 @@ def handle_keys(key, settings):
     # settings is dict
     key_char = chr(key.c)
 
-    if key.vk == tcod.KEY_UP or key_char == 'k':
-        return settings['up']
+    try:
+        if key.vk == tcod.KEY_UP or key_char == 'k':
+            return settings['up']
 
-    elif key.vk == tcod.KEY_DOWN or key_char == 'j':
-        return settings['down']
+        elif key.vk == tcod.KEY_DOWN or key_char == 'j':
+            return settings['down']
 
-    elif key.vk == tcod.KEY_RIGHT or key_char == 'l':
-        return settings['right']
+        elif key.vk == tcod.KEY_RIGHT or key_char == 'l':
+            return settings['right']
 
-    elif key.vk == tcod.KEY_LEFT or key_char == 'h':
-        return settings['left']
+        elif key.vk == tcod.KEY_LEFT or key_char == 'h':
+            return settings['left']
 
-    elif key_char == 'u':
-        return settings['u']
+        elif key_char == 'u':
+            return settings['u']
 
-    elif key_char == 'y':
-        return settings['y']
+        elif key_char == 'y':
+            return settings['y']
 
-    elif key_char == 'b':
-        return settings['b']
+        elif key_char == 'b':
+            return settings['b']
 
-    elif key_char == 'n':
-        return settings['n']
+        elif key_char == 'n':
+            return settings['n']
 
-    elif key_char == '.':
-        return settings['.']
+        elif key_char == '.':
+            return settings['.']
 
-    elif key.vk == tcod.KEY_ENTER:
-        return settings['enter']
+        elif key.vk == tcod.KEY_ENTER:
+            return settings['enter']
 
-    elif key_char == 's':
-        return settings['s']
+        elif key_char == 's':
+            return settings['s']
 
-    if key.vk == tcod.KEY_ENTER and key.lalt:
-        return settings['enter_lalt']
+        if key.vk == tcod.KEY_ENTER and key.lalt:
+            return settings['enter_lalt']
 
-    elif key.vk == tcod.KEY_ESCAPE:
-        return settings['escape']
+        elif key.vk == tcod.KEY_ESCAPE:
+            return settings['escape']
 
+    except KeyError:
+        return {}
 
     # this is deprecated
 
