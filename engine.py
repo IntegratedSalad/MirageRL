@@ -19,6 +19,7 @@ from engine_functions.main_loop import main_loop
 # from entity import Entity, get_blocking_entities_at_location
 from engine_functions.save import save_game
 from engine_functions.load import load_game
+from ui_objects.msg_log import MsgLog
 
 def main():
 
@@ -98,7 +99,10 @@ def main():
             entities.append(player)
 
         map_console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
-        current_view_game_map = view.View("map_screen", map_console, render_functions.render_map, root_console, player, entities, game_map)
+        current_view_game_map = view.View("view_MAP", map_console, render_functions.render_map, root_console, player, entities, game_map)
+        mlog = MsgLog() 
+        current_view_game_map.add_console('view_MSG_LOG', render_functions.render_messages, root_console, mlog)
+        print(current_view_game_map.consoles)
         current_view_game_map.render(player, entities, game_map)
         tcod.console_flush()
         state = main_loop(root_console, key, mouse, current_view_game_map, game_world, player, game_map, entities, close_entities)

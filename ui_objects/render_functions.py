@@ -1,5 +1,6 @@
 import tcod
 import constants
+import textwrap
 from map_objects.chunk import MapElevation
 from utils import get_pos_in_chunk, get_chunk_pos
 from ui_objects.draw_functions import *
@@ -34,8 +35,7 @@ def render_map(con, root_con, player, entities, current_game_map):
         if player_chunk == entity_chunk: # without this, entity close to the player (which we are processing) would appear on player's chunk.
             draw_entity(con, entity)
 
-    # print(player.x, player.y)
-    con.blit(dest=root_con, dest_x=1, dest_y=1, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
+    con.blit(dest=root_con, dest_x=1, dest_y=1, src_x=0, src_y=0, width=constants.MAP_WIDTH, height=constants.MAP_HEIGHT)
 
     clear_all(con, entities)
 
@@ -50,9 +50,21 @@ def render_title_screen(con, root_con, options, **key_handler):
 
     con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
     
-def render_messages(con, root_con, msg_list):
-    pass
+def render_messages(con, root_con, msglog):
 
+    for message in reversed(msglog.messages):
+
+        y = 0
+
+        # if len(message) > constants.MAP_WIDTH: <- wrap!
+        #     pass
+
+        draw_text(con, 0, y, message.text, message.fgcolor, message.bgcolor)
+
+        y += 1 
+
+
+    con.blit(dest=root_con, dest_x=1, dest_y=constants.MAP_HEIGHT + 2, src_x=0, src_y=0, width=constants.MAP_WIDTH, height=constants.MESSAGES_ON_SCREEN)
 
 def render_esc_menu():
     pass
