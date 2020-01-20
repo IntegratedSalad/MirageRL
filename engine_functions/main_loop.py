@@ -14,8 +14,9 @@ from map_objects.chunk import ChunkProperty
 from engine_functions.new_game import init_new_game, init_game
 from engine_functions.main_menu import main_menu
 from entity import Entity, get_blocking_entities_at_location
+from ui_objects.message import Message
 
-def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, entities, close_entities):
+def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, entities, close_entities, mlog):
 
     render_args = None
     game_state = GameStates.PLAYER_TURN
@@ -118,10 +119,11 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
 
                 for player_turn_result in player_turn_results:
 
-                    message = player_turn_result.get('message')
+                    received_msg = player_turn_result.get('message')
 
-                    if message:
-                        print(message)
+                    if received_msg:
+                        msg = Message(received_msg, (255, 255, 255))
+                        mlog.add_msg(msg)
 
             if action_exit:
                 raise SystemExit()
@@ -132,7 +134,8 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
             if action_pass:
                 game_state = GameStates.ENEMY_TURN
 
-            render_args = (player, entities, game_map)
+            # render_args = (player, entities, game_map)
+            current_view.consoles['view_MAP']['args'] = (player, entities, game_map)
 
         if game_state == GameStates.ENEMY_TURN:
 
@@ -142,16 +145,17 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
 
                     for enemy_turn_result in enemy_turn_results:
 
-                        message = enemy_turn_result.get('message')
-                        dead_entity = enemy_turn_result.get('dead')
+                        received_message = enemy_turn_result.get('message')
+                        received_dead_entity = enemy_turn_result.get('dead')
 
-                        if message:
-                            print(message)
+                        if received_message:
+                            msg = Message(received_message, (255, 255, 255))
+                            mlog.add_msg(msg)
 
-                        if dead_entity:
+                        if received_dead_entity:
                             game_state = GameStates.PLAYER_DEATH
                             # player is dead
-                            print(dead_entity.name + " is dead")
+                            mlog.add_msg(f"{received_dead_entity.name} is dead.", (255, 255, 255))
 
             if game_state != GameStates.PLAYER_DEATH:
                 game_state = GameStates.PLAYER_TURN
@@ -167,9 +171,10 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
 
             current_view = view.View("death_screen", death_console, render_functions.render_death_screen, root_con)
 
-            render_args = ()
+            # render_args = ()
 
-        current_view.render(*render_args) 
+        # current_view.render(*render_args) 
+        current_view.render()
 
         tcod.console_flush()
 

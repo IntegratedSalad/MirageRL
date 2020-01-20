@@ -52,9 +52,9 @@ def render_title_screen(con, root_con, options, **key_handler):
     
 def render_messages(con, root_con, msglog):
 
-    for message in reversed(msglog.messages):
+    y = 0
 
-        y = 0
+    for message in reversed(msglog.messages):
 
         # if len(message) > constants.MAP_WIDTH: <- wrap!
         #     pass

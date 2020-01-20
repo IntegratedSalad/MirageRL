@@ -1,4 +1,5 @@
 import constants
+from collections import abc
 
 def get_pos_in_chunk(pos_x, pos_y):
 
@@ -30,3 +31,17 @@ def enter_new_chunk(px, py):
 		return True
 
 	return False
+
+
+def nested_dict_iter(nested):
+
+	for key, value in nested.items():
+		if isinstance(value, abc.Mapping):
+			yield from nested_dict_iter(value)
+		else:
+			yield key, value
+
+
+
+
+
