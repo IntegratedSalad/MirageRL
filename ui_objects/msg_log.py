@@ -1,6 +1,8 @@
 import constants
 
 class MsgLog:
+
+	# TODO: Add event - after 5 seconds of no new messages - pop them all.
 	
 	def __init__(self):
 		self.messages = [] # list of Message's instances.
@@ -10,7 +12,9 @@ class MsgLog:
 
 	def add_msg(self, msg):
 
-		if len(self.messages) > constants.MESSAGES_ON_SCREEN:
-			self.messages.pop()
+		print(len(self.messages))
+		print(self.messages)
+		if len(self.messages) > constants.MESSAGES_ON_SCREEN - 1:
+			self.messages.pop(0)
 
 		self.messages.append(msg)
