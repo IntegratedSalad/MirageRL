@@ -10,12 +10,13 @@ from math import sqrt
 
 class Entity:
 
-	def __init__(self, x, y, char, color, name, blocks=False, fighter=None, ai=None):
+	def __init__(self, x, y, char, color, name, render_order, blocks=False, fighter=None, ai=None):
 	    self.x = x
 	    self.y = y
 	    self.char = char
 	    self.color = color
 	    self.name = name
+	    self.render_order = render_order
 	    self.blocks = blocks
 	    self.fighter = fighter
 	    self.ai = ai

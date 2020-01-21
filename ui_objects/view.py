@@ -1,6 +1,5 @@
 import tcod
 import constants
-from utils import nested_dict_iter
 
 class View:
 	"""Class handling data and behaviour of views.
@@ -21,10 +20,6 @@ class View:
 
 	def render(self):
 
-		# iterate over dict
-
-		# print(list(nested_dict_iter(self.consoles)))
-
 		for con in list(self.consoles.keys()):
 
 			console_obj = self.consoles[con]['console']
@@ -36,16 +31,8 @@ class View:
 			func(console_obj, self.root_console, *args)
 
 
-
-		# self.main_con.clear()
-		# self.main_render_func(self.main_con, self.root_console, *rargs)
-
-
 	def add_console(self, name, func, *func_args):
 		"""Adds console to display additional content."""
 		console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
 		self.consoles[name] = {'console': console, 'func': func, 'args': func_args}
 
-
-
-		

@@ -42,6 +42,8 @@ def nested_dict_iter(nested):
 			yield key, value
 
 
+def desaturate(color, val):
 
+	des_color = color - val
 
-
+	return des_color if des_color >= 0 else 0 

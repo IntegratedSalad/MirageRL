@@ -12,8 +12,6 @@ class MsgLog:
 
 	def add_msg(self, msg):
 
-		print(len(self.messages))
-		print(self.messages)
 		if len(self.messages) > constants.MESSAGES_ON_SCREEN - 1:
 			self.messages.pop(0)
 

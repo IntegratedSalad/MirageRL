@@ -27,7 +27,7 @@ def render_map(con, root_con, player, entities, current_game_map):
             tile = current_game_map.current_chunk.tiles[x][y]
             tcod.console_put_char_ex(con, x, y, tile.char, tile.color, (0, 0, 0))
 
-    for entity in entities:
+    for entity in sorted(entities, key=lambda x: x.render_order.value):
         
         player_chunk = get_chunk_pos(player.x, player.y)
         entity_chunk = get_chunk_pos(entity.x, entity.y)
@@ -42,8 +42,8 @@ def render_map(con, root_con, player, entities, current_game_map):
 def render_title_screen(con, root_con, options, **key_handler):
     option = draw_menu(con, 0, 0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT, options=options, key_handler=key_handler)
     draw_text(con, constants.SCREEN_WIDTH - len(constants.version), constants.SCREEN_HEIGHT - 1, constants.version, (255, 255, 255))
-    draw_text(con, 47, 15, "RL", (245, 183, 60))
-    draw_graphics(con, 9, 6, get_title(), (245, 183, 60))
+    draw_text(con, 52, 15, "RL", (245, 183, 60))
+    draw_graphics(con, 14, 6, get_title(), (245, 183, 60))
 
     if option is not None:
         return option
@@ -64,19 +64,21 @@ def render_messages(con, root_con, msglog):
         y += 1 
 
 
-    con.blit(dest=root_con, dest_x=1, dest_y=constants.MAP_HEIGHT + 2, src_x=0, src_y=0, width=constants.MAP_WIDTH, height=constants.MESSAGES_ON_SCREEN)
+    con.blit(dest=root_con, dest_x=1, dest_y=constants.MAP_HEIGHT + 2, src_x=0, src_y=0, width=constants.MSGS_WIDTH, height=constants.MESSAGES_ON_SCREEN)
 
 def render_esc_menu():
     pass
 
 def render_death_screen(con, root_con):
 
-    draw_text(con, int(constants.SCREEN_WIDTH / 2) - int(len("You have perished.") / 2), int(constants.SCREEN_HEIGHT / 2), "You have perished", tcod.color.Color(100, 0, 0))
+    draw_text(con, int(constants.SCREEN_WIDTH / 2) - int(len("You have perished.") / 2), int(constants.SCREEN_HEIGHT / 2), "You have perished", 
+        tcod.color.Color(100, 0, 0))
 
     con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
     
 
 def clear_all(con, entities):
+    # add render priority.
     for entity in entities:
         clear_entity(con, entity)
 

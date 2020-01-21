@@ -120,10 +120,17 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                 for player_turn_result in player_turn_results:
 
                     received_msg = player_turn_result.get('message')
+                    received_dead_entity = player_turn_result.get('dead')
 
                     if received_msg:
                         msg = Message(received_msg, (255, 255, 255))
                         mlog.add_msg(msg)
+
+                    if received_dead_entity:
+                        received_dead_entity.fighter.die()
+                        msg = Message(f"{received_dead_entity.name.capitalize()} is dead.", constants.COLOR_DARK_RED)
+                        mlog.add_msg(msg)
+
 
             if action_exit:
                 raise SystemExit()
@@ -134,7 +141,6 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
             if action_pass:
                 game_state = GameStates.ENEMY_TURN
 
-            # render_args = (player, entities, game_map)
             current_view.consoles['view_MAP']['args'] = (player, entities, game_map)
 
         if game_state == GameStates.ENEMY_TURN:
@@ -156,6 +162,7 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                             game_state = GameStates.PLAYER_DEATH
                             # player is dead
                             mlog.add_msg(f"{received_dead_entity.name} is dead.", (255, 255, 255))
+                            entity.fighter.die()
 
             if game_state != GameStates.PLAYER_DEATH:
                 game_state = GameStates.PLAYER_TURN
@@ -171,13 +178,8 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
 
             current_view = view.View("death_screen", death_console, render_functions.render_death_screen, root_con)
 
-            # render_args = ()
-
-        # current_view.render(*render_args) 
         current_view.render()
 
         tcod.console_flush()
 
         tcod.sys_set_fps(60)
-
-
