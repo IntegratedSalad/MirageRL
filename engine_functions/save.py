@@ -17,10 +17,6 @@ def return_path():
 
 def save_game(game_world, game_map, player, entities, close_entities, msg_log):
 
-	# TODO: Save msglog
-
-
-
 	path_of_folder = return_path()
 	make_dir(path_of_folder)
 

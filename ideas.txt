@@ -32,7 +32,7 @@ Goals of development:
 	... - development stage unknown
 
 
-	0.1 - Of World with vermin and persistence.
+	0.1 - Of World with vermin and persistence. DONE!
 	1. Walking, killing.
 
 	2{1}. Generating whole map, with glyphs directing the player. Offloading map, saving and loading. v
