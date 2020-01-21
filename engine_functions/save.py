@@ -1,7 +1,7 @@
 import shelve
 import os
 
-def save_game(game_world, game_map, player, entities, close_entities):
+def save_game(game_world, game_map, player, entities, close_entities, msg_log):
 
 	# TODO: Save msglog
 
@@ -13,4 +13,5 @@ def save_game(game_world, game_map, player, entities, close_entities):
 		file['player'] = player
 		file['entities'] = entities
 		file['close_entities'] = close_entities
+		file['msg_log'] = msg_log
 

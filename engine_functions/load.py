@@ -12,5 +12,6 @@ def load_game(name):
 		player = file['player']
 		entities = file['entities']
 		close_entities = file['close_entities']
+		msg_log = file['msg_log']
 
-	return game_world, game_map, player, entities, close_entities
+	return game_world, game_map, player, entities, close_entities, msg_log

@@ -84,10 +84,13 @@ def main():
             game_map = initialization.get('game_map')
             entities = initialization.get('entities')
             close_entities = initialization.get('close_entities')
+            log_to_load = None
 
         else:
             map_console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
-            game_world, game_map, player, entities, close_entities = load_game("Pysio")
+            game_world, game_map, player, entities, close_entities, log_to_load = load_game("Pysio")
+
+            log_to_load = log_to_load.messages
 
             for entity in entities:
                 if entity.name == 'Pysio':
@@ -100,7 +103,10 @@ def main():
 
         map_console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
         current_view_game_map = view.View("view_MAP", map_console, render_functions.render_map, root_console, player, entities, game_map)
-        mlog = MsgLog() 
+        mlog = MsgLog()
+        if log_to_load is not None:
+            mlog.messages = log_to_load
+
         current_view_game_map.add_console('view_MSG_LOG', render_functions.render_messages, mlog)
         current_view_game_map.render()
         tcod.console_flush()

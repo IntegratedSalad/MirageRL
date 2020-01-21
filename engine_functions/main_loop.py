@@ -37,7 +37,7 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
 
             if action_save:
                 print("Saving...")
-                return {'save': (game_world, game_map, player, entities, close_entities)}
+                return {'save': (game_world, game_map, player, entities, close_entities, mlog)}
 
             player_turn_results = []
 
