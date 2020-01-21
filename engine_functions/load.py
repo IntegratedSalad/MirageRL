@@ -1,11 +1,19 @@
 import shelve
+import sys
 import os
+
+def return_path(): # add that to utils
+	if getattr(sys, 'frozen', False):
+		return os.path.join(os.path.dirname(sys.executable), 'saves')
+	
+	return os.path.join(os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'data'), 'saves')
+
 
 def load_game(name):
 
-	path = os.path.join(os.path.join(os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'data'), 'saves'), f"{name}")
+	path = return_path()
 
-	with shelve.open(path, 'r') as file:
+	with shelve.open(os.path.join(path, name), 'r') as file:
 
 		game_world = file['game_world']
 		game_map = file['game_map']
