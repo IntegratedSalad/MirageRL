@@ -3,9 +3,9 @@
 import tcod
 
 title = "Mirage RL"
-version = "0.0.7 - Of Title."
+version = "0.0.8 - Of Title."
 
-SCREEN_WIDTH = 60
+SCREEN_WIDTH = 68
 SCREEN_HEIGHT = 55
 # World and Map dimensions must always be a square!
 MAP_WIDTH = 45
@@ -23,3 +23,14 @@ FOV_RADIUS_BELOW = 4
 COLOR_LIGHTER = 30 # a value, that adds to the RGB - lights up the color | Saturation
 GLYPHS_NUM = 8
 DISTANCE_TO_PROCESS_ENTITY = 7
+
+MESSAGES_ON_SCREEN = 7
+MSGS_WIDTH = 53
+
+# Colors
+
+COLOR_WHITE = (255, 255, 255)
+COLOR_BLACK = (0, 0, 0)
+COLOR_BRIGHT_RED = (255, 0, 0)
+COLOR_DARK_RED = (100, 0, 0)
+

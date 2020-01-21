@@ -1,3 +1,6 @@
+import constants
+import utils
+from ui_objects.render_order import RenderOrder
 
 class Fighter:
 
@@ -11,10 +14,7 @@ class Fighter:
 
 		self.hp -= amount
 
-		print(self.owner.name, self.hp)
-
 		if self.hp <= 0:
-			print("DEDE")
 			results.append({'dead': self.owner})
 
 		return results
@@ -31,3 +31,13 @@ class Fighter:
 			results.append({'message': '{0} misses {1}'.format(self.owner.name.title(), target.name.title())})
 			
 		return results
+
+	def die(self):
+		desaturate_val = 30
+		self.owner.ai = None
+		self.owner.char = '%'
+		self.owner.blocks = False
+		self.owner.render_order = RenderOrder.CORPSE
+		r, g, b = self.owner.color
+		self.owner.color = (utils.desaturate(r, desaturate_val), utils.desaturate(g, desaturate_val), utils.desaturate(b, desaturate_val))
+		self.owner.fighter = None

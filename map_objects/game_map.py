@@ -10,6 +10,7 @@ from map_objects.tile_types import *
 from components.fighter import Fighter
 from components.ai import BasicMonster
 from map_objects.chunk import MapElevation
+from ui_objects.render_order import RenderOrder
 
 class GameMap:
 
@@ -100,7 +101,7 @@ class GameMap:
             m_hp, m_def, m_atkval = m_fighter_stats
             
             monster_fighter_component = Fighter(m_hp, m_def, m_atkval)
-            monster = Entity(x, y, m_glyph, tcod.color.Color(m_color_r, m_color_g, m_color_b), m_name, blocks=True, fighter=monster_fighter_component, ai=m_ai())
+            monster = Entity(x, y, m_glyph, tcod.color.Color(m_color_r, m_color_g, m_color_b), m_name, RenderOrder.ENTITY, blocks=True, fighter=monster_fighter_component, ai=m_ai())
             entities.append(monster)
 
 

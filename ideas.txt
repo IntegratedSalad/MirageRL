@@ -41,9 +41,9 @@ Goals of development:
 	2.4 Glyphs hinting the exit V
 	2.5 Offloading entities, everything that needs to be offloaded. V
 	2.6 Entities close to the edge can follow player to the chunk he just entered. V
-	2.7 Crude end game - reaching end and V dying V. - At the end will be two buttons - go to menu or quit. 
+	2.7 Crude end game - reaching end and V dying V. - At the end will be something. 
 	2.8 Saving and restoring V. Saving closes the game V. 
-	2.9 Message System. Killing enemies.
+	2.9 Message System. Killing enemies. V
 
 	About offloading:
 		If monsters are about to follow player entering new chunk, and they are in a certain range, instead of offloading them, 
@@ -56,9 +56,12 @@ Goals of development:
 
 	6/8
 
-	---0.1 FIXES---
+	---0.1.1 FIXES---
 
-	1. Think of how the View object should behave.
+	1. Think of how the View object should behave. <- multiple consoles added V
+	2. If there are no save files, show message about that.
+	3. Endgame Screen.
+	4. File organization.
 	---------------
 
 	0.2. Of Surviving and Materialism - UI, Thirst, Hunger, Inventory, Items, Equipment.

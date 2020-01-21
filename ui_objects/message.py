@@ -1,7 +1,8 @@
 
 class Message:
 	"""docstring for Message"""
-	def __init__(self, text, color):
+	def __init__(self, text, fgcolor, bgcolor=None):
 		self.text = text
-		self.color = color
+		self.fgcolor = fgcolor
+		self.bgcolor = bgcolor
 		
