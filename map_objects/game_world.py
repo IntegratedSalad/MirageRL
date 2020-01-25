@@ -1,4 +1,4 @@
-from constants import *
+from data.game_data.constants import *
 from map_objects.tile import Tile
 from random import randint, choice
 from map_objects.chunk import Chunk

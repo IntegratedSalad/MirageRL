@@ -1,10 +1,10 @@
 import tcod
-import constants
+from data.game_data import constants
 import textwrap
 from map_objects.chunk import MapElevation
-from utils import get_pos_in_chunk, get_chunk_pos
+from misc.utils import get_pos_in_chunk, get_chunk_pos
 from ui_objects.draw_functions import *
-from get_art import get_title
+from ui_objects.get_art import get_title
 
 """
 Every function must have con and root_con in args. (for now)
@@ -44,7 +44,7 @@ def render_title_screen(con, root_con, options, **key_handler):
     draw_text(con, constants.SCREEN_WIDTH - len(constants.version), constants.SCREEN_HEIGHT - 1, constants.version, (255, 255, 255))
     draw_graphics(con, 14, 6, get_title(), (245, 183, 60))
     draw_text(con, 52, 22, "RL", (245, 183, 60))
-    
+
 
     if option is not None:
         return option

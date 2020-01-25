@@ -1,5 +1,5 @@
-import constants
-import utils
+from data.game_data import constants
+from misc import utils
 from ui_objects.render_order import RenderOrder
 
 class Fighter:
