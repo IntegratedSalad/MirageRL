@@ -42,8 +42,9 @@ def render_map(con, root_con, player, entities, current_game_map):
 def render_title_screen(con, root_con, options, **key_handler):
     option = draw_menu(con, 0, 0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT, options=options, key_handler=key_handler)
     draw_text(con, constants.SCREEN_WIDTH - len(constants.version), constants.SCREEN_HEIGHT - 1, constants.version, (255, 255, 255))
-    draw_text(con, 52, 15, "RL", (245, 183, 60))
     draw_graphics(con, 14, 6, get_title(), (245, 183, 60))
+    draw_text(con, 52, 22, "RL", (245, 183, 60))
+    
 
     if option is not None:
         return option

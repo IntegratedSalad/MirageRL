@@ -72,7 +72,7 @@ Goals of development:
 
 	0.4. Of The Depths Below Underworld
 
-	0.5 ...
+	0.5  Of Wildlife and Sand people
 
 
 	... Special chunks with unique enemies and items.
