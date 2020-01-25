@@ -1,7 +1,7 @@
 import tcod
 import textwrap
-import constants
-import variables
+from data.game_data import constants
+from data.game_data import variables
 
 def draw_menu(con, x, y, width, height, options, **kwargs):
 

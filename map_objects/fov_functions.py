@@ -1,5 +1,5 @@
 import tcod
-from constants import FOV_LIGHT_WALLS, FOV_ALGO
+from data.game_data.constants import FOV_LIGHT_WALLS, FOV_ALGO
 
 def init_fov(game_map):
 

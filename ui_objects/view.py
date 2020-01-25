@@ -1,5 +1,5 @@
 import tcod
-import constants
+from data.game_data import constants
 
 class View:
 	"""Class handling data and behaviour of views.

@@ -1,7 +1,7 @@
 import tcod
-import utils
-from constants import *
-from entity import Entity
+from misc import utils
+from data.game_data.constants import *
+from components.entity import Entity
 from random import randint
 # from data.item_data import item_dat
 from data.monster_data import mon_dat

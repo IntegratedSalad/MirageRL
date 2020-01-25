@@ -1,11 +1,11 @@
 import tcod
-import constants
+from data.game_data import constants
 import os
 import sys
 from map_objects.game_world import GameWorld
 from map_objects.game_map import GameMap
 from components.fighter import Fighter
-from entity import Entity
+from components.entity import Entity
 from map_objects.chunk import ChunkProperty
 from ui_objects.render_order import RenderOrder
 
@@ -14,7 +14,7 @@ def init_game():
 		# init in executable
 		path = os.path.join(os.path.dirname(sys.executable), 'terminal8x8_gs_tc.png')
 	else:
-		path = None
+		path = os.path.join(os.path.join(os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'data'), 'game_data'), 'terminal8x8_gs_tc.png')
 	
 	if path is not None:
 		tcod.console_set_custom_font(path, tcod.FONT_TYPE_GREYSCALE | tcod.FONT_LAYOUT_TCOD)

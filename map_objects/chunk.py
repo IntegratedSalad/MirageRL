@@ -1,5 +1,5 @@
 import enum
-from constants import *
+from data.game_data.constants import *
 from map_objects.tile import Tile
 from map_objects.tile_types import *
 

@@ -1,4 +1,4 @@
-import constants
+from data.game_data import constants
 
 class MsgLog:
 

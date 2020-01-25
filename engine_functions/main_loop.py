@@ -1,10 +1,10 @@
 import tcod
-import utils
-import constants
+from misc import utils
+from data.game_data import constants
 import tcod.event
 from ui_objects import view
-from input_handlers import *
-from game_states import GameStates
+from engine_functions.input_handlers import *
+from engine_functions.game_states import GameStates
 from map_objects import fov_functions
 from components.fighter import Fighter
 from ui_objects import render_functions
@@ -13,7 +13,7 @@ from map_objects.chunk import ChunkProperty
 # from map_objects.game_world import GameWorld
 from engine_functions.new_game import init_new_game, init_game
 from engine_functions.main_menu import main_menu
-from entity import Entity, get_blocking_entities_at_location
+from components.entity import Entity, get_blocking_entities_at_location
 from ui_objects.message import Message
 
 def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, entities, close_entities, mlog):
