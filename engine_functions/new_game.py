@@ -5,9 +5,11 @@ import sys
 from map_objects.game_world import GameWorld
 from map_objects.game_map import GameMap
 from components.fighter import Fighter
+from components.item import Item
 from components.entity import Entity
 from map_objects.chunk import ChunkProperty
 from ui_objects.render_order import RenderOrder
+from misc.action_functions import *
 
 def init_game():
 	if getattr(sys, 'frozen', False):
@@ -30,6 +32,10 @@ def init_new_game():
 		int((constants.WORLD_HEIGHT * constants.MAP_HEIGHT / 2) + constants.MAP_HEIGHT / 2), '@', tcod.white, 
 		constants.PLAYER_NAME, RenderOrder.ENTITY, fighter=player_fighter_component)
 
+	hp_potion_item_component = Item(use_func=action_heal, heal_amount=10)
+	hp_potion = Entity(player.x, player.y + 1, '!', tcod.red, 'Health Potion', RenderOrder.ITEM, item=hp_potion_item_component)
+	print(hp_potion.x, hp_potion.y)
+
 	px, py = game_world.get_chunk_pos_from_player_pos(player.x, player.y)
 	game_world.chunks[px][py].property = ChunkProperty.START
 	game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT, game_world.chunks[px][py])
@@ -37,7 +43,7 @@ def init_new_game():
 
 	print(f"CURRENT CHUNK: {px} {py}")
 
-	entities = [player]
+	entities = [player, hp_potion]
 	close_entities = []
 	game_map.place_entities(px, py, entities)
 

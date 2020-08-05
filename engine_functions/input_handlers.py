@@ -12,7 +12,8 @@ movement_settings = {
     '.': {'pass': (0, 0)},
     'enter_lalt': {'fullscreen': True},
     'escape': {'exit': True},
-    's': {'save': True}
+    's': {'save': True},
+    'g': {'get': True}
     }
 
 title_screen_settings = {
@@ -51,6 +52,9 @@ def handle_keys(key, settings):
         elif key_char == 'n':
             return settings['n']
 
+        elif key_char == 'g':
+            return settings['g']
+
         elif key_char == '.':
             return settings['.']
 
@@ -68,7 +72,5 @@ def handle_keys(key, settings):
 
     except KeyError:
         return {}
-
-    # this is deprecated
 
     return {}

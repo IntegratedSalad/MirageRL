@@ -5,12 +5,10 @@ import tcod.path
 from data.game_data import constants
 from math import sqrt
 
-"""TODO: Move that to components."""
-
 
 class Entity:
 
-	def __init__(self, x, y, char, color, name, render_order, blocks=False, fighter=None, ai=None):
+	def __init__(self, x, y, char, color, name, render_order, blocks=False, fighter=None, ai=None, item=None):
 	    self.x = x
 	    self.y = y
 	    self.char = char
@@ -20,12 +18,16 @@ class Entity:
 	    self.blocks = blocks
 	    self.fighter = fighter
 	    self.ai = ai
+	    self.item = item
 
 	    if self.fighter:
 	    	self.fighter.owner = self
 
 	    if self.ai:
 	    	self.ai.owner = self
+
+	    if self.item:
+	    	self.item.owner = self
 
 
 	def move(self, dx, dy):

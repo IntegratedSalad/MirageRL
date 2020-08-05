@@ -13,7 +13,7 @@
 
 Story:
 You were trying to record some documentary about wildlife on a dessert. You got lost, and you lost the crewmen. <- They will be found with their equipment.
-You flew into the dessert by helicopter, noticing very strange, purple rot-like grounds surrounding the whole dessert.
+You flew into the dessert by helicopter noticing very strange, purple rot-like grounds surrounding the whole dessert.
 
 Inspiration:
 Imagining how it would be, to be alone in the dessert.
@@ -61,27 +61,56 @@ Goals of development:
 	1. Think of how the View object should behave. <- multiple consoles added V
 	2. If there are no save files, show message about that.
 	3. Endgame Screen.
-	4. File organization.
+	4. File organization. V
 	---------------
 
 	0.2. Of Surviving and Materialism - UI, Thirst, Hunger, Inventory, Items, Equipment.
 
-	0.3. Of Invention and Speed - Crafting & Energy based combat. Fleeing AI.
+	1.{1}  Basic item - stick? Health Potion
+	1.1 Inventory menu
+	2.  Health displayed
+	2.1 Name displayed
+	3.  Thirst
+	3.1 Thirst displayed
+	4.  Hunger
+	4.1 Hunger Displayed
+	5.  Dying from thirst or hunger
+	6.  Basic equipment - shirt
+	6.1 Equipment menu
+	6.2 Backpack - equipment that have slots.
+	7.  Basic statistics. Saving to file.
+	8.  Data stored and loaded from JSON files.
+	9.  Throwing items.
 
-	0.3.5 Of Day & Night
+	And let's see then if font isn't to small for everything happening on screen.
 
-	0.4. Of The Depths Below Underworld
 
-	0.5  Of Wildlife and Sand people
+
+
+
+	{1} - Using items and items having use_funcs.
+
+	Upon activating an item, their use_func is called onto some target if there is provided.
+
+
+
+
+
+
+
+
+	0.3. Of Invention and Speed - Crafting & Energy based combat. Fleeing AI. FSM.
+
+	0.3.5 Of Day & Night. Adding weather and temperature.
+
+	0.4. Of The Depths Below Underworld. Getting down into the underworlds. 
+
+	0.5  Of Wildlife and Sand people. Groups of monsters wandering.
 
 
 	... Special chunks with unique enemies and items.
 
-	... Add support for background tiles. V
-
 	... Add runic magic.
-
-	... Add data loaded from JSON files.
 
 
 {1} Key mechanic, has to be done first, and after initial basic working state it can be improved.
@@ -147,4 +176,4 @@ Walking and updating player position done.
 
 BUGS:
 SAND ISN'T BEING RANDOMLY GENERATED!!! <- View is having the same old game map. !FIXED!
-UPON LOADING THERE ARE TWO PLAYERS - STATIC ONE AND CONTROLLABLE.
+UPON LOADING THERE ARE TWO PLAYERS - STATIC ONE AND CONTROLLABLE. !FIXED!

@@ -8,6 +8,7 @@ class Fighter:
 		self.hp = hp
 		self.defense = defense
 		self.attack_value = attack_value
+		self.inventory = []
 
 	def take_damage(self, amount):
 		results = []
@@ -31,6 +32,19 @@ class Fighter:
 			results.append({'message': '{0} misses {1}'.format(self.owner.name.title(), target.name.title())})
 			
 		return results
+
+	def get_item(self, entities, game_map):
+
+		p_x, p_y = self.owner.position_in_chunk # player's position in chunk
+		for e in entities:
+
+			i_x, i_y = e.position_in_chunk
+
+			print(e.name)
+
+			if (i_x == p_x) and (i_y == p_y) and e.item is not None:
+				return e.name
+
 
 	def die(self):
 		desaturate_val = 30

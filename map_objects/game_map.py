@@ -65,8 +65,9 @@ class GameMap:
 
 
     def place_entities(self, chunk_x, chunk_y, entities):
+        pass
 
-        self.place_enemies(chunk_x, chunk_y, entities)
+        # self.place_enemies(chunk_x, chunk_y, entities)
         # place objects etc.
 
     def is_blocked(self, x, y):

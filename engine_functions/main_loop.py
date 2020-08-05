@@ -34,6 +34,7 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
             action_fullscreen = action.get('fullscreen')
             action_pass = action.get('pass')
             action_save = action.get('save')
+            action_get_item = action.get('get')
 
             if action_save:
                 print("Saving...")
@@ -102,6 +103,8 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                     ##
 
                 else:
+                    for e in entities:
+                        print(e.name)
 
                     if not game_map.is_blocked(player.x + dx, player.y + dy):
 
@@ -140,6 +143,9 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
 
             if action_pass:
                 game_state = GameStates.ENEMY_TURN
+
+            if action_get_item:
+                print(player.fighter.get_item(entities, game_map))
 
             current_view.consoles['view_MAP']['args'] = (player, entities, game_map)
 
