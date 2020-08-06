@@ -106,7 +106,11 @@ def main():
         if log_to_load is not None:
             mlog.messages = log_to_load
 
+        # Additional consoles in the main view
         current_view_game_map.add_console('view_MSG_LOG', render_functions.render_messages, mlog)
+        current_view_game_map.add_console('view_STATS', render_functions.render_stats, player.fighter)
+
+        #
         current_view_game_map.render()
         tcod.console_flush()
         state = main_loop(root_console, key, mouse, current_view_game_map, game_world, player, game_map, entities, close_entities, mlog)

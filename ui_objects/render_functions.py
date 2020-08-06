@@ -67,6 +67,15 @@ def render_messages(con, root_con, msglog):
 
     con.blit(dest=root_con, dest_x=1, dest_y=constants.MAP_HEIGHT + 2, src_x=0, src_y=0, width=constants.MSGS_WIDTH, height=constants.MESSAGES_ON_SCREEN)
 
+def render_stats(con, root_con, *args):
+
+    player = args[0]
+
+    draw_text(con, 1, 1, f"HP: {str(player.hp)}", (240, 0, 0))
+
+    con.blit(dest=root_con, dest_x=constants.MAP_WIDTH + 1, dest_y=1, src_x=0, src_y=0, width=constants.STAT_WIDTH, height=constants.STAT_HEIGHT)
+
+
 def render_esc_menu():
     pass
 

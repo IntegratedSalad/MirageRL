@@ -14,6 +14,7 @@ movement_settings = {
     'escape': {'exit': True},
     's': {'save': True},
     'g': {'get': True}
+    'i': {'inventory': True}
     }
 
 title_screen_settings = {
@@ -63,6 +64,9 @@ def handle_keys(key, settings):
 
         elif key_char == 's':
             return settings['s']
+
+        elif key_char == 'i':
+            return settings['i']
 
         if key.vk == tcod.KEY_ENTER and key.lalt:
             return settings['enter_lalt']

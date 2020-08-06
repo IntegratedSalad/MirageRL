@@ -6,6 +6,7 @@ class Item:
 		self.can_break = can_break
 		self.weight = weight
 		self.effect = effect
+		self.JSON_file = {} # a way to have customizable and data driven behaviour?
 
 	def use(self, **kwargs):
 

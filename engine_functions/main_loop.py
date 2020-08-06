@@ -120,19 +120,19 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
 
                 game_state = GameStates.ENEMY_TURN
 
-                for player_turn_result in player_turn_results:
+                # for player_turn_result in player_turn_results:
 
-                    received_msg = player_turn_result.get('message')
-                    received_dead_entity = player_turn_result.get('dead')
+                #     received_msg = player_turn_result.get('message')
+                #     received_dead_entity = player_turn_result.get('dead')
 
-                    if received_msg:
-                        msg = Message(received_msg, (255, 255, 255))
-                        mlog.add_msg(msg)
+                #     if received_msg:
+                #         msg = Message(received_msg, (255, 255, 255))
+                #         mlog.add_msg(msg)
 
-                    if received_dead_entity:
-                        received_dead_entity.fighter.die()
-                        msg = Message(f"{received_dead_entity.name.capitalize()} is dead.", constants.COLOR_DARK_RED)
-                        mlog.add_msg(msg)
+                #     if received_dead_entity:
+                #         received_dead_entity.fighter.die()
+                #         msg = Message(f"{received_dead_entity.name.capitalize()} is dead.", constants.COLOR_DARK_RED)
+                #         mlog.add_msg(msg)
 
 
             if action_exit:
@@ -145,7 +145,24 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                 game_state = GameStates.ENEMY_TURN
 
             if action_get_item:
-                print(player.fighter.get_item(entities, game_map))
+                get_item_results = player.fighter.get_item(entities, game_map)
+                if get_item_results is not None:
+                    player_turn_results.extend(get_item_results)
+                game_state = GameStates.ENEMY_TURN
+
+            for player_turn_result in player_turn_results:
+
+                received_msg = player_turn_result.get('message')
+                received_dead_entity = player_turn_result.get('dead')
+
+                if received_msg:
+                    msg = Message(received_msg, (255, 255, 255))
+                    mlog.add_msg(msg)
+
+                if received_dead_entity:
+                    received_dead_entity.fighter.die()
+                    msg = Message(f"{received_dead_entity.name.capitalize()} is dead.", constants.COLOR_DARK_RED)
+                    mlog.add_msg(msg)
 
             current_view.consoles['view_MAP']['args'] = (player, entities, game_map)
 

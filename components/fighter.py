@@ -35,6 +35,8 @@ class Fighter:
 
 	def get_item(self, entities, game_map):
 
+		results = []
+
 		p_x, p_y = self.owner.position_in_chunk # player's position in chunk
 		for e in entities:
 
@@ -43,7 +45,11 @@ class Fighter:
 			print(e.name)
 
 			if (i_x == p_x) and (i_y == p_y) and e.item is not None:
-				return e.name
+				self.inventory.append(e)
+				entities.remove(e)
+				results.append({'message': "{0} picks up {1}.".format(self.owner.name.title(), e.name.title())})
+
+		return results
 
 
 	def die(self):
