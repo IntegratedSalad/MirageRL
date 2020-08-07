@@ -5,6 +5,8 @@ class OptionMenu:
 	Base option menu class.
 	Returns value.
 
+	FIX: do something about having to pass con twice, because actual attribute of the class isn't passed into function.
+
 	"""
 	def __init__(self, name, con, view, func, *func_args, **func_kwargs):
 		self.name = name

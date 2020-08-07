@@ -32,7 +32,7 @@ def init_new_game():
 		int((constants.WORLD_HEIGHT * constants.MAP_HEIGHT / 2) + constants.MAP_HEIGHT / 2), '@', tcod.white, 
 		constants.PLAYER_NAME, RenderOrder.ENTITY, fighter=player_fighter_component)
 
-	hp_potion_item_component = Item(use_func=action_heal, heal_amount=10)
+	hp_potion_item_component = Item(use_func=action_heal, heal_amount=10, category='consumables') # Item creation will be created through JSON.
 	hp_potion = Entity(player.x, player.y + 1, '!', tcod.red, 'Health Potion', RenderOrder.ITEM, item=hp_potion_item_component)
 	print(hp_potion.x, hp_potion.y)
 

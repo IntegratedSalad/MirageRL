@@ -1,6 +1,7 @@
 import tcod
 
 movement_settings = {
+
     'up': {'move': (0, -1)}, 
     'down': {'move': (0, 1)},
     'right': {'move': (1, 0)},
@@ -13,16 +14,29 @@ movement_settings = {
     'enter_lalt': {'fullscreen': True},
     'escape': {'exit': True},
     's': {'save': True},
-    'g': {'get': True}
+    'g': {'get': True},
     'i': {'inventory': True}
     }
 
 title_screen_settings = {
     
+    # Change that to fit the standard from movement settings
+
     'up': 'up',
     'down': 'down',
     'enter': 'enter'
 }
+
+inventory_screen_settings = {}
+inventory_screen_settings.update(movement_settings)
+
+inventory_screen_settings.update({
+
+    'tab': {'tab': True},
+    'd': {'drop': True},
+    'enter': {'apply_function': True}
+
+    })
 
 def handle_keys(key, settings):
     # settings is dict

@@ -36,13 +36,13 @@ def main():
                                     title_screen_con, 
                                     None, 
                                     render_functions.render_title_screen, 
-                                    title_screen_con, 
+                                    title_screen_con,
                                     root_console,  
                                     title_screen_options, 
                                     key_handler={}
                                     )
 
-        menu_key_handler = handle_keys(key, title_screen_settings)
+        menu_key_handler = handle_keys(key, title_screen_settings) # Why does this work like that???
         title_screen_menu.render(menu_key_handler)
         tcod.console_flush()
 

@@ -75,6 +75,15 @@ def render_stats(con, root_con, *args):
 
     con.blit(dest=root_con, dest_x=constants.MAP_WIDTH + 1, dest_y=1, src_x=0, src_y=0, width=constants.STAT_WIDTH, height=constants.STAT_HEIGHT)
 
+def render_inventory_menu(con, root_con, options, **key_handler):
+    # options is just a inventory list.
+
+    option = draw_menu(con, 1, 1, width=) # add constants
+
+    draw_framing(con, 0, 4, chr(177), 43, constants.SCREEN_HEIGHT - 4, (217, 217, 0), (0, 0, 0)) # Main inv window framing
+    draw_framing(con, 42, 4, chr(177), 26, constants.SCREEN_HEIGHT - 4, (217, 217, 0), (0, 0, 0)) # Second inv window framing
+
+    con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
 
 def render_esc_menu():
     pass

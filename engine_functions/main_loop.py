@@ -15,6 +15,7 @@ from engine_functions.new_game import init_new_game, init_game
 from engine_functions.main_menu import main_menu
 from components.entity import Entity, get_blocking_entities_at_location
 from ui_objects.message import Message
+from ui_objects import option_menu
 
 def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, entities, close_entities, mlog):
 
@@ -35,6 +36,7 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
             action_pass = action.get('pass')
             action_save = action.get('save')
             action_get_item = action.get('get')
+            action_open_inventory = action.get('inventory')
 
             if action_save:
                 print("Saving...")
@@ -149,6 +151,42 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                 if get_item_results is not None:
                     player_turn_results.extend(get_item_results)
                 game_state = GameStates.ENEMY_TURN
+
+            if action_open_inventory:
+
+                inv_console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
+
+                inv_option_menu = option_menu.OptionMenu("inventory_screen", 
+                                      inv_console, 
+                                      None, 
+                                      render_functions.render_inventory_menu, 
+                                      inv_console, 
+                                      root_con,
+                                      player.fighter.inventory,
+                                      key_handler={}
+                                      )
+
+                inv_key_handler = handle_keys(key, inventory_screen_settings)
+
+                inv_option_menu.render(inv_key_handler)
+                tcod.console_flush()
+
+                option = None
+
+                while option is None:
+
+                    tcod.sys_wait_for_event(tcod.EVENT_KEY_PRESS, key, mouse, True)
+
+                    inv_key_handler = handle_keys(key, inventory_screen_settings)
+
+                    option = inv_option_menu.render(inv_key_handler)
+
+                    tcod.console_flush()
+
+                    if option == 'Quit Game' or tcod.console_is_window_closed():
+                        raise SystemExit()
+
+
 
             for player_turn_result in player_turn_results:
 

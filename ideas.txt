@@ -92,6 +92,7 @@ Goals of development:
 
 	Upon activating an item, their use_func is called onto some target if there is provided.
 
+	{1.1}
 
 
 

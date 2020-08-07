@@ -42,8 +42,6 @@ class Fighter:
 
 			i_x, i_y = e.position_in_chunk
 
-			print(e.name)
-
 			if (i_x == p_x) and (i_y == p_y) and e.item is not None:
 				self.inventory.append(e)
 				entities.remove(e)

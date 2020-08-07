@@ -76,6 +76,33 @@ def draw_bar(con, x, y, char, value, color_bright, color_dark):
 	pass
 
 
+def draw_framing(con, start_x, start_y, char, width, height, color_fg, color_bg, fill=False, fill_data=None):
+
+	if fill and fill_data is None:
+		raise TypeError("You have to provide data for filling while drawing framing!")
+
+	if not fill:
+
+		for x in range(width):
+			for y in range(height):
+
+				if (y == 0 or y == height - 1) or (x == 0 or x == width - 1):
+
+					con.print(start_x + x, start_y + y, char, color_fg, color_bg)
+
+	else:
+		for x in range(width):
+			for y in range(height):
+
+				if (y == 0 or y == height - 1) or (x == 0 or x == width - 1):
+
+					con.print(start_x + x, start_y + y, char, color_fg, color_bg)
+				else:
+					con.print(start_x + x, start_y + y, fill_data['filling_char'], fill_data['filling_color_fg'], fill_data['filling_color_bg'])
+
+
+
+
 def draw_graphics(con, x, y, text, color_fg, color_bg=None):
 
 	text_list = text.split()
