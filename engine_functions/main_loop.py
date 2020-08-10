@@ -15,7 +15,7 @@ from engine_functions.new_game import init_new_game, init_game
 from engine_functions.main_menu import main_menu
 from components.entity import Entity, get_blocking_entities_at_location
 from ui_objects.message import Message
-from ui_objects import option_menu
+from ui_objects import option_view
 
 def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, entities, close_entities, mlog):
 

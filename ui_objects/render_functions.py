@@ -39,17 +39,20 @@ def render_map(con, root_con, player, entities, current_game_map):
 
     clear_all(con, entities)
 
-def render_title_screen(con, root_con, options, **key_handler):
+def render_title_screen(con, root_con, options, **kwargs):
+
+    key_handler = kwargs.get('key_handler')
+
     option = draw_menu(con, 0, 0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT, options=options, key_handler=key_handler)
     draw_text(con, constants.SCREEN_WIDTH - len(constants.version), constants.SCREEN_HEIGHT - 1, constants.version, (255, 255, 255))
     draw_graphics(con, 14, 6, get_title(), (245, 183, 60))
     draw_text(con, 52, 22, "RL", (245, 183, 60))
 
-
+    con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
+    
     if option is not None:
         return option
 
-    con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
     
 def render_messages(con, root_con, msglog):
 
@@ -78,7 +81,7 @@ def render_stats(con, root_con, *args):
 def render_inventory_menu(con, root_con, options, **key_handler):
     # options is just a inventory list.
 
-    option = draw_menu(con, 1, 1, width=) # add constants
+    # option = draw_menu(con, 1, 1, width=) # add constants
 
     draw_framing(con, 0, 4, chr(177), 43, constants.SCREEN_HEIGHT - 4, (217, 217, 0), (0, 0, 0)) # Main inv window framing
     draw_framing(con, 42, 4, chr(177), 26, constants.SCREEN_HEIGHT - 4, (217, 217, 0), (0, 0, 0)) # Second inv window framing

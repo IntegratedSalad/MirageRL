@@ -54,7 +54,7 @@ Goals of development:
 		Initially, some monsters do not see the player, and have 1/4 chance to see him.
 			Each step gives them more chance to see him.
 
-	6/8
+	8/8
 
 	---0.1.1 FIXES---
 
@@ -66,7 +66,7 @@ Goals of development:
 
 	0.2. Of Surviving and Materialism - UI, Thirst, Hunger, Inventory, Items, Equipment.
 
-	1.{1}  Basic item - stick? Health Potion
+	1.{1}  Basic item - stick? Health Potion V Now using items.
 	1.1 Inventory menu
 	2.  Health displayed
 	2.1 Name displayed
@@ -77,7 +77,7 @@ Goals of development:
 	5.  Dying from thirst or hunger
 	6.  Basic equipment - shirt
 	6.1 Equipment menu
-	6.2 Backpack - equipment that have slots.
+	6.2 Backpack - equipment that have slots. Container class.
 	7.  Basic statistics. Saving to file.
 	8.  Data stored and loaded from JSON files.
 	9.  Throwing items.
@@ -85,6 +85,8 @@ Goals of development:
 	And let's see then if font isn't to small for everything happening on screen.
 
 
+	Fun idea - choosing save has a portion of map around the player. Take an area around the player and save it as an 'image'.
+	Date of the save and name of the player shown below.
 
 
 
@@ -98,7 +100,7 @@ Goals of development:
 
 
 
-
+	0.2.5 -> Monsters having better AI.
 
 	0.3. Of Invention and Speed - Crafting & Energy based combat. Fleeing AI. FSM.
 

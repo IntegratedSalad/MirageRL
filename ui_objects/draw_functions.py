@@ -5,12 +5,9 @@ from data.game_data import variables
 
 def draw_menu(con, x, y, width, height, options, **kwargs):
 
-	key_handler = kwargs.get('key_handler')
+	key = kwargs.get('key_handler')
 
-	if key_handler is not None:
-
-		key = key_handler['key_handler']
-	else:
+	if key is None:
 		return None
 
 	if key == 'up':

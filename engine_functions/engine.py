@@ -2,7 +2,7 @@ import tcod
 from data.game_data import constants
 import tcod.event
 from ui_objects import view
-from ui_objects import option_menu
+from ui_objects import option_view
 from engine_functions.input_handlers import *
 # from game_states import GameStates
 # from map_objects import fov_functions
@@ -31,29 +31,27 @@ def main():
         tcod.console_set_default_foreground(0, tcod.white)
         title_screen_options = ["New Game", "Load Game", "Quit Game"]
         title_screen_con = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
-        title_screen_menu = option_menu.OptionMenu(
+        title_screen_menu = option_view.OptionView(
                                     "title_screen", 
                                     title_screen_con, 
-                                    None, 
                                     render_functions.render_title_screen, 
-                                    title_screen_con,
                                     root_console,  
-                                    title_screen_options, 
-                                    key_handler={}
+                                    title_screen_options,
                                     )
 
-        menu_key_handler = handle_keys(key, title_screen_settings) # Why does this work like that???
-        title_screen_menu.render(menu_key_handler)
+
+        menu_key_handler = handle_keys(key, title_screen_settings)
+        option = title_screen_menu.render(menu_key_handler)
         tcod.console_flush()
 
-        option = None
+        option = option['title_screen']
 
         while option is None:
             tcod.sys_wait_for_event(tcod.EVENT_KEY_PRESS, key, mouse, True)
 
             menu_key_handler = handle_keys(key, title_screen_settings)
 
-            option = title_screen_menu.render(menu_key_handler)
+            option = title_screen_menu.render(menu_key_handler)['title_screen']
 
             tcod.console_flush()
 

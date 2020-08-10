@@ -30,7 +30,6 @@ class View:
 
 			func(console_obj, self.root_console, *args)
 
-
 	def add_console(self, name, func, *func_args):
 		"""Adds console to display additional content."""
 		console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")

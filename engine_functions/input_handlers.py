@@ -16,6 +16,7 @@ movement_settings = {
     's': {'save': True},
     'g': {'get': True},
     'i': {'inventory': True}
+    
     }
 
 title_screen_settings = {
