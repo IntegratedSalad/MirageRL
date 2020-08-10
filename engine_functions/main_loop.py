@@ -156,14 +156,12 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
 
                 inv_console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
 
-                inv_option_menu = option_menu.OptionMenu("inventory_screen", 
+                inv_option_menu = option_view.OptionView(
+                                      "inventory_screen", 
                                       inv_console, 
-                                      None, 
                                       render_functions.render_inventory_menu, 
-                                      inv_console, 
                                       root_con,
                                       player.fighter.inventory,
-                                      key_handler={}
                                       )
 
                 inv_key_handler = handle_keys(key, inventory_screen_settings)
@@ -180,13 +178,12 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                     inv_key_handler = handle_keys(key, inventory_screen_settings)
 
                     option = inv_option_menu.render(inv_key_handler)
+                    print(option)
 
                     tcod.console_flush()
 
-                    if option == 'Quit Game' or tcod.console_is_window_closed():
+                    if tcod.console_is_window_closed():
                         raise SystemExit()
-
-
 
             for player_turn_result in player_turn_results:
 
@@ -202,7 +199,8 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                     msg = Message(f"{received_dead_entity.name.capitalize()} is dead.", constants.COLOR_DARK_RED)
                     mlog.add_msg(msg)
 
-            current_view.consoles['view_MAP']['args'] = (player, entities, game_map)
+            # current_view.consoles['view_MAP']['args'] = (player, entities, game_map)
+            current_view.update_console('view_MAP', player, entities, game_map)
 
         if game_state == GameStates.ENEMY_TURN:
 

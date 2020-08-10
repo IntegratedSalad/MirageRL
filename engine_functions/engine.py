@@ -4,18 +4,13 @@ import tcod.event
 from ui_objects import view
 from ui_objects import option_view
 from engine_functions.input_handlers import *
-# from game_states import GameStates
-# from map_objects import fov_functions
-# from components.fighter import Fighter
 from ui_objects import render_functions
 from ui_objects.draw_functions import draw_text
 from map_objects.game_map import GameMap
-# from map_objects.chunk import ChunkProperty
 from map_objects.game_world import GameWorld
 from engine_functions.new_game import init_new_game, init_game
 from engine_functions.main_menu import main_menu
 from engine_functions.main_loop import main_loop
-# from entity import Entity, get_blocking_entities_at_location
 from engine_functions.save import save_game
 from engine_functions.load import load_game
 from ui_objects.msg_log import MsgLog
@@ -94,8 +89,6 @@ def main():
                     entities.remove(entity) # remove duplicate (why is it there?)
 
             entities = game_map.get_entities(player, entities) 
-            print(entities)
-
             entities.append(player)
 
         map_console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")

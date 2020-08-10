@@ -5,6 +5,13 @@ from data.game_data import variables
 
 def draw_menu(con, x, y, width, height, options, **kwargs):
 
+	"""
+	
+	TODO: FIX DISPLAYING OPTIONS
+	This are hard coded to drawing menu.
+
+	"""
+
 	key = kwargs.get('key_handler')
 
 	if key is None:
@@ -42,10 +49,13 @@ def draw_menu(con, x, y, width, height, options, **kwargs):
 
 	if key == 'enter':
 		to_return = options[variables.title_screen_choice]
-		variables.title_screen_choice = 0
+		variables.title_screen_choice = 0 # change that to just choice_num
 		return to_return
 	
 	return None
+
+def draw_tab(con, x, y, width, height, options, **kwargs):
+	pass
 
 def draw_text(con, x, y, text, color_fg, color_bg=None):
 

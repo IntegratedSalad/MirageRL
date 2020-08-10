@@ -16,7 +16,6 @@ class View:
 		self.main_con_args = args
 
 		self.consoles = {self.name: {'console': self.main_con, 'func': self.main_render_func, 'args': self.main_con_args}}
-		# updating arguments will be done via view.consoles['name']['args']
 
 	def render(self):
 
@@ -34,4 +33,8 @@ class View:
 		"""Adds console to display additional content."""
 		console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
 		self.consoles[name] = {'console': console, 'func': func, 'args': func_args}
+
+	def update_console(self, name, *args):
+
+		self.consoles[name]['args'] = args
 
