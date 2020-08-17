@@ -10,8 +10,7 @@ class Item:
 		self.identifier = id(self)
 		self.kwargs = kwargs
 		self.attributes = {
-		'unidentified': (True, None, '?', (223, 223, 0), 'Is unidentified.'),
-		'poisoned': (True, None, '!', (0, 230, 0), 'Is poisoned.')
+
 		} # NAME: (IS_PRESENT, EFFECT_FUNCTION, ICON, COLOR, DESCRIPTION)
 		self.description = ""
 
@@ -34,4 +33,4 @@ class Item:
 			return {'message': f"{self.owner.name} is not usable."}
 
 	def __str__(self):
-		return f"Item at: ({self.owner.x}{self.owner.y}) of name: {self.owner.name}"
+		return f"ITEM -{self.identifier}- \n ATTRS {self.attributes}"

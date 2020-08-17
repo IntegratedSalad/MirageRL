@@ -85,7 +85,6 @@ def render_inventory_menu(con, root_con, options, **kwargs):
 
     Divide it into two cons?
 
-    BUG: WHEN EFFECT DOES NOT APPLY, IT RENDERS ITS DESCRIPTION ANYWAY.
 
     """
 
@@ -96,11 +95,13 @@ def render_inventory_menu(con, root_con, options, **kwargs):
     _y = 1
 
     option = draw_menu(con, _x, _y, width=constants.INVENTORY_MAIN_WINDOW_WIDTH, height=constants.INVENTORY_MAIN_WINDOW_HEIGHT, options=options, key_handler=key_handler)
+    # print(f"CURRENT {options[variables.title_screen_choice].item} \n\n {options[variables.title_screen_choice].item.attributes}")
 
     if len(options) > 0:
         current_option_descr_str = options[variables.title_screen_choice].item.description
 
         for obj in options:
+            # print(obj.item)
 
             attributes = list(obj.item.attributes.values())
 
@@ -111,15 +112,13 @@ def render_inventory_menu(con, root_con, options, **kwargs):
             for attr in attributes:
 
                 applies, _, icon, color, desc = attr
+
                 if applies:
 
-                    print()
-                    print()
-                    print()
-                    print(applies)
-                    print(desc)
                     draw_text(con, len(obj.name) + __x, _y, icon, color)
-                    draw_text(con, 40, __y, desc, color)
+
+                    if obj == options[variables.title_screen_choice]:
+                        draw_text(con, 40, __y, desc, color)
 
                 __x += 1
                 __y += 1
