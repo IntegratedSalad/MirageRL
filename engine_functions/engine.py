@@ -14,6 +14,7 @@ from engine_functions.main_loop import main_loop
 from engine_functions.save import save_game
 from engine_functions.load import load_game
 from ui_objects.msg_log import MsgLog
+from data.game_data import variables
 
 def main():
 
@@ -104,6 +105,7 @@ def main():
         #
         current_view_game_map.render()
         tcod.console_flush()
+        variables.title_screen_choice = 0
         state = main_loop(root_console, key, mouse, current_view_game_map, game_world, player, game_map, entities, close_entities, mlog)
         if state is not None:
             saving = state.get('save')

@@ -8,18 +8,25 @@ def draw_menu(con, x, y, width, height, options, **kwargs):
 	"""
 	
 	TODO: FIX DISPLAYING OPTIONS
-	This are hard coded to drawing menu.
 
 	"""
 
 	key = kwargs.get('key_handler')
+	entity = False
+
+
+	try:
+		if type(options[0]) != str: # options is a list of Entity type.
+			entity = True # Return object and when drawing, acces the .name attribute.
+	except IndexError:
+		pass
 
 	if key is None:
 		return None
 
 	if key == 'up':
 
-		variables.title_screen_choice -= 1
+		variables.title_screen_choice -= 1 # CHANGE THAT VARIABLE NAME
 
 		if variables.title_screen_choice < 0:
 			variables.title_screen_choice = len(options) - 1
@@ -30,24 +37,41 @@ def draw_menu(con, x, y, width, height, options, **kwargs):
 		if variables.title_screen_choice > len(options) - 1:
 			variables.title_screen_choice = 0
 
+	if key == 'exit':
+		variables.title_screen_choice = 0
+		return key
+
 	color_active = (255, 255, 255)
 	color_inactive = (114, 114, 114)
 
-	_x = int(constants.SCREEN_WIDTH / 2) + 7
-	_y = int(constants.SCREEN_HEIGHT / 2) + 7
+	if not entity:
 
-	for index, option in enumerate(options):
+		for index, option in enumerate(options):
 
-		if index == variables.title_screen_choice:
+			if index == variables.title_screen_choice:
 
-			draw_text(con, _x, _y, option, color_active)
+				draw_text(con, x, y, option, color_active)
 
-		else:
-			draw_text(con, _x, _y, option, color_inactive)
+			else:
+				draw_text(con, x, y, option, color_inactive)
 
-		_y += 1
+			y += 1
 
-	if key == 'enter':
+	else:
+
+		for index, option in enumerate(options):
+
+			if index == variables.title_screen_choice:
+
+				draw_text(con, x, y, option.name, color_active)
+
+			else:
+				draw_text(con, x, y, option.name, color_inactive)
+
+			y += 1
+
+	if key == 'enter' and len(options) > 0:
+
 		to_return = options[variables.title_screen_choice]
 		variables.title_screen_choice = 0 # change that to just choice_num
 		return to_return
@@ -80,6 +104,9 @@ def draw_text(con, x, y, text, color_fg, color_bg=None):
 def draw_bar(con, x, y, char, value, color_bright, color_dark):
 	"""E.g health bar or mana bar"""
 
+	pass
+
+def draw_text_multicolor():
 	pass
 
 

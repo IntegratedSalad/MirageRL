@@ -16,7 +16,7 @@ movement_settings = {
     's': {'save': True},
     'g': {'get': True},
     'i': {'inventory': True}
-    
+
     }
 
 title_screen_settings = {
@@ -29,15 +29,19 @@ title_screen_settings = {
 }
 
 inventory_screen_settings = {}
-inventory_screen_settings.update(movement_settings)
+inventory_screen_settings.update(title_screen_settings)
+inventory_screen_settings['d'] = 'd'
+inventory_screen_settings['escape'] = 'exit'
 
-inventory_screen_settings.update({
+# inventory_screen_settings.update({
 
-    'tab': {'tab': True},
-    'd': {'drop': True},
-    'enter': {'apply_function': True}
+#     'tab': {'tab': True},
+#     'd': {'drop': True},
+#     'enter': {'apply_function': True}
 
-    })
+#     }) CHANGE THAT, SO IT HANDLES THIS DESCRIPTIVE SYSTEM
+
+
 
 def handle_keys(key, settings):
     # settings is dict

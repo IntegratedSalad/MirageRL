@@ -36,6 +36,10 @@ def init_new_game():
 	hp_potion = Entity(player.x, player.y + 1, '!', tcod.red, 'Health Potion', RenderOrder.ITEM, item=hp_potion_item_component)
 	print(hp_potion.x, hp_potion.y)
 
+	hp_potion_item_component = Item(use_func=action_heal, heal_amount=10, category='consumables') # Item creation will be created through JSON.
+	hp_potion_second = Entity(player.x, player.y + 2, '!', tcod.red, 'Health Potion', RenderOrder.ITEM, item=hp_potion_item_component)
+	print(hp_potion.x, hp_potion.y)
+
 	px, py = game_world.get_chunk_pos_from_player_pos(player.x, player.y)
 	game_world.chunks[px][py].property = ChunkProperty.START
 	game_map = GameMap(constants.MAP_WIDTH, constants.MAP_HEIGHT, game_world.chunks[px][py])
@@ -43,7 +47,7 @@ def init_new_game():
 
 	print(f"CURRENT CHUNK: {px} {py}")
 
-	entities = [player, hp_potion]
+	entities = [player, hp_potion, hp_potion_second]
 	close_entities = []
 	game_map.place_entities(px, py, entities)
 

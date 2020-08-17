@@ -43,7 +43,7 @@ def render_title_screen(con, root_con, options, **kwargs):
 
     key_handler = kwargs.get('key_handler')
 
-    option = draw_menu(con, 0, 0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT, options=options, key_handler=key_handler)
+    option = draw_menu(con, constants.STARTING_MENU_X, constants.STARTING_MENU_Y, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT, options=options, key_handler=key_handler)
     draw_text(con, constants.SCREEN_WIDTH - len(constants.version), constants.SCREEN_HEIGHT - 1, constants.version, (255, 255, 255))
     draw_graphics(con, 14, 6, get_title(), (245, 183, 60))
     draw_text(con, 52, 22, "RL", (245, 183, 60))
@@ -79,18 +79,26 @@ def render_stats(con, root_con, *args):
     con.blit(dest=root_con, dest_x=constants.MAP_WIDTH + 1, dest_y=1, src_x=0, src_y=0, width=constants.STAT_WIDTH, height=constants.STAT_HEIGHT)
 
 def render_inventory_menu(con, root_con, options, **kwargs):
-    # options is just a inventory list.
+    """
+    Options is just a inventory list.
+    Data is a list o dictionary of additional elements to print.
+
+    """
 
     key_handler = kwargs.get('key_handler')
+    data = kwargs.get('data')
 
-    options = [x.name for x in options]
+    _x = 1
+    _y = 1
 
-    option = draw_menu(con, 1, 1, width=constants.INVENTORY_MAIN_WINDOW_WIDTH, height=constants.INVENTORY_MAIN_WINDOW_HEIGHT, options=options, key_handler=key_handler)
+    # _options = [x.name for x in options] # names
 
-    draw_framing(con, 0, 4, chr(177), 43, constants.SCREEN_HEIGHT - 4, (217, 217, 0), (0, 0, 0)) # Main inv window framing
-    draw_framing(con, 42, 4, chr(177), 26, constants.SCREEN_HEIGHT - 4, (217, 217, 0), (0, 0, 0)) # Second inv window framing
+    option = draw_menu(con, _x, _y, width=constants.INVENTORY_MAIN_WINDOW_WIDTH, height=constants.INVENTORY_MAIN_WINDOW_HEIGHT, options=options, key_handler=key_handler)
 
-    con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
+    draw_framing(con, 0, 0, chr(177), 39, constants.SCREEN_HEIGHT - 4, (217, 217, 0), (0, 0, 0)) # Main inv window framing
+    draw_framing(con, 38, 0, chr(177), 30, constants.SCREEN_HEIGHT - 4, (217, 217, 0), (0, 0, 0)) # Second inv window framing
+
+    con.blit(dest=root_con, dest_x=0, dest_y=4, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
 
     if option is not None:
         return option

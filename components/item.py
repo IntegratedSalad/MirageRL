@@ -7,16 +7,21 @@ class Item:
 		self.weight = weight
 		self.effect = effect
 		self.JSON_file = {} # a way to have customizable and data driven behaviour?
+		self.identifier = id(self)
+		self.kwargs = kwargs
 
 	def use(self, **kwargs):
+		"""
 
-		user = kwargs.get('user')
+		Make using items like sending messages - result applies at the end of the round.
 
-		kwargs = kwargs.update(user)
+		"""
 
+		kwargs.update(self.kwargs) # make that into one dictionary with keys added in the instantiation of the item object and while callling
+								   # the .use method.
 		if self.use_func is not None:
 
-			result = use_func(**kwargs)
+			result = self.use_func(**kwargs)
 
 			return result
 

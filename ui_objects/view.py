@@ -38,3 +38,9 @@ class View:
 
 		self.consoles[name]['args'] = args
 
+	def clear_consoles(self):
+
+		for con in list(self.consoles.keys()):
+			self.consoles[con]['console'].clear()
+
+

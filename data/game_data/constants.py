@@ -24,6 +24,9 @@ COLOR_LIGHTER = 30 # a value, that adds to the RGB - lights up the color | Satur
 GLYPHS_NUM = 8
 DISTANCE_TO_PROCESS_ENTITY = 7
 
+STARTING_MENU_X = int(SCREEN_WIDTH / 2) + 7
+STARTING_MENU_Y = int(SCREEN_HEIGHT / 2) + 7
+
 MESSAGES_ON_SCREEN = 7
 MSGS_WIDTH = 53
 

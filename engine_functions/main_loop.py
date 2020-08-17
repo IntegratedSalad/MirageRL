@@ -154,6 +154,9 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
 
             if action_open_inventory:
 
+                current_view.clear_consoles()
+                root_con.clear()
+
                 inv_console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
 
                 inv_option_menu = option_view.OptionView(
@@ -169,21 +172,34 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                 inv_option_menu.render(inv_key_handler)
                 tcod.console_flush()
 
-                option = None
+                option = {'inventory_screen': None}
 
-                while option is None:
+                while option['inventory_screen'] is None:
+                    tcod.console_flush()
 
                     tcod.sys_wait_for_event(tcod.EVENT_KEY_PRESS, key, mouse, True)
 
                     inv_key_handler = handle_keys(key, inventory_screen_settings)
 
                     option = inv_option_menu.render(inv_key_handler)
-                    print(option)
 
                     tcod.console_flush()
 
                     if tcod.console_is_window_closed():
                         raise SystemExit()
+
+                if option['inventory_screen'] != 'exit':
+                    item_chosen = option['inventory_screen']
+                    # use that item
+
+                    item_chosen.item.use(target=player, user=player)
+
+                    player.fighter.inventory.remove(item_chosen)
+                    print(player.fighter.inventory)
+
+
+
+                root_con.clear()
 
             for player_turn_result in player_turn_results:
 
