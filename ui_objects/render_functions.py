@@ -83,6 +83,10 @@ def render_inventory_menu(con, root_con, options, **kwargs):
     Options is just a inventory list.
     Data is a list o dictionary of additional elements to print.
 
+    Divide it into two cons?
+
+    BUG: WHEN EFFECT DOES NOT APPLY, IT RENDERS ITS DESCRIPTION ANYWAY.
+
     """
 
     key_handler = kwargs.get('key_handler')
@@ -91,9 +95,45 @@ def render_inventory_menu(con, root_con, options, **kwargs):
     _x = 1
     _y = 1
 
-    # _options = [x.name for x in options] # names
-
     option = draw_menu(con, _x, _y, width=constants.INVENTORY_MAIN_WINDOW_WIDTH, height=constants.INVENTORY_MAIN_WINDOW_HEIGHT, options=options, key_handler=key_handler)
+
+    if len(options) > 0:
+        current_option_descr_str = options[variables.title_screen_choice].item.description
+
+        for obj in options:
+
+            attributes = list(obj.item.attributes.values())
+
+            __x = 2 # icon is printed 2 characters after item name.
+            __y = return_lines_of_wrapped_text(current_option_descr_str, constants.INVENTORY_SECONDARY_WINDOW_WIDTH) + 6
+            # Description of attribute of an object is printed 2 characters after the description
+
+            for attr in attributes:
+
+                applies, _, icon, color, desc = attr
+                if applies:
+
+                    print()
+                    print()
+                    print()
+                    print(applies)
+                    print(desc)
+                    draw_text(con, len(obj.name) + __x, _y, icon, color)
+                    draw_text(con, 40, __y, desc, color)
+
+                __x += 1
+                __y += 1
+
+            _y += 1
+
+        current_option_name_str = options[variables.title_screen_choice].name
+        len_current_option = len(current_option_name_str)
+        center = int(constants.INVENTORY_SECONDARY_WINDOW_WIDTH / 2) + 41
+        pos = center - int(len_current_option / 2)
+
+        draw_text(con, pos, 2, current_option_name_str, (255, 255, 255)) # Name of the item in the secondary window.
+
+        draw_text(con, 40, 5, current_option_descr_str, (255, 255, 255), custom_width=constants.INVENTORY_SECONDARY_WINDOW_WIDTH) # Description of the item in the secondary window.
 
     draw_framing(con, 0, 0, chr(177), 39, constants.SCREEN_HEIGHT - 4, (217, 217, 0), (0, 0, 0)) # Main inv window framing
     draw_framing(con, 38, 0, chr(177), 30, constants.SCREEN_HEIGHT - 4, (217, 217, 0), (0, 0, 0)) # Second inv window framing

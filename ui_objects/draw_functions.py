@@ -81,11 +81,11 @@ def draw_menu(con, x, y, width, height, options, **kwargs):
 def draw_tab(con, x, y, width, height, options, **kwargs):
 	pass
 
-def draw_text(con, x, y, text, color_fg, color_bg=None):
+def draw_text(con, x, y, text, color_fg, color_bg=None, custom_width=0):
 
-	if len(text) > constants.SCREEN_WIDTH:
-		print(text)
-		wrapped_text = textwrap.wrap(text, width=constants.SCREEN_WIDTH)
+	if len(text) > constants.SCREEN_WIDTH and custom_width <= 0:
+
+		wrapped_text = textwrap.wrap(text, width=constants.SCREEN_WIDTH - 2)
 
 		if len(wrapped_text) > constants.SCREEN_HEIGHT:
 			raise ValueError(f" TEXT TOO LONG: {text}")
@@ -98,8 +98,24 @@ def draw_text(con, x, y, text, color_fg, color_bg=None):
 
 		return
 
+	if custom_width > 0:
+
+		wrapped_text = textwrap.wrap(text, width=custom_width)
+
+		if len(wrapped_text) > constants.SCREEN_HEIGHT:
+			raise ValueError(f"TEXT TOO LONG: {text}")
+			
+		for line in wrapped_text:
+			con.print(x, y, line, fg=color_fg, bg=color_bg)
+
+			y += 1
+
+		return
+
 	con.print(x, y, text, fg=color_fg, bg=color_bg)
 
+def return_lines_of_wrapped_text(text, width):
+	return len(textwrap.wrap(text, width=width))
 
 def draw_bar(con, x, y, char, value, color_bright, color_dark):
 	"""E.g health bar or mana bar"""

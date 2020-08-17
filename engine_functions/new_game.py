@@ -33,12 +33,17 @@ def init_new_game():
 		constants.PLAYER_NAME, RenderOrder.ENTITY, fighter=player_fighter_component)
 
 	hp_potion_item_component = Item(use_func=action_heal, heal_amount=10, category='consumables') # Item creation will be created through JSON.
-	hp_potion = Entity(player.x, player.y + 1, '!', tcod.red, 'Health Potion', RenderOrder.ITEM, item=hp_potion_item_component)
+	hp_potion = Entity(player.x, player.y + 1, '!', tcod.red, 'Health Potion Poisoned', RenderOrder.ITEM, item=hp_potion_item_component)
 	print(hp_potion.x, hp_potion.y)
+
+	hp_potion_item_component.description = "Heals some amount of health. Also does nothing. In the course of actions, depletes completely."
 
 	hp_potion_item_component = Item(use_func=action_heal, heal_amount=10, category='consumables') # Item creation will be created through JSON.
 	hp_potion_second = Entity(player.x, player.y + 2, '!', tcod.red, 'Health Potion', RenderOrder.ITEM, item=hp_potion_item_component)
+	hp_potion_second.item.attributes['poisoned'] = (False, None, '!', (230, 0, 0), 'Is poisoned.')
 	print(hp_potion.x, hp_potion.y)
+
+	hp_potion_item_component.description = "Heals some amount of health."
 
 	px, py = game_world.get_chunk_pos_from_player_pos(player.x, player.y)
 	game_world.chunks[px][py].property = ChunkProperty.START

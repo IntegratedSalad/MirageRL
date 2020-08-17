@@ -9,6 +9,11 @@ class Item:
 		self.JSON_file = {} # a way to have customizable and data driven behaviour?
 		self.identifier = id(self)
 		self.kwargs = kwargs
+		self.attributes = {
+		'unidentified': (True, None, '?', (223, 223, 0), 'Is unidentified.'),
+		'poisoned': (True, None, '!', (0, 230, 0), 'Is poisoned.')
+		} # NAME: (IS_PRESENT, EFFECT_FUNCTION, ICON, COLOR, DESCRIPTION)
+		self.description = ""
 
 	def use(self, **kwargs):
 		"""
