@@ -1,11 +1,22 @@
 
 class Item:
 	def __init__(self, use_func=None, equipment=None, can_break=False, weight=0, effect=None, category='junk', **kwargs):
+
+		"""
+		use_func 
+
+
+
+
+		category - type of an item e.g consumable, armor etc.
+
+		"""
 		self.use_func = use_func
 		self.equipment = equipment
 		self.can_break = can_break
 		self.weight = weight
 		self.effect = effect
+		self.category = category
 		self.JSON_file = {} # a way to have customizable and data driven behaviour?
 		self.identifier = id(self)
 		self.kwargs = kwargs
@@ -13,6 +24,8 @@ class Item:
 
 		} # NAME: (IS_PRESENT, EFFECT_FUNCTION, ICON, COLOR, DESCRIPTION)
 		self.description = ""
+
+
 
 	def use(self, **kwargs):
 		"""

@@ -1,5 +1,6 @@
 import tcod
 from data.game_data import constants
+from data.game_data import variables
 import textwrap
 from map_objects.chunk import MapElevation
 from misc.utils import get_pos_in_chunk, get_chunk_pos
@@ -11,7 +12,6 @@ Every function must have con and root_con in args. (for now)
 Render functions are logic that is displayed in consoles.
 
 """
-
 
 def render_map(con, root_con, player, entities, current_game_map):
 
@@ -53,7 +53,6 @@ def render_title_screen(con, root_con, options, **kwargs):
     if option is not None:
         return option
 
-    
 def render_messages(con, root_con, msglog):
 
     y = 0
@@ -80,10 +79,13 @@ def render_stats(con, root_con, *args):
 
 def render_inventory_menu(con, root_con, options, **kwargs):
     """
-    Options is just a inventory list.
-    Data is a list o dictionary of additional elements to print.
+    Options is just an inventory list.
+    Data is a list of dictionary of additional elements to print.
 
     Divide it into two cons?
+
+    Divide it into three cons and rendering tab bar should return options to be drawn here.
+    Each con corresponds to - item selection, item information and item type selectrion (bar navigation).
 
 
     """
@@ -95,13 +97,11 @@ def render_inventory_menu(con, root_con, options, **kwargs):
     _y = 1
 
     option = draw_menu(con, _x, _y, width=constants.INVENTORY_MAIN_WINDOW_WIDTH, height=constants.INVENTORY_MAIN_WINDOW_HEIGHT, options=options, key_handler=key_handler)
-    # print(f"CURRENT {options[variables.title_screen_choice].item} \n\n {options[variables.title_screen_choice].item.attributes}")
 
     if len(options) > 0:
         current_option_descr_str = options[variables.title_screen_choice].item.description
 
         for obj in options:
-            # print(obj.item)
 
             attributes = list(obj.item.attributes.values())
 
@@ -137,10 +137,22 @@ def render_inventory_menu(con, root_con, options, **kwargs):
     draw_framing(con, 0, 0, chr(177), 39, constants.SCREEN_HEIGHT - 4, (217, 217, 0), (0, 0, 0)) # Main inv window framing
     draw_framing(con, 38, 0, chr(177), 30, constants.SCREEN_HEIGHT - 4, (217, 217, 0), (0, 0, 0)) # Second inv window framing
 
-    con.blit(dest=root_con, dest_x=0, dest_y=4, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
+    con.blit(dest=root_con, dest_x=0, dest_y=3, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
 
     if option is not None:
+        variables.tab_bar_choice = 0
         return option
+
+def render_inventory_bar(con, root_con, categories, **kwargs):
+
+    key_handler = kwargs.get('key_handler')
+
+    category_to_return = draw_tab_bar(con, 0, 0, 8, 3, (102, 102, 102), (0, 0, 0), categories, {}, -1, key_handler=key_handler)
+    
+    con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=3)
+
+    return category_to_return
+
 
 def render_esc_menu():
     pass

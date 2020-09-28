@@ -31,16 +31,26 @@ class View:
 
 	def add_console(self, name, func, *func_args):
 		"""Adds console to display additional content."""
-		console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F")
+		console = tcod.console.Console(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, order="F") 
 		self.consoles[name] = {'console': console, 'func': func, 'args': func_args}
 
 	def update_console(self, name, *args):
 
-		self.consoles[name]['args'] = args
+		self.consoles[name]['args'] = args # you can update args but not keyword args?
 
 	def clear_consoles(self):
 
 		for con in list(self.consoles.keys()):
 			self.consoles[con]['console'].clear()
 
+	def blit_console(self, con_name,  dest_x, dest_y, src_x, src_y, width, height):
+		"""
+		This function requires data for blitting the console. Should the blitting data be a part of View class? 
+		(And then we would just provide them in render_functions)
+		For now, when we have inventory rendering system, after pressing tab, the view is not updated - not blitted.
+		This function (in that application) does it again, after switching to the next category of items.
+
+		"""
+
+		self.consoles[con_name]['console'].blit(dest=self.root_console, dest_x=dest_x, dest_y=dest_y, src_x=src_x, src_y=src_y, width=width, height=height)
 

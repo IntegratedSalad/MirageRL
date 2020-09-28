@@ -32,7 +32,7 @@ def init_new_game():
 		int((constants.WORLD_HEIGHT * constants.MAP_HEIGHT / 2) + constants.MAP_HEIGHT / 2), '@', tcod.white, 
 		constants.PLAYER_NAME, RenderOrder.ENTITY, fighter=player_fighter_component)
 
-	hp_potion_item_component = Item(use_func=action_heal, heal_amount=10, category='consumables') # Item creation will be created through JSON.
+	hp_potion_item_component = Item(use_func=action_heal, heal_amount=10, category='food') # Item creation will be created through JSON.
 	hp_potion_item_component.attributes['poisoned'] = (True, None, '!', (0, 230, 0), 'Is poisoned.')
 	hp_potion_item_component.attributes['unidentified'] = (True, None, '?', (223, 223, 0), 'Is unidentified.')
 	hp_potion = Entity(player.x, player.y + 1, '!', tcod.red, 'Health Potion Poisoned', RenderOrder.ITEM, item=hp_potion_item_component)
@@ -45,7 +45,7 @@ def init_new_game():
 
 	hp_potion_item_component.description = "Heals some amount of health. Also does nothing. In the course of actions, depletes completely."
 
-	hp_potion_item_component = Item(use_func=action_heal, heal_amount=10, category='consumables') # Item creation will be created through JSON.
+	hp_potion_item_component = Item(use_func=action_heal, heal_amount=10, category='food') # Item creation will be created through JSON.
 	hp_potion_item_component.attributes['unidentified'] = (True, None, '?', (223, 223, 0), 'Is unidentified.')
 	hp_potion_second = Entity(player.x, player.y + 2, '!', tcod.red, 'Health Potion', RenderOrder.ITEM, item=hp_potion_item_component)
 	print(hp_potion.x, hp_potion.y)

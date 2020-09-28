@@ -8,7 +8,7 @@ class Fighter:
 		self.hp = hp
 		self.defense = defense
 		self.attack_value = attack_value
-		self.inventory = []
+		self.inventory = {'food': [], 'weapon': [],  'armor': []}
 
 	def take_damage(self, amount):
 		results = []
@@ -43,12 +43,12 @@ class Fighter:
 			i_x, i_y = e.position_in_chunk
 
 			if (i_x == p_x) and (i_y == p_y) and e.item is not None:
-				self.inventory.append(e)
+				self.inventory[e.item.category].append(e) 
 				entities.remove(e)
 				results.append({'message': "{0} picks up {1}.".format(self.owner.name.title(), e.name.title())})
+				print(self.inventory)
 
 		return results
-
 
 	def die(self):
 		desaturate_val = 30

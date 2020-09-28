@@ -14,10 +14,9 @@ def draw_menu(con, x, y, width, height, options, **kwargs):
 	key = kwargs.get('key_handler')
 	entity = False
 
-
 	try:
 		if type(options[0]) != str: # options is a list of Entity type.
-			entity = True # Return object and when drawing, acces the .name attribute.
+			entity = True # Return object and when drawing, access the .name attribute.
 	except IndexError:
 		pass
 
@@ -78,8 +77,6 @@ def draw_menu(con, x, y, width, height, options, **kwargs):
 	
 	return None
 
-def draw_tab(con, x, y, width, height, options, **kwargs):
-	pass
 
 def draw_text(con, x, y, text, color_fg, color_bg=None, custom_width=0):
 
@@ -104,7 +101,7 @@ def draw_text(con, x, y, text, color_fg, color_bg=None, custom_width=0):
 
 		if len(wrapped_text) > constants.SCREEN_HEIGHT:
 			raise ValueError(f"TEXT TOO LONG: {text}")
-			
+
 		for line in wrapped_text:
 			con.print(x, y, line, fg=color_fg, bg=color_bg)
 
@@ -117,7 +114,7 @@ def draw_text(con, x, y, text, color_fg, color_bg=None, custom_width=0):
 def return_lines_of_wrapped_text(text, width):
 	return len(textwrap.wrap(text, width=width))
 
-def draw_bar(con, x, y, char, value, color_bright, color_dark):
+def draw_colored_bar(con, x, y, char, value, color_bright, color_dark):
 	"""E.g health bar or mana bar"""
 
 	pass
@@ -151,6 +148,40 @@ def draw_framing(con, start_x, start_y, char, width, height, color_fg, color_bg,
 					con.print(start_x + x, start_y + y, fill_data['filling_char'], fill_data['filling_color_fg'], fill_data['filling_color_bg'])
 
 
+def draw_tab_bar(con, x, y, width, height, color_fg, color_bg, options_in, options_out_dict, limit_to_show_arrow, **kwargs):
+	"""
+	Tab returns what has to be printed.
+
+	Width and height is of one bar.
+
+	limit_to_show_arrow is an int that tells function to show arrow when the bar spans over that many characters.
+
+
+	"""
+
+	key = kwargs.get('key_handler')
+
+	for bar in options_in:
+
+		draw_framing(con, x, y, chr(177), width, height, color_fg, color_bg)
+
+		x += width
+
+	if key == 'tab':
+		if not (variables.tab_bar_choice + 1 + 1 > len(options_in)): 
+			variables.tab_bar_choice += 1
+		else:
+			variables.tab_bar_choice = 0
+	return options_in[variables.tab_bar_choice]
+	
+
+
+def draw_popup(text, color_border):
+	"""
+	Dismissable window with framing and text. Automatically draws on the center of screen.
+
+	"""
+	pass
 
 
 def draw_graphics(con, x, y, text, color_fg, color_bg=None):
@@ -162,5 +193,4 @@ def draw_graphics(con, x, y, text, color_fg, color_bg=None):
 	else:
 
 		con.print(x, y, text, fg=color_fg, bg=color_bg)
-
 

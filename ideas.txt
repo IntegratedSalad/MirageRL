@@ -66,21 +66,18 @@ Goals of development:
 
 	0.2. Of Surviving and Materialism - UI, Thirst, Hunger, Inventory, Items, Equipment.
 
-	1.{1}  Basic item - stick? Health Potion V Now using items.
-	1.1 Inventory menu
-	2.  Health displayed
+	1.{1}  Basic item - stick? Health Potion V Now using items V.
+	1.1 Inventory menu V
+	2.  Health displayed V
 	2.1 Name displayed
-	3.  Thirst
-	3.1 Thirst displayed
-	4.  Hunger
-	4.1 Hunger Displayed
-	5.  Dying from thirst or hunger
-	6.  Basic equipment - shirt
-	6.1 Equipment menu
-	6.2 Backpack - equipment that have slots. Container class.
-	7.  Basic statistics. Saving to file.
-	8.  Data stored and loaded from JSON files.
-	9.  Throwing items.
+	3.  Basic equipment - shirt
+	3.1 Equipment menu
+	3.2 Backpack - equipment that has slots. Container class.
+	4.  Basic statistics. Saving to file.
+	5.  Data stored and loaded from JSON files.?
+	6.  Throwing items.
+
+	MAKE CONSTANTS FOR EVERY CONSTANT.
 
 	And let's see then if font isn't to small for everything happening on screen.
 
@@ -97,14 +94,11 @@ Goals of development:
 	{1.1}
 
 
-
-
-
 	0.2.5 -> Monsters having better AI.
 
-	0.3. Of Invention and Speed - Crafting & Energy based combat. Fleeing AI. FSM.
+	0.3. Of Invention and Speed - Crafting & Energy based combat. Time. Fleeing AI. FSM.
 
-	0.3.5 Of Day & Night. Adding weather and temperature.
+	0.3.5 Of Day & Night. Adding weather, temperature. And survival mechanics.
 
 	0.4. Of The Depths Below Underworld. Getting down into the underworlds. 
 

@@ -15,7 +15,8 @@ movement_settings = {
     'escape': {'exit': True},
     's': {'save': True},
     'g': {'get': True},
-    'i': {'inventory': True}
+    'i': {'inventory': True},
+    '\'': {'fullscreen': True}
 
     }
 
@@ -32,6 +33,7 @@ inventory_screen_settings = {}
 inventory_screen_settings.update(title_screen_settings)
 inventory_screen_settings['d'] = 'd'
 inventory_screen_settings['escape'] = 'exit'
+inventory_screen_settings['tab'] = 'tab'
 
 # inventory_screen_settings.update({
 
@@ -40,7 +42,6 @@ inventory_screen_settings['escape'] = 'exit'
 #     'enter': {'apply_function': True}
 
 #     }) CHANGE THAT, SO IT HANDLES THIS DESCRIPTIVE SYSTEM
-
 
 
 def handle_keys(key, settings):
@@ -81,14 +82,17 @@ def handle_keys(key, settings):
         elif key.vk == tcod.KEY_ENTER:
             return settings['enter']
 
+        elif key.vk == tcod.KEY_TAB:
+            return settings['tab']
+
         elif key_char == 's':
             return settings['s']
 
         elif key_char == 'i':
             return settings['i']
 
-        if key.vk == tcod.KEY_ENTER and key.lalt:
-            return settings['enter_lalt']
+        elif key_char == '\'':
+            return settings['\'']
 
         elif key.vk == tcod.KEY_ESCAPE:
             return settings['escape']

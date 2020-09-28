@@ -1,6 +1,7 @@
 import tcod
 from misc import utils
 from data.game_data import constants
+from data.game_data import variables
 import tcod.event
 from ui_objects import view
 from engine_functions.input_handlers import *
@@ -122,21 +123,6 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
 
                 game_state = GameStates.ENEMY_TURN
 
-                # for player_turn_result in player_turn_results:
-
-                #     received_msg = player_turn_result.get('message')
-                #     received_dead_entity = player_turn_result.get('dead')
-
-                #     if received_msg:
-                #         msg = Message(received_msg, (255, 255, 255))
-                #         mlog.add_msg(msg)
-
-                #     if received_dead_entity:
-                #         received_dead_entity.fighter.die()
-                #         msg = Message(f"{received_dead_entity.name.capitalize()} is dead.", constants.COLOR_DARK_RED)
-                #         mlog.add_msg(msg)
-
-
             if action_exit:
                 raise SystemExit()
 
@@ -164,40 +150,64 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                                       inv_console, 
                                       render_functions.render_inventory_menu, 
                                       root_con,
-                                      player.fighter.inventory,
+                                      player.fighter.inventory['food']
                                       )
 
                 inv_key_handler = handle_keys(key, inventory_screen_settings)
 
-                inv_option_menu.render(inv_key_handler)
-                tcod.console_flush()
+                inv_option_menu.add_console(
+                    'inventory_tab_bar', 
+                    render_functions.render_inventory_bar, 
+                    list(player.fighter.inventory.keys())
+                    )
 
-                option = {'inventory_screen': None}
+
+
+                # inv_option_menu.render(inv_key_handler)
+                # inv_option_menu.blit_console('inventory_screen', 
+                #         dest_x=0, dest_y=3, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
+                # inv_option_menu.blit_console('inventory_tab_bar', 
+                #         dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=3)
+                # tcod.console_flush()
+                inv_option_menu.render(inv_key_handler)
+
+
+                option = {'inventory_screen': None, 'inventory_tab_bar': 'food'}
 
                 while option['inventory_screen'] is None:
+
+                    """I think that the console is updated before rendering. Updating value of tab_bar takes place in .render() method"""
                     tcod.console_flush()
 
                     tcod.sys_wait_for_event(tcod.EVENT_KEY_PRESS, key, mouse, True)
-
                     inv_key_handler = handle_keys(key, inventory_screen_settings)
-
-                    option = inv_option_menu.render(inv_key_handler)
-
+                    inv_option_menu.update_console('inventory_screen', player.fighter.inventory[option['inventory_tab_bar']])
+                    print(inv_option_menu.consoles['inventory_screen']['args'])
+                    option = inv_option_menu.render(inv_key_handler) # returns dictionary of values, returned by every console
                     tcod.console_flush()
+                    # print(option)
 
                     if tcod.console_is_window_closed():
                         raise SystemExit()
 
                 if option['inventory_screen'] != 'exit':
                     item_chosen = option['inventory_screen']
-                    # use that item
 
                     item_chosen.item.use(target=player, user=player)
+
+                    """
+                    
+                    ARCHITECTURE:
+                    Make use method return result, that is then applied at the end of the turn.
+
+
+                    """
 
                     player.fighter.inventory.remove(item_chosen)
                     print(player.fighter.inventory)
 
-
+                if option['inventory_screen'] == 'exit':
+                    variables.tab_bar_choice = 0
 
                 root_con.clear()
 
@@ -215,7 +225,6 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                     msg = Message(f"{received_dead_entity.name.capitalize()} is dead.", constants.COLOR_DARK_RED)
                     mlog.add_msg(msg)
 
-            # current_view.consoles['view_MAP']['args'] = (player, entities, game_map)
             current_view.update_console('view_MAP', player, entities, game_map)
 
         if game_state == GameStates.ENEMY_TURN:

@@ -1,4 +1,4 @@
-"""A constants file."""
+"""The constants file."""
 
 import tcod
 
@@ -44,4 +44,10 @@ COLOR_WHITE = (255, 255, 255)
 COLOR_BLACK = (0, 0, 0)
 COLOR_BRIGHT_RED = (255, 0, 0)
 COLOR_DARK_RED = (100, 0, 0)
+
+# Inventory
+
+INVENTORY_CATEGORY_FOOD = "food"
+INVENTORY_CATEGORY_WEAPON = "weapon"
+INVENTORY_CATEGORY_ARMOR = "armor"
 
