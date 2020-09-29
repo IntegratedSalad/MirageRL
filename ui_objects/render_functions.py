@@ -88,6 +88,8 @@ def render_inventory_menu(con, root_con, options, **kwargs):
     Each con corresponds to - item selection, item information and item type selectrion (bar navigation).
 
 
+    THIS FUNCTION SHOULD RECEIVE PLAYER AND OPERATE ON ITS INVENTORY
+
     """
 
     key_handler = kwargs.get('key_handler')
@@ -95,10 +97,12 @@ def render_inventory_menu(con, root_con, options, **kwargs):
 
     _x = 1
     _y = 1
-
+    
+    # print(f"{options}<- INSIDE")
     option = draw_menu(con, _x, _y, width=constants.INVENTORY_MAIN_WINDOW_WIDTH, height=constants.INVENTORY_MAIN_WINDOW_HEIGHT, options=options, key_handler=key_handler)
-
     if len(options) > 0:
+        # print(options[1].item.description)
+        # exit(0)
         current_option_descr_str = options[variables.title_screen_choice].item.description
 
         for obj in options:
@@ -145,10 +149,15 @@ def render_inventory_menu(con, root_con, options, **kwargs):
 
 def render_inventory_bar(con, root_con, categories, **kwargs):
 
+    """
+    TO FIX: Pressing tab should reset option
+
+    """
+
     key_handler = kwargs.get('key_handler')
 
     category_to_return = draw_tab_bar(con, 0, 0, 8, 3, (102, 102, 102), (0, 0, 0), categories, {}, -1, key_handler=key_handler)
-    
+
     con.blit(dest=root_con, dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=3)
 
     return category_to_return

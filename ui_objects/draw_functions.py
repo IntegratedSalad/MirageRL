@@ -172,6 +172,9 @@ def draw_tab_bar(con, x, y, width, height, color_fg, color_bg, options_in, optio
 			variables.tab_bar_choice += 1
 		else:
 			variables.tab_bar_choice = 0
+
+	variables.tab_bar_actual_choice = options_in[variables.tab_bar_choice] # GLOBAL VARIABLE, VERY BAD PRACTICE
+
 	return options_in[variables.tab_bar_choice]
 	
 

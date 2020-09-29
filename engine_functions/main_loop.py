@@ -153,6 +153,8 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                                       player.fighter.inventory['food']
                                       )
 
+
+
                 inv_key_handler = handle_keys(key, inventory_screen_settings)
 
                 inv_option_menu.add_console(
@@ -161,37 +163,40 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                     list(player.fighter.inventory.keys())
                     )
 
+                inv_option_menu.set_render_order([('inventory_tab_bar', 1),('inventory_screen', 2)])
 
-
-                # inv_option_menu.render(inv_key_handler)
-                # inv_option_menu.blit_console('inventory_screen', 
-                #         dest_x=0, dest_y=3, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
-                # inv_option_menu.blit_console('inventory_tab_bar', 
-                #         dest_x=0, dest_y=0, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=3)
-                # tcod.console_flush()
                 inv_option_menu.render(inv_key_handler)
-
 
                 option = {'inventory_screen': None, 'inventory_tab_bar': 'food'}
 
                 while option['inventory_screen'] is None:
 
-                    """I think that the console is updated before rendering. Updating value of tab_bar takes place in .render() method"""
-                    tcod.console_flush()
+                    """
+                    This is done badly.
 
-                    tcod.sys_wait_for_event(tcod.EVENT_KEY_PRESS, key, mouse, True)
-                    inv_key_handler = handle_keys(key, inventory_screen_settings)
-                    inv_option_menu.update_console('inventory_screen', player.fighter.inventory[option['inventory_tab_bar']])
-                    print(inv_option_menu.consoles['inventory_screen']['args'])
-                    option = inv_option_menu.render(inv_key_handler) # returns dictionary of values, returned by every console
+                    """
+
+                    """I think that the console is updated after rendering. Updating value of tab_bar takes place in .render() method"""
                     tcod.console_flush()
-                    # print(option)
+                    tcod.sys_wait_for_event(tcod.EVENT_KEY_PRESS, key, mouse, True)
+                    import random
+                    x = random.randint(0, 99)
+                    # print(f"dupa{x}")
+
+                    inv_key_handler = handle_keys(key, inventory_screen_settings)
+                    # option = inv_option_menu.render(inv_key_handler, update_from_console=('inventory_screen', player.fighter.inventory[option['inventory_tab_bar']]))
+                    option = inv_option_menu.render(inv_key_handler, update_from_console=('inventory_screen', 'inventory_tab_bar'), player=player) 
+                    # ^ returns dictionary of values, returned by every console
+                    # inv_option_menu.update_console('inventory_screen', player.fighter.inventory[option['inventory_tab_bar']])
+                    print(f"{inv_option_menu.consoles['inventory_screen']['args']} <- OUTSIDE")
+                    tcod.console_flush()
 
                     if tcod.console_is_window_closed():
                         raise SystemExit()
 
                 if option['inventory_screen'] != 'exit':
-                    item_chosen = option['inventory_screen']
+                    item_chosen = option['inventory_screen'] # option menu (function render_inventory_menu) has to return category of item
+                    category_of_item_chosen = option['inventory_tab_bar']
 
                     item_chosen.item.use(target=player, user=player)
 
@@ -203,7 +208,7 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
 
                     """
 
-                    player.fighter.inventory.remove(item_chosen)
+                    player.fighter.inventory[category_of_item_chosen].remove(item_chosen)
                     print(player.fighter.inventory)
 
                 if option['inventory_screen'] == 'exit':
