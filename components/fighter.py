@@ -9,6 +9,7 @@ class Fighter:
 		self.defense = defense
 		self.attack_value = attack_value
 		self.inventory = {'food': [], 'weapon': [],  'armor': []}
+		self.equipment = {'head': None, 'torso': None} # ...
 
 	def take_damage(self, amount):
 		results = []
@@ -46,7 +47,6 @@ class Fighter:
 				self.inventory[e.item.category].append(e) 
 				entities.remove(e)
 				results.append({'message': "{0} picks up {1}.".format(self.owner.name.title(), e.name.title())})
-				print(self.inventory)
 
 		return results
 

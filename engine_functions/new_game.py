@@ -37,18 +37,17 @@ def init_new_game():
 	hp_potion_item_component.attributes['unidentified'] = (True, None, '?', (223, 223, 0), 'Is unidentified.')
 	hp_potion = Entity(player.x, player.y + 1, '!', tcod.red, 'Health Potion Poisoned', RenderOrder.ITEM, item=hp_potion_item_component)
 
-	# hp_potion_item_component.attributes['poisoned'] = (True, None, '!', (230, 0, 0), 'Is poisoned.')
-	# hp_potion_item_component.attributes['unidentified'] = (True, None, '?', (223, 223, 0), 'Is unidentified.')
-	# 'unidentified': (True, None, '?', (223, 223, 0), 'Is unidentified.'),
-	# 'poisoned': (False, None, '!', (0, 230, 0), 'Is poisoned.')
-	print(hp_potion.x, hp_potion.y)
-
 	hp_potion_item_component.description = "Heals some amount of health. Also does nothing. In the course of actions, depletes completely."
 
 	hp_potion_item_component = Item(use_func=action_heal, heal_amount=10, category='food') # Item creation will be created through JSON.
 	hp_potion_item_component.attributes['unidentified'] = (True, None, '?', (223, 223, 0), 'Is unidentified.')
 	hp_potion_second = Entity(player.x, player.y + 2, '!', tcod.red, 'Health Potion', RenderOrder.ITEM, item=hp_potion_item_component)
-	print(hp_potion.x, hp_potion.y)
+	# print(hp_potion.x, hp_potion.y)
+
+	shirt_item_component = Item(use_func=action_equip, category='armor')
+	shirt_item_component.attributes['unidentified'] = (True, None, '?', (223, 223, 0), 'Is unidentified.')
+	shirt_item = Entity(player.x + 1, player.y + 2, '[', tcod.green, 'Shirt', RenderOrder.ITEM, item=shirt_item_component)
+	shirt_item_component.description = "Basic shirt."
 
 	hp_potion_item_component.description = "Heals some amount of health."
 
@@ -59,7 +58,7 @@ def init_new_game():
 
 	print(f"CURRENT CHUNK: {px} {py}")
 
-	entities = [player, hp_potion, hp_potion_second]
+	entities = [player, hp_potion, hp_potion_second, shirt_item]
 	close_entities = []
 	game_map.place_entities(px, py, entities)
 

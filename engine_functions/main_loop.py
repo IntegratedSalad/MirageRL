@@ -17,6 +17,7 @@ from engine_functions.main_menu import main_menu
 from components.entity import Entity, get_blocking_entities_at_location
 from ui_objects.message import Message
 from ui_objects import option_view
+import random
 
 def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, entities, close_entities, mlog):
 
@@ -38,6 +39,12 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
             action_save = action.get('save')
             action_get_item = action.get('get')
             action_open_inventory = action.get('inventory')
+            action_open_equipment = action.get('eq_menu')
+
+            """
+            Actions
+    
+            """
 
             if action_save:
                 print("Saving...")
@@ -127,6 +134,7 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                 raise SystemExit()
 
             if action_fullscreen:
+                print("chuj")
                 tcod.console_set_fullscreen(not tcod.console_is_fullscreen())
 
             if action_pass:
@@ -179,7 +187,6 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                     """I think that the console is updated after rendering. Updating value of tab_bar takes place in .render() method"""
                     tcod.console_flush()
                     tcod.sys_wait_for_event(tcod.EVENT_KEY_PRESS, key, mouse, True)
-                    import random
                     x = random.randint(0, 99)
                     # print(f"dupa{x}")
 
@@ -203,18 +210,28 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                     """
                     
                     ARCHITECTURE:
-                    Make use method return result, that is then applied at the end of the turn.
+                    Make use method return result, that is then applied at the end of the turn. That way we can make use of different return
+                    states
 
 
                     """
 
-                    player.fighter.inventory[category_of_item_chosen].remove(item_chosen)
+                    player.fighter.inventory[category_of_item_chosen].remove(item_chosen) # not necessarily - if using returns trash - then trash it.
                     print(player.fighter.inventory)
 
                 if option['inventory_screen'] == 'exit':
                     variables.tab_bar_choice = 0
 
                 root_con.clear()
+
+            if action_open_equipment:
+                print("chuj")
+
+
+            """
+            Actions end.
+    
+            """
 
             for player_turn_result in player_turn_results:
 
@@ -231,6 +248,7 @@ def main_loop(root_con, key, mouse, current_view, game_world, player, game_map, 
                     mlog.add_msg(msg)
 
             current_view.update_console('view_MAP', player, entities, game_map)
+
 
         if game_state == GameStates.ENEMY_TURN:
 

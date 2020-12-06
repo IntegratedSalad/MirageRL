@@ -18,7 +18,7 @@ class OptionView(View):
 		result_func_dict = {}
 
 		get_update = kwargs.get('update_from_console')
-		player = kwargs.get('player')
+		player = kwargs.get('player') # when making equipment, change that to window_type
 
 		# here update needed consoles
 
@@ -60,70 +60,6 @@ class OptionView(View):
 
 		return result_func_dict
 
-	def cipa(self, key_handler, **kwargs):
-
-		"""
-		Returns dictionary with keys as name of consoles and functions (their return values.)
-
-		"""
-
-		result_func_dict = {}
-
-		get_update = kwargs.get('update_from_console')
-		print(get_update)
-
-		# here update needed consoles
-
-		"""UPDATE OF THE CONSOLE THAT RENDERS INVENTORY HAS TO BE UPDATED AFTER RENDERING (CALLING FUNCTION OF) THE TAB_BAR
-
-		Tab bar changes the variable of options (category of items).
-
-		!It shouldn't be a global variable, inventory screen console should get options from inventory tab bar.!
-
-		"""
-
-		# args_to_update = None
-		# args = None
-
-		# if get_update is not None:
-		# 	console_to_update = get_update[0]
-		# 	console_with_update = get_update[1]
-
-		for con in list(self.consoles.keys()):
-			"""con is a string"""
-
-			# if get_update is not None:
-
-			# 	if con == console_to_update:
-			# 		"""
-			# 		Console to update should be ordered after console with update!
-
-			# 		"""
-			# 		args = args_to_update
-			# 		# self.update_console(console_to_update, args_to_update)
-
-			console_obj = self.consoles[con]['console']
-			func = self.consoles[con]['func']
-
-			# if get_update is None or con != console_to_update:
-			args = self.consoles[con]['args'] # you can update args but not keyword args?
-
-			console_obj.clear()
-
-			# if con == 'inventory_screen': print(args)
-
-			# print(args, con)
-			# if con == 'inventory_screen': exit(0)
-
-			result_func_dict[con] = func(console_obj, self.root_console, *args, key_handler=key_handler, **kwargs)
-
-			# if get_update is not None:
-
-			# 	if con == console_with_update:
-			# 		args_to_update = self.consoles[con]['args']
-
-
-		return result_func_dict
 
 	def set_render_order(self, console_priority_list):
 

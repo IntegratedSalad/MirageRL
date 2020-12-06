@@ -13,6 +13,9 @@ Render functions are logic that is displayed in consoles.
 
 """
 
+def render_border(con, root_con):
+    pass
+
 def render_map(con, root_con, player, entities, current_game_map):
 
     """Map is what's happening in the game."""
@@ -35,6 +38,8 @@ def render_map(con, root_con, player, entities, current_game_map):
         if player_chunk == entity_chunk: # without this, entity close to the player (which we are processing) would appear on player's chunk.
             draw_entity(con, entity)
 
+    draw_framing(con, 0, 0, chr(177), constants.MAP_WIDTH, constants.MAP_HEIGHT, (217, 217, 0), (0, 0, 0)) # main framing
+
     con.blit(dest=root_con, dest_x=1, dest_y=1, src_x=0, src_y=0, width=constants.MAP_WIDTH, height=constants.MAP_HEIGHT)
 
     clear_all(con, entities)
@@ -55,18 +60,19 @@ def render_title_screen(con, root_con, options, **kwargs):
 
 def render_messages(con, root_con, msglog):
 
-    y = 0
+    y = 1
 
     for message in reversed(msglog.messages):
 
         # if len(message) > constants.MAP_WIDTH: <- wrap!
         #     pass
 
-        draw_text(con, 0, y, message.text, message.fgcolor, message.bgcolor)
+        draw_text(con, 1, y, message.text, message.fgcolor, message.bgcolor)
 
         y += 1 
 
 
+    draw_framing(con, 0, 0, chr(177), constants.MSGS_WIDTH - 8, constants.MESSAGES_ON_SCREEN, constants.COLOR_DARKGREY, (0, 0, 0)) # main framing
     con.blit(dest=root_con, dest_x=1, dest_y=constants.MAP_HEIGHT + 2, src_x=0, src_y=0, width=constants.MSGS_WIDTH, height=constants.MESSAGES_ON_SCREEN)
 
 def render_stats(con, root_con, *args):
@@ -146,6 +152,24 @@ def render_inventory_menu(con, root_con, options, **kwargs):
     if option is not None:
         variables.tab_bar_choice = 0
         return option
+
+
+def render_equipment_menu(con, root_con, **kwargs):
+
+    """
+    Slots in menu will have background color that depends on the status of equipment being worn.
+    Maybe pressing e in this menu opens up available equipment?
+
+
+
+    """
+
+    draw_framing(con, 0, 0, chr(177), constants.MAP_WIDTH, constants.MAP_HEIGHT, (217, 217, 0), (0, 0, 0)) # main framing
+    draw_framing(con, 1, 41, chr(177,), constants.MAP_WIDTH - 1, 12, (217, 217, 0), (0, 0, 0))
+
+    con.blit(dest=root_con, dest_x=0, dest_y=3, src_x=0, src_y=0, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
+
+
 
 def render_inventory_bar(con, root_con, categories, **kwargs):
 

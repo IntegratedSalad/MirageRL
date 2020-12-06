@@ -14,9 +14,10 @@ movement_settings = {
     'enter_lalt': {'fullscreen': True},
     'escape': {'exit': True},
     's': {'save': True},
+    'e': {'eq_menu': True},
     'g': {'get': True},
     'i': {'inventory': True},
-    '\'': {'fullscreen': True}
+    'f': {'fullscreen': True}
 
     }
 
@@ -91,8 +92,11 @@ def handle_keys(key, settings):
         elif key_char == 'i':
             return settings['i']
 
-        elif key_char == '\'':
-            return settings['\'']
+        elif key_char == 'e':
+            return settings['e']
+
+        elif key_char == 'f':
+            return settings['f']
 
         elif key.vk == tcod.KEY_ESCAPE:
             return settings['escape']

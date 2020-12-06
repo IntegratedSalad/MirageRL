@@ -9,4 +9,14 @@ def action_heal(**kwargs):
 
 	return 'trash'
 
+def action_equip(**kwargs):
 
+	target = kwargs.get('target')
+	item = kwargs.get('item')
+
+	# before this function executes, we check if there is already an item.
+	slot = kwargs.get('slot')
+
+	target.fighter.equipment[slot] = item
+
+	return 'equipped'

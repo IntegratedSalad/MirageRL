@@ -1,5 +1,5 @@
 1. There'll be passages downstairs with monsters and some water. Essentialy, first floors fill have very small amounts of water. Deeper floors will be extremely dangerous for new players.
-2. Arrows that tell which way to go
+2. Arrows that tell which way to go V
 3. Mirages, that'll be showing if the internal temperature of the player will rise and brain will get heated.
 4. Spitting on sand to make shelter. Or clever use of lamas. -> Forming sandstone without dying from their spit.
 5. Player must remember the dungeon floors he cleaned, because it gets very cold when the night comes.
@@ -71,13 +71,24 @@ Goals of development:
 	2.  Health displayed V
 	2.1 Name displayed
 	3.  Basic equipment - shirt
-	3.1 Equipment menu
-	3.2 Backpack - equipment that has slots. Container class.
+	3.1 Equipment menu - character slots. e for equip. E for equippment <- equipment window has slots with their corresponding letter.
+																		   e.g. h for head n for left boot m for right boot etc
+	3.2 Backpack - equipment that can have other entities. Container class. <- Managing views? E.g. I open backpack from item menu. Now, when I press escape, 
+	I should go back to the inventory menu
 	4.  Basic statistics. Saving to file.
 	5.  Data stored and loaded from JSON files.?
 	6.  Throwing items.
+	7.  Basic hunger
+	8.  Basic thirst
+	9.  Oasis chunk. Drinking from water source - a simple action. (pressing 'a')
+	10. Character menu when pressing '@'.
+
+	MAKE GAME SAVING ALL NEW STUFF.
 
 	MAKE CONSTANTS FOR EVERY CONSTANT.
+	ADD FRAMING FOR MAIN SCREEN AND TITLES FOR CONSOLES
+	ADD WINDOW SHOWING WHAT PLAYER IS WEARING AND HAS IN HAND. w for wield W for Wielded.
+	SHOW KEYS THAT CAN BE PRESSED WHEN BEING IN INVENTORY MENU 
 
 	And let's see then if font isn't to small for everything happening on screen.
 
@@ -85,29 +96,38 @@ Goals of development:
 	Fun idea - choosing save has a portion of map around the player. Take an area around the player and save it as an 'image'.
 	Date of the save and name of the player shown below.
 
-
-
 	{1} - Using items and items having use_funcs.
 
 	Upon activating an item, their use_func is called onto some target if there is provided.
 
-	{1.1}
-
 
 	0.2.5 -> Monsters having better AI.
 
-	0.3. Of Invention and Speed - Crafting & Energy based combat. Time. Fleeing AI. FSM.
+	0.3.0 Of Invention and Speed - Crafting & Energy based combat. Time. Fleeing AI. FSM.
+
+	1. New item - wrist clock, spawns at the start of the game
+
+	0.3.3 - Damage, armor and buff calculations
 
 	0.3.5 Of Day & Night. Adding weather, temperature. And survival mechanics.
 
-	0.4. Of The Depths Below Underworld. Getting down into the underworlds. 
+	0.4.0 Of The Depths Below Underworld. Getting down into the underworlds. 
 
-	0.5  Of Wildlife and Sand people. Groups of monsters wandering.
+	0.4.5 Of Magic
+
+	Idea - misspeling a casting can lead to cursing either you or your equipment.
+
+	0.5.0 Of Wildlife and Sand people. Groups of monsters wandering.
+
+	0.6.0 Of Quests and Progress. Tasks from Sand people.
+
 
 
 	... Special chunks with unique enemies and items.
 
 	... Add runic magic.
+
+	... Add looking at different chunks
 
 
 {1} Key mechanic, has to be done first, and after initial basic working state it can be improved.

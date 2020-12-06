@@ -161,11 +161,6 @@ def draw_tab_bar(con, x, y, width, height, color_fg, color_bg, options_in, optio
 
 	key = kwargs.get('key_handler')
 
-	for bar in options_in:
-
-		draw_framing(con, x, y, chr(177), width, height, color_fg, color_bg)
-
-		x += width
 
 	if key == 'tab':
 		if not (variables.tab_bar_choice + 1 + 1 > len(options_in)): 
@@ -175,11 +170,39 @@ def draw_tab_bar(con, x, y, width, height, color_fg, color_bg, options_in, optio
 
 	variables.tab_bar_actual_choice = options_in[variables.tab_bar_choice] # GLOBAL VARIABLE, VERY BAD PRACTICE
 
+	for bar in options_in:
+
+		text_x = x + int(len(bar) / 2) - 1
+		text_y = y + int(height / 2)
+
+		if bar == variables.tab_bar_actual_choice:
+
+			draw_framing(con, x, y, chr(177), len(bar) + 2, height, constants.COLOR_WHITE, color_bg)
+
+		# text_x = x + int(len(bar) / 2) - 1
+		# text_y = y + int(height / 2)
+
+			draw_text(con, text_x, text_y, bar.title(), constants.COLOR_WHITE)
+
+		else:
+			draw_framing(con, x, y, chr(177), len(bar) + 2, height, color_fg, color_bg)
+			draw_text(con, text_x, text_y, bar.title(), color_fg)
+
+		x += len(bar) + 2
+
+	# if key == 'tab':
+	# 	if not (variables.tab_bar_choice + 1 + 1 > len(options_in)): 
+	# 		variables.tab_bar_choice += 1
+	# 	else:
+	# 		variables.tab_bar_choice = 0
+
+	# variables.tab_bar_actual_choice = options_in[variables.tab_bar_choice] # GLOBAL VARIABLE, VERY BAD PRACTICE
+
 	return options_in[variables.tab_bar_choice]
 	
 
 
-def draw_popup(text, color_border):
+def draw_popup(con, text, color_border):
 	"""
 	Dismissable window with framing and text. Automatically draws on the center of screen.
 

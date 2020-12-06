@@ -5,9 +5,6 @@ class Item:
 		"""
 		use_func 
 
-
-
-
 		category - type of an item e.g consumable, armor etc.
 
 		"""
